@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T08:40:23.912723+09:00",
+  "updated_at_kst": "2026-09-22T08:56:17.944459+09:00",
   "phase": "DEVELOPMENT_LIVE_INTEGRATION_VERIFICATION",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -57,7 +57,8 @@
     "ITB/Risk lossless readable excerpts, source-role mapping and literal/formula preservation; actual renders and scoped independent CLEAR; product140/browser26/Office16PASS",
     "User-requested pre-auth evidence preparation only: 36 product AC mappings, 94 hashed evidence files, 95-entry ZIP byte/reopen validation, 11 checker probes, explicit incomplete gate refusal; product/native goal remain blocked.",
     "User-provided INPUT demo setup: inventory15past/2new, approved past-only seed, actual-input HTTP/Office/restart verifier and Windows launcher;163 Python tests PASS including23 new; scoped code/architecture APPROVE/CLEAR; original398hashes intact. Actual services still blocked.",
-    "Fresh actual Supabase preflight now PASSED: Auth login, two-user DB RLS, Storage RLS, logout, cleanup. Live verification server identity route corrected after 404 regression; independent scoped review APPROVE. Full actual product E2E remains pending."
+    "Fresh actual Supabase preflight now PASSED: Auth login, two-user DB RLS, Storage RLS, logout, cleanup. Live verification server identity route corrected after 404 regression; independent scoped review APPROVE. Full actual product E2E remains pending.",
+    "Actual Supabase NoSuchKey transport mismatch repaired narrowly; observed HTTP400/body404 via userJWT. RED1FAIL5PASS then storage33PASS; independent code APPROVE/architecture CLEAR. Full actual UI rerun ongoing, not product completion."
   ],
   "in_progress": [
     "Actual Supabase browser upload/edit/approval/output/restart verification with supplied P01/P06/N01/N02",
@@ -549,6 +550,6 @@
     "identity_regression": "404_RED_THEN_200_GREEN",
     "transport_recovery": "ops/runtime/demo/live-transport-recovery.json",
     "product_complete": false,
-    "current_ui_execution_session_id": 12569
+    "current_ui_execution_session_id": 99224
   }
 }

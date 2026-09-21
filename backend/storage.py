@@ -270,7 +270,16 @@ class SupabaseStore:
             raise StorageUnavailableError("Supabase service unavailable") from exc
         if response.status_code in (401, 403):
             raise PermissionDeniedError("Supabase access denied")
-        if response.status_code == 404:
+        # Supabase Storage may transport NoSuchKey as HTTP 400 with an enclosed
+        # 404. Treat only an object GET with this exact code as absent bytes;
+        # authorization, bucket and mutation errors must remain failures.
+        missing_object = (
+            response.status_code == 400
+            and method == "GET"
+            and path.startswith(f"/storage/v1/object/{_BUCKET}/")
+            and self._error_code(response) == "NoSuchKey"
+        )
+        if response.status_code == 404 or missing_object:
             raise NotFoundError(not_found_message)
         if response.status_code in (409, 412) or self._error_code(response) == "40001":
             raise ConflictError(conflict_message)

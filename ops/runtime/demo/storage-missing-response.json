@@ -1,0 +1,12 @@
+{
+  "boundary": "REAL_SUPABASE_USER_JWT",
+  "run_id": "f72eb74723b44e65a2130dfccefa446a",
+  "http_status": 400,
+  "fields": {
+    "statusCode": "404",
+    "error": "not_found",
+    "message": "Object not found",
+    "code": "NoSuchKey"
+  },
+  "cleanup_complete": true
+}

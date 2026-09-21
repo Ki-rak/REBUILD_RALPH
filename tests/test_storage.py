@@ -11,6 +11,7 @@ from backend.storage import (
     NotFoundError,
     PermissionDeniedError,
     StorageUnavailableError,
+    StorageError,
     SupabaseStore,
 )
 
@@ -451,3 +452,30 @@ def test_live_verify_stops_before_creating_users_when_schema_is_missing() -> Non
     assert "provider-secret" not in serialized
     assert "secret-server-key" not in serialized
     assert all("/auth/v1/admin/" not in path for path in calls)
+
+def test_download_supabase_400_no_such_key_is_missing_object() -> None:
+    # Observed from the actual user-JWT Storage API; HTTP status differs from
+    # the enclosed 404. Only this documented object error means absent bytes.
+    def handler(request):
+        if request.url.path == "/auth/v1/user":
+            return _json_response(200, {"id": USER_ID}, request)
+        return _json_response(400, {"statusCode": "404", "error": "not_found",
+            "message": "Object not found", "code": "NoSuchKey"}, request)
+    store = SupabaseStore(BASE_URL, PUBLISHABLE_KEY, ACCESS_TOKEN, client=_client(handler))
+    with pytest.raises(NotFoundError, match="storage object not found"):
+        store.download_bytes("project/new-output.xlsx")
+
+
+@pytest.mark.parametrize("status,code,method,path,expected", [
+    (400, "NoSuchBucket", "GET", "/storage/v1/object/rebuild-agent/missing", StorageError),
+    (400, "AccessDenied", "GET", "/storage/v1/object/rebuild-agent/missing", StorageError),
+    (400, "NoSuchKey", "PATCH", "/rest/v1/rb_entities", StorageError),
+    (400, "NoSuchKey", "POST", "/storage/v1/object/rebuild-agent/missing", StorageError),
+    (403, "NoSuchKey", "GET", "/storage/v1/object/rebuild-agent/missing", PermissionDeniedError),
+])
+def test_only_storage_get_no_such_key_maps_to_missing(status,code,method,path,expected):
+    store = SupabaseStore(BASE_URL, PUBLISHABLE_KEY, ACCESS_TOKEN,
+        client=_client(lambda request: _json_response(status, {"code": code}, request)))
+    with pytest.raises(expected) as error:
+        store._request(method,path)
+    assert type(error.value) is expected
