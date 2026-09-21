@@ -533,13 +533,15 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
     @app.get("/api/projects/{pid}/drafts")
     def drafts(pid: str, ctx=Depends(context)):
         get(ctx, pid, "project")
-        return list_entities(ctx, "draft", pid)
+        return [{**item, "kind": item["output_kind"]} for item in list_entities(ctx, "draft", pid)]
 
     @app.post("/api/projects/{pid}/drafts", status_code=201)
     def create_draft(pid: str, body: DraftRequest, ctx=Depends(context)):
         info = template_for(ctx, body.kind, body.template_id, body.template_version)
         result = analysis_result(ctx, pid, body)
         cur, past, _ = inputs(ctx, pid)
+        if result["input_fingerprint"] != fingerprint(cur + past):
+            fail("INPUT_CHANGED", "분석 중 입력 자료가 변경됐습니다. 최신 자료로 다시 생성하세요.", 409)
         draft = save(ctx, "draft", {"id": str(uuid4()), "project_id": pid, "output_kind": body.kind, "type": body.kind,
             "title": info["name"], "revision": 1, "status": "draft", "created_at": now(), "rows": build_slide_rows(result["rows"]) if body.kind == "slides" else result["rows"],
             "mode": result["mode"], "ai_used": result["ai_used"], "ai_insight": result.get("ai_insight"),

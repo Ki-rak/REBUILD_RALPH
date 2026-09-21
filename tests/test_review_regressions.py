@@ -96,3 +96,34 @@ def test_excel_source_and_review_strings_remain_literal_not_executable_formula()
         if kind == "risk":
             assert workbook.active["F6"].data_type == "f"
             assert workbook.active["F6"].value.endswith("D6*E6))")
+
+def test_draft_list_uses_same_public_output_kind_as_detail(flow):
+    client, _, _ = flow
+    pid = project(client)
+    upload(client, pid, "Notice period: 19 calendar days.")
+    value = draft(client, pid, "itb")
+    listed = client.get(f"/api/projects/{pid}/drafts", headers=auth())
+    assert listed.status_code == 200
+    saved = next(item for item in listed.json() if item["id"] == value["id"])
+    assert saved["kind"] == value["kind"] == "itb"
+    assert client.get(f"/api/drafts/{value['id']}", headers=auth()).json()["kind"] == "itb"
+
+def test_concurrent_upload_during_analysis_cannot_approve_stale_rows(flow, monkeypatch):
+    import backend.server as server
+    client, _, _ = flow
+    pid = project(client)
+    upload(client, pid, "Notice period: 14 calendar days.", "before.txt")
+    original_compare = server.compare
+    injected = [False]
+    def changed_while_analyzing(current, historical):
+        result = original_compare(current, historical)
+        if not injected[0]:
+            injected[0] = True
+            upload(client, pid, "Employer: Newly arrived during analysis.", "during.txt")
+        return result
+    monkeypatch.setattr(server, "compare", changed_while_analyzing)
+    response = client.post(f"/api/projects/{pid}/drafts",
+        json={"kind": "itb", "mode": "rules"}, headers=auth())
+    assert response.status_code == 409
+    assert response.json()["detail"]["code"] == "INPUT_CHANGED"
+    assert client.get(f"/api/projects/{pid}/drafts", headers=auth()).json() == []
