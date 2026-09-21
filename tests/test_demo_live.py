@@ -118,3 +118,15 @@ def test_missing_stored_output_fails_before_export_could_regenerate():
     snapshot={'drafts':[{'id':'draft'}],'stored_outputs':[{'path':'owner/output.xlsx','sha256':'a'*64}]}
     with pytest.raises(DemoError,match='RESTART_STORED_OUTPUT_UNAVAILABLE'):
         recheck_persistence(NoAPI(),snapshot,{'checks':[]},MissingStore())
+
+def test_real_server_identity_is_not_shadowed_by_frontend(monkeypatch):
+    from fastapi.testclient import TestClient
+    from ops.demo_live_server import app
+    monkeypatch.setenv('REBUILD_LIVE_VERIFY_RUN_ID','owned-live-run')
+    with TestClient(app) as client:
+        response=client.get('/__rebuild_live_verify_identity')
+        assert response.status_code==200
+        assert response.json()=={'run_id':'owned-live-run','boundary':'REAL_SUPABASE_USER_JWT','product':'RE:Build Agent'}
+        assert 'text/html' in client.get('/').headers['content-type']
+        monkeypatch.delenv('REBUILD_LIVE_VERIFY_RUN_ID')
+        assert client.get('/__rebuild_live_verify_identity').status_code==404

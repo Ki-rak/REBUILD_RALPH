@@ -1,0 +1,22 @@
+{
+  "product": "RE:Build Agent",
+  "boundary": "REAL_SUPABASE_USER_JWT",
+  "at": "2026-09-21T23:12:00.631171+00:00",
+  "status": "FAILED",
+  "checks": [],
+  "cleanup_complete": true,
+  "product_complete": false,
+  "ai_verified": false,
+  "run_id": "2f613f3cff0b47f5bb634fce431f40a9",
+  "preflight": {
+    "status": "PASSED",
+    "stage": "complete",
+    "auth_login_verified": true,
+    "db_rls_verified": true,
+    "storage_rls_verified": true,
+    "logout_verified": true,
+    "cleanup_complete": true
+  },
+  "stage": "owned_server_start",
+  "error_code": "OWNED_SERVER_NOT_READY"
+}

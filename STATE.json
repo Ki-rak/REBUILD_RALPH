@@ -1,7 +1,7 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T07:43:35.958995+09:00",
-  "phase": "DEVELOPMENT_BLOCKED_EXTERNAL_AUTHENTICATION",
+  "updated_at_kst": "2026-09-22T08:40:23.912723+09:00",
+  "phase": "DEVELOPMENT_LIVE_INTEGRATION_VERIFICATION",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
   "session": {
@@ -56,23 +56,20 @@
     "AC25 profile edit/project selection and race repair: profile5/context9/errors3/browser6PASS; core mobile9PASS and XLSX reopen, all injected storage",
     "ITB/Risk lossless readable excerpts, source-role mapping and literal/formula preservation; actual renders and scoped independent CLEAR; product140/browser26/Office16PASS",
     "User-requested pre-auth evidence preparation only: 36 product AC mappings, 94 hashed evidence files, 95-entry ZIP byte/reopen validation, 11 checker probes, explicit incomplete gate refusal; product/native goal remain blocked.",
-    "User-provided INPUT demo setup: inventory15past/2new, approved past-only seed, actual-input HTTP/Office/restart verifier and Windows launcher;163 Python tests PASS including23 new; scoped code/architecture APPROVE/CLEAR; original398hashes intact. Actual services still blocked."
+    "User-provided INPUT demo setup: inventory15past/2new, approved past-only seed, actual-input HTTP/Office/restart verifier and Windows launcher;163 Python tests PASS including23 new; scoped code/architecture APPROVE/CLEAR; original398hashes intact. Actual services still blocked.",
+    "Fresh actual Supabase preflight now PASSED: Auth login, two-user DB RLS, Storage RLS, logout, cleanup. Live verification server identity route corrected after 404 regression; independent scoped review APPROVE. Full actual product E2E remains pending."
   ],
-  "in_progress": [],
+  "in_progress": [
+    "Actual Supabase browser upload/edit/approval/output/restart verification with supplied P01/P06/N01/N02",
+    "Actual API E2E: prior N01 intake/comparison passed, draft write timed out; isolated recovery succeeded and residual test owner cleaned",
+    "Official local OAuth remains NOT_LOGGED_IN; no model success claim"
+  ],
   "next": [
-    "User applies prepared Supabase SQL via authenticated SQL Editor; run ops/demo.ps1 -Action Check",
-    "Official project-local Codex OAuth Login; actual model inference remains untested",
-    "Run ops/demo.ps1 -Action Verify -WithAI with P01/P06 past21 and N01/N02 new18; verify actual RLS, source/output persistence and cleanup",
-    "Seed chosen past projects into demo account only; new N01/N02 enter by browser upload, then remaining actual UI/negative/recovery checks",
-    "Final cleaner/regression/independent reviews and OMX strict only after all required live evidence; preserve raw logs and local commits"
+    "Finish actual provided-data UI/API workflow and failure recovery; preserve independent reviews and local commits",
+    "Official dedicated Codex OAuth login, then real product model inference without key fallback",
+    "Remaining actual changed-input/negative/persistence checks, cleaner and final independent/OMX strict gates"
   ],
   "blocked_issues": [
-    {
-      "id": "SUPABASE_SCHEMA",
-      "status": "PENDING_SCHEMA",
-      "detail": "Fresh live schema preflight cannot proceed; no DB/Storage user RLS tests run. SQL management credentials absent; Supabase plugin DISABLED_BY_ADMIN/NOT_AVAILABLE. Earlier actual Auth and private bucket checks remain scoped evidence.",
-      "last_checked_at_kst": "2026-09-22T07:43:35.958995+09:00"
-    },
     {
       "id": "LOCAL_OAUTH",
       "status": "NOT_LOGGED_IN",
@@ -115,7 +112,7 @@
       "complete": 0,
       "strict_completion_pass": false
     },
-    "native_goal_status": "blocked"
+    "native_goal_status": "active"
   },
   "product_implementation": {
     "implemented": true,
@@ -124,7 +121,7 @@
     "actual_services": {
       "openai_deployed": "ACTUAL_PRODUCT_DRAFT_USAGE_APPROVAL_EXPORT_WITH_TEST_STORAGE_PASS",
       "codex_local": "NOT_LOGGED_IN_LATEST_OFFICIAL_STATUS",
-      "supabase": "REAL_PRODUCT_HTTP_AUTH_PASS_PRIVATE_BUCKET_CREATED_DB_SCHEMA_RLS_PENDING"
+      "supabase": "ACTUAL_AUTH_DB_RLS_STORAGE_RLS_LOGOUT_PASS_FULL_PRODUCT_E2E_PENDING"
     },
     "complete": false,
     "latest_regression": "Final Risk condition-first order verified by full140PASS and fresh browser26/Office16; actual output render inspected."
@@ -542,5 +539,16 @@
       "latest_sha256": "ead4703fc1ae767422bef1ef3dc862a9391cc27a603403ca334b567fbd5924ee",
       "scope": "ACTIVE_SESSION_SNAPSHOTS_NOT_FINAL"
     }
+  },
+  "live_integration_resume": {
+    "at": "2026-09-22T08:40:23.912723+09:00",
+    "previous_goal_turn": "PROGRESS_COMMIT_4780069",
+    "resumed_goal_turns_with_oauth_blocker": 1,
+    "supabase_preflight": "PASSED",
+    "schema_failure_resolved_by": "EXTERNAL_STATE_CHANGE_OBSERVED_ACTOR_NOT_VERIFIED",
+    "identity_regression": "404_RED_THEN_200_GREEN",
+    "transport_recovery": "ops/runtime/demo/live-transport-recovery.json",
+    "product_complete": false,
+    "current_ui_execution_session_id": 12569
   }
 }

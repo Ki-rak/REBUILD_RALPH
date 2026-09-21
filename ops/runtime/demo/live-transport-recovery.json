@@ -1,0 +1,15 @@
+{
+  "run_id": "eda2a084193540219f54cafd2dd957b5",
+  "scope": "DISPOSABLE_TEST_OWNER_DIAGNOSTIC",
+  "proxy_variable_presence": {
+    "HTTP_PROXY": false,
+    "HTTPS_PROXY": false,
+    "ALL_PROXY": false
+  },
+  "draft_json_bytes": 2020388,
+  "rows": 12,
+  "patch_status": 200,
+  "patch_returned_rows": 1,
+  "patch_seconds": 13.22,
+  "cleanup_complete": true
+}

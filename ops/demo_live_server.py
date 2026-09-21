@@ -1,9 +1,10 @@
 """Private, loopback verification server using the unmodified real Supabase app."""
 import os
-from fastapi import HTTPException
+from fastapi import FastAPI, HTTPException
 from backend.server import create_app
 
-app = create_app()
+# Register ownership before the product app's catch-all frontend mount.
+app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
 @app.get('/__rebuild_live_verify_identity')
 def identity():
@@ -11,3 +12,5 @@ def identity():
     if not run_id:
         raise HTTPException(404)
     return {'run_id': run_id, 'boundary': 'REAL_SUPABASE_USER_JWT', 'product': 'RE:Build Agent'}
+
+app.mount('/', create_app())
