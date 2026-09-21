@@ -56,3 +56,13 @@ supabase/migrations/20260921210000_rebuild_agent_storage.sql은 추가 테이블
 이 환경에서 .venv/Scripts/python.exe 리다이렉터가 Python 코드 실행 전에 간헐적으로 대기했다. ops/python.ps1은 .venv/pyvenv.cfg에 기록된 실제 Python 실행 파일을 사용하고, 프로세스 범위 PYTHONPATH로 이 프로젝트의 site-packages만 지정한다. 사용자 공통 환경은 복원하며, 명령의 종료 코드를 그대로 반환한다. 이 경로로 전체 Python 108개 검증이 통과했다.
 
 /api/health의 running/persistence=supabase는 서버 구동과 저장소 설정을 뜻한다. 실제 DB/Storage 접근 성공을 뜻하지 않는다. 실제 연결 완료 기준은 supabase/README.md를 따른다.
+
+## 외부 인증 차단에서 재개
+
+2026-09-22 01:20 KST 재검증과 세 번의 연속 goal 작업 기록을 근거로 native goal을 blocked로 기록했다. 제품 완료가 아니다. 상세 근거는 ops/runtime/external-blocker-audit.json에 있다.
+
+1. Supabase 관리 플러그인은 현재 관리자 정책으로 사용할 수 없다. 승인된 SQL Editor/DB 관리 연결이 확보되면 supabase/migrations/20260921210000_rebuild_agent_storage.sql을 기존 구조 확인 후 적용한다. 제품용 API key를 SQL 인증으로 대체하지 않는다.
+2. 전용 공식 로그인 명령은 `npm --prefix server/ai run login`이다. 사용자 인증을 마친 뒤 `npm --prefix server/ai run status`와 실제 제품 호출을 확인한다. Desktop 토큰 복사나 API-key fallback을 사용하지 않는다.
+3. 실제 두 사용자 DB/Storage/RLS, 신규 업로드 전체 경로, 서버 재시작 복원과 최종 독립 검토·OMX strict 게이트를 수행한다. 기존140/26/16 시험은 실제 서비스 통과를 대신하지 않는다.
+
+봉인 중 사람 개입 예외는 확인되지 않았다. 이 복구 절차는 행사 규칙의 예외나 즉시 개입 허가를 의미하지 않는다. 원래 목표와 데이터, 로그, 커밋을 보존한 상태에서 재개한다.

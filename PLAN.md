@@ -255,3 +255,9 @@ Current browser commands are maintained in tests/ui/browser_README.md. Default `
 No deployment/public push. Product remains incomplete; repeated local test success cannot replace missing external verification.
 
 Final local output checkpoint: commit95736b5, stage scan14files/0credential matches and whitespacePASS. Raw session segments1782/32/5554 exported separately with exact hashes and JSONL parsePASS; active snapshots, final-session eligibility not assessed. OMX annotation accepted, G001in_progress/4pending/0complete. Product remains incomplete pending authenticated live services and final strict gate.
+
+## External authentication blocked audit — 2026-09-22 01:20 KST
+
+Previous goal turn made concrete progress (95736b5/aff55b4). Fresh official OAuth status remains NOT_LOGGED_IN/NOT_TESTED; live Supabase verifier exits at PENDING_SCHEMA before user RLS tests. SQL-management configuration is absent; the Supabase plugin is DISABLED_BY_ADMIN/NOT_AVAILABLE. OAuth is the same verified blocker across three consecutive goal turns, with IDs/timestamps recorded in ops/runtime/external-blocker-audit.json. Native goal is now blocked, not complete. No repeated test or unrelated refactor can resolve the missing authentication.
+
+Resume conditions: authorized authenticated Supabase SQL-management access for the prepared migration, and official dedicated Codex OAuth login. Then execute actual user RLS/new-upload/restart and model inference checks, followed by final independent/OMX strict gates. The original product scope is unchanged. No deployment/public push or inferred hands-off exception.

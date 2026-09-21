@@ -1,0 +1,7 @@
+{
+  "kind": "annotate_ledger",
+  "targetGoalId": "G001-source-intake",
+  "evidence": "Native goal changed to blocked after three consecutive goal turns with official project Codex OAuth NOT_LOGGED_IN, recorded in ops/runtime/external-blocker-audit.json. Fresh Supabase live verifier remains PENDING_SCHEMA; SQL management settings absent; Supabase plugin DISABLED_BY_ADMIN/NOT_AVAILABLE. Previous goal turn made progress: commits95736b5/aff55b4, product140/browser26/Office16(scoped injected storage), source-preserving outputs independently reviewed. No independent repair work remains before required external authentication changes.",
+  "rationale": "Preserve full product scope and honest blocked state. No completion or strict pass; resume actual integrations and final gates after authenticated access.",
+  "idempotencyKey": "external-auth-blocked-20260922-0120"
+}
