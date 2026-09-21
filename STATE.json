@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-21T23:29:06.485405+09:00",
+  "updated_at_kst": "2026-09-22T00:10:18.759667+09:00",
   "phase": "DEVELOPMENT",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -55,8 +55,9 @@
     "Absent Supabase rebuild-agent bucket created private via official Storage API and verified; no existing bucket modified"
   ],
   "in_progress": [
-    "Finalize rendered output evidence and checkpoint slide repairs",
-    "Complete acceptance gaps: Search scope, Provider profile edit/selection, core mobile flow, effective-condition display priority"
+    "Complete XLSX long-content visual repair and fresh output verification",
+    "Checkpoint verified Provider configuration/mobile flow and fixture ownership",
+    "Mandatory actual Supabase DB/RLS/persistence and local OAuth still pending"
   ],
   "next": [
     "Re-render real INPUT and browser deck, verify no overflow and exact reviewed content retention",
@@ -68,14 +69,14 @@
     {
       "id": "SUPABASE_SCHEMA",
       "status": "PENDING_SCHEMA",
-      "detail": "Actual product HTTP Auth login/me/refresh/logout/wrong-password checks PASS; users cleaned. Private rebuild-agent bucket created via approved Storage API and verified (no existing bucket modified). rb_entities table still absent; SQL migration and DB/Storage user RLS/persistence need authenticated management connection.",
+      "detail": "Actual product HTTP Auth login/me/refresh/logout/wrong-password checks PASS; users cleaned. Private rebuild-agent bucket created via approved Storage API and verified (no existing bucket modified). rb_entities table still absent; SQL migration and DB/Storage user RLS/persistence need authenticated management connection. 2026-09-22 browser dashboard check redirected to sign-in; no authenticated management UI available.",
       "last_checked_at_kst": "2026-09-21T22:32:41.554129+09:00"
     },
     {
       "id": "LOCAL_OAUTH",
-      "status": "AUTH_STATUS_UNAVAILABLE",
-      "detail": "Latest official CLI status unavailable; inference NOT_TESTED. Previous successful status probe NOT_LOGGED_IN. No successful project-local OAuth inference.",
-      "last_checked_at_kst": "2026-09-21T23:29:06.485405+09:00"
+      "status": "NOT_LOGGED_IN",
+      "detail": "Fresh official CLI status returned NOT_LOGGED_IN and inference NOT_TESTED; no API-key fallback.",
+      "last_checked_at_kst": "2026-09-22T00:10:18.759667+09:00"
     },
     {
       "id": "EVENT_DETAILS",
@@ -110,11 +111,11 @@
     "tests": "Full Python108 PASS; AI31 PASS; frontend errors3/context4 PASS; browser26/Office16 and mixed-upload10 PASS with explicitly injected test storage.",
     "actual_services": {
       "openai_deployed": "ACTUAL_PRODUCT_DRAFT_USAGE_APPROVAL_EXPORT_WITH_TEST_STORAGE_PASS",
-      "codex_local": "AUTH_STATUS_UNAVAILABLE_PREVIOUS_NOT_LOGGED_IN",
+      "codex_local": "NOT_LOGGED_IN_LATEST_OFFICIAL_STATUS",
       "supabase": "REAL_PRODUCT_HTTP_AUTH_PASS_PRIVATE_BUCKET_CREATED_DB_SCHEMA_RLS_PENDING"
     },
     "complete": false,
-    "latest_regression": "Python119 PASS after slide repairs; independent targeted28 PASS. Earlier browser26/Office16/slide limits9 PASS with injected storage. Final visual artifacts in progress."
+    "latest_regression": "Targeted28 and independent31PASS for condition-priority/boundaries; latest full132PASS/1FAIL from in-progress XLSX readability regression. Not final pass."
   },
   "raw_logs": {
     "index": "ops/sessions/index.jsonl",
@@ -266,7 +267,7 @@
     ]
   },
   "completion": {
-    "product": "INCOMPLETE_RENDERED_OUTPUT_DEFECT_AND_MANDATORY_LIVE_CONNECTIONS",
+    "product": "INCOMPLETE_OUTPUT_REVIEW_AND_MANDATORY_LIVE_CONNECTIONS",
     "product_criteria": [
       "AC01-16",
       "AC23-30",

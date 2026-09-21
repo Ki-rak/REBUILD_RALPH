@@ -27,3 +27,7 @@
 ## Scoped repair checkpoint 2026-09-21T23:29:06.485405+09:00
 
 Python119 and independent targeted28 tests PASS. PL01/PL02/PL03 code defects closed in their reproduced scopes; excluded25 refs now all retained. Browser26/Office16/slide-limit9 artifacts are injected-storage tests. Root viewed actual repaired slides2/4: original overlap removed; all5 and near-limit render checks remain in progress. Primary contract condition prioritization is a separate open AC35/37 quality gap. Product remains incomplete.
+
+## Effective condition display 2026-09-22T00:10:18.759667+09:00
+
+Actual allowed P01/N01 ITB cells C6/C7 and rendered slide2 now show approved14 calendar days /450 m3/day before risk-reference records. Root directly viewed ops/runtime/deck-real-ac35-render/slide-2.png; no overlap in that slide. Full risk formulas and all classified sources remain in editable notes/detail. Independent architecture review found unrated/text rating rows promoted to primary conditions; two failing regressions reproduced it and the structure-based classification fixed both. Targeted28 and independent31PASS. XLSX visual overflow repair remains in progress; this is not a global output-quality or live-integration pass.

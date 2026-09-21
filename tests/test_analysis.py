@@ -3,9 +3,12 @@ from hashlib import sha256
 from pathlib import Path
 import io
 import pytest
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
+from pptx import Presentation
 from backend.extraction import extract_document
 from backend.analysis import compare, fingerprint, knowledge_graph, validate_refs
+from backend.drafts import build_slide_rows
+from backend.exports import build_output
 
 def doc(did, text, revision="Rev00", status="APPROVED", filename="contract.txt", project="new", family="contract-main"):
     result = {"id":did, "project_id":project, "filename":filename, "sha256":sha256(text.encode()).hexdigest(),
@@ -260,3 +263,74 @@ def test_amendment_without_target_preserves_all_when_project_has_multiple_contra
     assert "14 calendar days" in notice["current"]
     assert notice["decision"] == "REVIEW_REQUIRED"
     assert any("대상 계약" in reason for reason in notice["missing_information"])
+
+def test_contract_conditions_precede_risk_review_rows_independent_of_input_order():
+    contract = doc("contract-z", "Discharge permit: 777 m3/day.", project="new-z")
+    review = risk_sheet("risk-a", "new-z", 4)
+    first = row(compare([review, contract], []), "discharge")
+    second = row(compare([contract, review], []), "discharge")
+    assert first["current"] == second["current"]
+    assert first["current"].startswith("Discharge permit: 777 m3/day.")
+    assert "지하수 유입과 방류허가" not in first["current"]
+    assert "지하수 유입과 방류허가" in first["reference_context"]
+    assert all(ref["document_id"] == "contract-z" for ref in first["current_refs"])
+    assert any(ref["document_id"] == "risk-a" for ref in first["reference_refs"])
+    validate_refs([first], [contract, review])
+
+
+def test_risk_review_row_alone_never_becomes_effective_contract_condition():
+    review = risk_sheet("only-risk", "different-project", 4)
+    discharge = row(compare([review], []), "discharge")
+    assert discharge["current"] == ""
+    assert discharge["decision"] == "REVIEW_REQUIRED"
+    assert "지하수 유입과 방류허가" in discharge["reference_context"]
+    assert not discharge["current_refs"] and discharge["reference_refs"]
+    assert any("위험 검토 기록만" in reason for reason in discharge["missing_information"])
+    validate_refs([discharge], [review])
+
+
+def test_actual_primary_contract_values_drive_xlsx_and_pptx_visible_output():
+    current, historical = actual_p01_n01()
+    result = compare(list(reversed(current)), list(reversed(historical)))
+    notice = row(result, "notice")
+    discharge = row(result, "discharge")
+    assert notice["current"].splitlines()[-1].endswith("14 calendar days.")
+    assert "450 m3/day" in discharge["current"].splitlines()[1]
+    assert "=C8*D8" not in notice["current"] and "=C7*D7" not in discharge["current"]
+    assert "=C8*D8" in notice["reference_context"]
+    assert "=C7*D7" in discharge["reference_context"]
+
+    templates = INPUT / "03_OUTPUT_TEMPLATES"
+    xlsx, _, _ = build_output({"kind": "itb", "rows": result["rows"]}, templates / "ITB_Analysis_Template.xlsx")
+    workbook = load_workbook(io.BytesIO(xlsx), data_only=False)
+    assert "14 calendar days" in workbook["ITB"]["C6"].value
+    assert "450 m3/day" in workbook["ITB"]["C7"].value
+    assert "=C8*D8" not in workbook["ITB"]["C6"].value
+    assert "=C7*D7" not in workbook["ITB"]["C7"].value
+
+    pptx, _, _ = build_output({"kind": "slides", "rows": build_slide_rows(result["rows"])}, templates / "Review_Deck_Template.pptx")
+    deck = Presentation(io.BytesIO(pptx))
+    visible = next(shape.text for shape in deck.slides[1].shapes if shape.name == "instructions")
+    sources = next(shape.text for shape in deck.slides[1].shapes if shape.name == "source_fields")
+    notes = deck.slides[1].notes_slide.notes_text_frame.text
+    assert "14 calendar days" in visible and "450 m3/day" in visible
+    assert "=C8*D8" not in visible and "=C7*D7" not in visible
+    assert "11_Addendum_Rev01.pdf" in sources and "Commercial_Risk" not in sources
+    assert "=C8*D8" in notes and "=C7*D7" in notes
+
+@pytest.mark.parametrize('likelihood,severity', [(None, None), ('Low', 'High')])
+def test_unrated_or_text_risk_rows_are_reference_context_not_contract_terms(likelihood, severity):
+    review = risk_sheet('unrated-risk', 'unrated-project', severity)
+    for block in review['blocks']:
+        if block['locator'] == 'Risk!C6':
+            block['original_value'], block['text'] = likelihood, '' if likelihood is None else str(likelihood)
+        if block['locator'] == 'Risk!D6':
+            block['original_value'], block['text'] = severity, '' if severity is None else str(severity)
+    discharge = row(compare([review], []), 'discharge')
+    assert discharge['current'] == ''
+    assert discharge['decision'] == 'REVIEW_REQUIRED'
+    assert not discharge['current_refs']
+    assert discharge['reference_refs']
+    assert '지하수 유입과 방류허가' in discharge['reference_context']
+    assert discharge['severity'] is None
+    validate_refs([discharge], [review])

@@ -62,7 +62,7 @@ def validate_refs(rows, documents):
     docs = {d["id"]: d for d in documents}
     for row in rows:
         refs = row.get("source_refs", []) + row.get("historical_refs", []) + row.get("current_refs", [])
-        for extra in ("excluded_refs", "mitigation_refs"):
+        for extra in ("excluded_refs", "mitigation_refs", "reference_refs"):
             refs += row.get(extra, [])
         if not refs:
             if row.get("decision") != "REVIEW_REQUIRED":
@@ -205,8 +205,39 @@ def _column_number(label):
     return number
 
 
+def _risk_data_rows(sheets):
+    """Classify risk-register rows by table structure, independent of rating completeness."""
+    locations = set()
+    for sheet, rows in sheets.items():
+        header_row = None
+        columns = {}
+        for number, cells in sorted(rows.items()):
+            candidate = {}
+            for column, value in cells.items():
+                text = str(value or "")
+                if re.search(r"사건|위험|risk", text, re.I):
+                    candidate["description"] = column
+                if re.search(r"가능성|likelihood|probability", text, re.I):
+                    candidate["likelihood"] = column
+                if re.search(r"영향|강도|impact|severity", text, re.I):
+                    candidate["severity"] = column
+            if {"description", "likelihood", "severity"}.issubset(candidate):
+                header_row, columns = number, candidate
+                break
+        if header_row is None:
+            continue
+        for number, cells in rows.items():
+            if number <= header_row:
+                continue
+            description = str(cells.get(columns["description"], "")).strip()
+            if description:
+                locations.add((sheet, number))
+    return locations
+
+
 def _xlsx_context_facts(document, status, amendment, informal, contract_id, contract_id_known, amendment_target):
     sheets, blocks = _workbook_rows(document)
+    risk_rows = _risk_data_rows(sheets)
     facts = []
     for sheet, rows in sheets.items():
         for row_number, cells in sorted(rows.items()):
@@ -225,7 +256,7 @@ def _xlsx_context_facts(document, status, amendment, informal, contract_id, cont
                 facts.append((key, {"doc": document, "ref": refs[0], "refs": refs, "text": text,
                     "status": status, "amendment": amendment,
                     "explicit_change": explicit_change or bool(amendment and clause), "clause": clause,
-                    "informal": informal, "role": None, "contract_id": contract_id,
+                    "informal": informal, "role": "risk_record" if (sheet, row_number) in risk_rows else None, "contract_id": contract_id,
                     "contract_id_known": contract_id_known, "amendment_target": amendment_target}))
     return facts
 
@@ -324,6 +355,30 @@ def _effective(facts):
 
 def _fact_refs(fact):
     return fact.get("refs") or [fact["ref"]]
+
+
+def _display_priority(fact):
+    text = fact["text"]
+    has_number_and_unit = bool(re.search(
+        r"\d+(?:[,.]\d+)*\s*(?:calendar days|days|일|m3/day|m3/h|mg/L|개월|months|%)", text, re.I))
+    return (
+        0 if fact["status"] == "APPROVED" else 1,
+        0 if fact["amendment"] else 1,
+        0 if fact.get("clause") else 1,
+        0 if has_number_and_unit else 1,
+        fact["doc"].get("sha256", ""),
+        fact["ref"].get("locator", ""),
+        text,
+    )
+
+
+def _display_groups(facts, key):
+    ordered = sorted(facts, key=_display_priority)
+    if key == "risk":
+        return ordered, []
+    primary = [fact for fact in ordered if fact.get("role") != "risk_record"]
+    references = [fact for fact in ordered if fact.get("role") == "risk_record"]
+    return primary, references
 
 
 def _display(facts, limit=12):
@@ -513,20 +568,38 @@ def compare(current_documents, historical_documents):
         values.discard(())
         if len(values) > 1:
             missing.append("같은 항목에 서로 다른 수치가 있습니다. 조항·적용 범위 확인이 필요합니다.")
-        cur_refs = [ref for fact in selected for ref in _fact_refs(fact)][:24]
-        old_refs = [ref for fact in past for ref in _fact_refs(fact)][:24]
+        display_selected, current_reference_facts = _display_groups(selected, key)
+        display_past, historical_reference_facts = _display_groups(past, key)
+        if selected and not display_selected and current_reference_facts:
+            missing.append("위험 검토 기록만 확인되어 유효한 신규 계약 조건으로 적용하지 않습니다.")
+        if past and not display_past and historical_reference_facts:
+            missing.append("과거 위험 검토 기록은 참고 자료이며 비교 가능한 과거 계약 조건이 아닙니다.")
+        cur_refs = [ref for fact in display_selected for ref in _fact_refs(fact)][:24]
+        old_refs = [ref for fact in display_past for ref in _fact_refs(fact)][:24]
+        reference_facts = current_reference_facts + historical_reference_facts
+        reference_refs = [ref for fact in reference_facts for ref in _fact_refs(fact)][:48]
+        reference_sections = []
+        if current_reference_facts:
+            reference_sections.append("신규 위험 검토 기록:\n" + _display(current_reference_facts))
+        if historical_reference_facts:
+            reference_sections.append("과거 위험 검토 기록:\n" + _display(historical_reference_facts))
+        reference_context = "\n".join(reference_sections)
         mitigation_facts = [fact for fact in past if fact.get("role") == "mitigation"]
         mitigation_refs = [ref for fact in mitigation_facts for ref in _fact_refs(fact)][:12]
         mitigation = _display(mitigation_facts, 6) or "근거가 있는 과거 대응을 확인한 뒤 담당자가 대응방안을 작성하세요."
         severity, severity_evidence = _severity_evidence(historical_documents, key, pattern)
-        rows.append({"id": key, "title": title, "current": _display(selected), "past": _display(past),
-            "differences": ["신규 근거:\n" + (_labeled(selected, True) or "유효 조건 없음"),
-                            "과거 근거:\n" + (_labeled(past, False) or "연결 없음")],
+        differences = ["신규 근거:\n" + (_labeled(display_selected, True) or "유효 조건 없음"),
+                       "과거 근거:\n" + (_labeled(display_past, False) or "연결 없음")]
+        if reference_context:
+            differences.append("참고 위험 검토 기록:\n" + reference_context)
+        rows.append({"id": key, "title": title, "current": _display(display_selected), "past": _display(display_past),
+            "reference_context": reference_context, "reference_refs": reference_refs,
+            "differences": differences,
             "decision": "REVIEW_REQUIRED" if missing else "REFERENCE",
             "rationale": "원문의 동일 검토 항목을 연결했습니다. 신규 계약 허용량·설계값·과거 관측값과 적용 조건을 별도로 표시하며 재사용 적합성을 자동 확정하지 않습니다.",
             "missing_information": missing, "current_refs": cur_refs, "historical_refs": old_refs,
-            "excluded_refs": [ref for fact in excluded for ref in _fact_refs(fact)][:16], "source_refs": cur_refs + old_refs,
-            "value_classes": {"current": _value_classes(selected, True), "historical": _value_classes(past, False)},
+            "excluded_refs": [ref for fact in excluded for ref in _fact_refs(fact)][:16], "source_refs": cur_refs + old_refs + reference_refs,
+            "value_classes": {"current": _value_classes(display_selected, True), "historical": _value_classes(display_past, False)},
             "severity": severity, "severity_evidence": severity_evidence,
             "mitigation": mitigation, "mitigation_refs": mitigation_refs,
             "rule_id": "topic-clause-comparison-v2"})
@@ -544,7 +617,7 @@ def knowledge_graph(comparison, documents, projects):
     nodes, edges = {}, {}
     docs, names = {d["id"]: d for d in documents}, {p["id"]: p["name"] for p in projects}
     for row in comparison["rows"]:
-        refs = row.get("current_refs", []) + row.get("historical_refs", [])
+        refs = row.get("current_refs", []) + row.get("historical_refs", []) + row.get("reference_refs", [])
         if not refs:
             continue
         kid = "knowledge:" + row["id"]

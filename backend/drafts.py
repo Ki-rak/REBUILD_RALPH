@@ -38,9 +38,12 @@ def _all_references(rows):
     """Normalize every evidence role into the validated top-level SourceRef list."""
     unique = {}
     for row in rows:
-        for field, values in row.items():
+        priority = ("current_refs", "historical_refs", "source_refs", "mitigation_refs", "reference_refs", "excluded_refs")
+        fields = list(priority) + [field for field in row if field not in priority]
+        for field in fields:
             if not (field.endswith("_refs") or field in {"refs", "source_ref"}):
                 continue
+            values = row.get(field)
             if isinstance(values, dict):
                 values = [values]
             if not isinstance(values, list):
@@ -48,7 +51,7 @@ def _all_references(rows):
             for ref in values:
                 if isinstance(ref, dict):
                     key = (ref.get("source_id"), ref.get("document_id"), ref.get("locator"), ref.get("quote"))
-                    unique[key] = deepcopy(ref)
+                    unique.setdefault(key, deepcopy(ref))
         evidence = row.get("severity_evidence")
         if isinstance(evidence, dict):
             evidence_groups = [evidence]
@@ -112,6 +115,7 @@ def _comparison_detail(row):
         ("신규 조건", row.get("current")),
         ("과거 근거", row.get("past")),
         ("차이", row.get("differences")),
+        ("참고 위험 검토 기록", row.get("reference_context")),
         ("판단", row.get("decision")),
         ("판단 근거", row.get("rationale")),
         ("대응", row.get("mitigation")),
