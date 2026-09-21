@@ -65,3 +65,9 @@ Earlier preparation tables are historical. Current native goal is active; OMX G0
 Git main publication87ed14a was completed only after user approval. Subsequent product commits stay local on goal/product-implementation. Actual OpenAI server-key product call passed; local official OAuth remains NOT_LOGGED_IN. Actual isolated Supabase Auth login/refresh/logout-revocation passed; DB schema/private storage/RLS/persistence remain pending. No callable Supabase management tool was found in this session. Existing application keys do not substitute for SQL-management credentials.
 
 Windows Python redirector stalls were recovered with ops/python.ps1 using the configured base runtime and project site-packages. Original runtime and user-wide settings remain unchanged. Remaining auth/management prerequisites are recorded in STATE.json; installation alone is not a successful service connection.
+
+## Recheck 2026-09-22
+
+Supabase plugin directory still returns installed=false, DISABLED_BY_ADMIN and NOT_AVAILABLE. The project dashboard in the available in-app browser redirects to sign-in. No management token or database password was extracted, and administrator policy was not changed. Recovery requires an approved authenticated SQL-management connection. Existing real Auth/private bucket evidence remains valid; DB schema/RLS/restart are pending.
+
+Official dedicated Codex status runs and returns NOT_LOGGED_IN with inference NOT_TESTED. Product137 regression tests and owned-fixture browser26/Office16, Provider6/mobile9 pass within documented synthetic-storage boundaries. OMX aggregate goal remains active/G001in_progress. No new dependency was installed during these repairs.

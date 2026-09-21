@@ -14,3 +14,10 @@ Fallback classification:
 - Catch-all public HTTP boundary suppresses raw credential-bearing messages while returning SERVICE_UNAVAILABLE: grounded security boundary; retain.
 
 Pass order: remove redundant failure branch, repair resource ownership/error reporting, add narrow regressions, rerun relevant suites. No unrelated renaming or new abstraction. Separate implementer and reviewer required.
+## Acceptance follow-up cleanup plan — 2026-09-22
+
+Scope: committed backend/analysis.py, backend/drafts.py, backend/server.py, frontend/app.js/styles.css, tests/ui/run_browser.py and fixture target helper. XLSX output repair is reviewed separately after its behavior lock is complete. No architecture rewrite or new dependency.
+
+Behavior lock: analysis/boundary/profile28 and independent31PASS; frontend context9/errors3; owned8784 provider6/mobile9; fixture-boundary4 and independent6. Preserve complete sources, rating eligibility, strict OAuth/API separation and honest test boundaries.
+
+Order: inspect fallbacks and fail-open behavior; check dead code/duplicates; clarify error/role boundaries; confirm regressions. Retain duplicate provider version checks at distinct asynchronous boundaries because they prevent different races. Keep risk role and numeric statistical eligibility separate. Keep explicit fixture denial on missing environment/boundary/runID. No speculative abstraction or formatter-wide churn.

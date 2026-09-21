@@ -229,3 +229,16 @@ node tests/ui/browser_flow.cjs; .venv/Scripts/python.exe -X utf8 tests/ui/browse
 Current commands: .\ops\python.ps1 -m pytest tests -q; npm --prefix server/ai test; node tests/ui/frontend_errors.cjs; node tests/ui/frontend_context.cjs.
 Browser and mixed-upload test setup: tests/ui/browser_README.md. Actual service setup and verification: supabase/README.md and docs/RUNBOOK.md.
 These current entries supersede stale preparation status above without erasing its history.
+
+## Current acceptance checkpoint — 2026-09-22 00:29 KST
+
+- [x] Condition display role separation and unrated/text-risk preservation:74cef85; mixed allowance/design classification:af35dfb. Independent scoped review closed.
+- [x] Provider profile edit/project selection, configuration-race rejection, settings context and mobile hash layout:0344d74. Actual Provider6/mobile9 on owned8784 fixture; context9/errors3PASS.
+- [x] Owned browser target URL/run ID and constrained pytest collection:5bf3e7b. Independent boundary6 and root4PASS. AC01/30/32 additional side-effect/freshness/unrelated-source testsPASS.
+- [x] Fresh product137PASS (two existing deprecation warnings); owned8785 UI26 and Office16PASS after initial XLSX detail repair. TEST_STORAGE_INJECTED throughout browser evidence.
+- [ ] Long XLSX visual verification and independent preservation review; inspect Risk output as well as ITB. Do not declare this complete from structural tests alone.
+- [ ] Supabase authenticated SQL migration, user-JWT DB/Storage RLS, whole new-upload flow and process-restart persistence. Plugin directory still DISABLED_BY_ADMIN/NOT_AVAILABLE; in-app dashboard redirects to sign-in. Existing secret/publishable product keys are not SQL-management credentials.
+- [ ] Project-local official Codex OAuth login and actual inference. Latest status NOT_LOGGED_IN/NOT_TESTED; no key fallback or Desktop token copying.
+- [ ] Final independent review/cleaner/regression and OMX strict gate after all required evidence. Native goal remains active; OMX G001 in_progress,4pending,0complete.
+
+Current browser commands are maintained in tests/ui/browser_README.md. Default `python -m pytest -q` now collects only tests. Exported raw segments remain separate1782/32/4576events at the latest00:16 checkpoint; active snapshots, not final submission evidence. Original398hashes unchanged. Deployment/public push/event preparation remain excluded until requested.

@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T00:12:19.770346+09:00",
+  "updated_at_kst": "2026-09-22T00:36:27.987602+09:00",
   "phase": "DEVELOPMENT",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -56,15 +56,13 @@
     "AC25 profile edit/project selection and race repair: profile5/context9/errors3/browser6PASS; core mobile9PASS and XLSX reopen, all injected storage"
   ],
   "in_progress": [
-    "Complete XLSX long-content visual repair and fresh output verification",
-    "Checkpoint verified Provider configuration/mobile flow and fixture ownership",
-    "Mandatory actual Supabase DB/RLS/persistence and local OAuth still pending"
+    "Finish ITB/Risk XLSX readable layout with complete item-to-source mapping and independent re-review",
+    "Refresh output/Office regression after final repair, commit and checkpoint"
   ],
   "next": [
-    "Re-render real INPUT and browser deck, verify no overflow and exact reviewed content retention",
-    "Apply prepared Supabase migration through an authenticated management connection, then actual two-user DB/Storage/RLS and restart persistence verification",
-    "Official project-local Codex OAuth login, then actual product inference/citation verification",
-    "Resolve remaining concrete quality findings and submit real independent evidence to OMX strict gate only when mandatory live checks pass"
+    "Apply prepared SQL with approved authenticated Supabase management access; verify actual two-user DB/Storage RLS and restart flow",
+    "Complete official dedicated Codex OAuth authentication and actual product inference",
+    "Final independent cleaner/review/strict gate only after every required live check succeeds"
   ],
   "blocked_issues": [
     {
@@ -109,14 +107,14 @@
   "product_implementation": {
     "implemented": true,
     "existing": "FastAPI API, parsers, source comparison, signed intake/evidence/approval, Office outputs, Supabase adapter/SQL, UI06 frontend",
-    "tests": "Full Python108 PASS; AI31 PASS; frontend errors3/context4 PASS; browser26/Office16 and mixed-upload10 PASS with explicitly injected test storage.",
+    "tests": "Product137PASS; AI31 prior unchanged; frontend context9/errors3; owned browser26/Office16 and Provider6/mobile9PASS. Browser storage explicitly injected.",
     "actual_services": {
       "openai_deployed": "ACTUAL_PRODUCT_DRAFT_USAGE_APPROVAL_EXPORT_WITH_TEST_STORAGE_PASS",
       "codex_local": "NOT_LOGGED_IN_LATEST_OFFICIAL_STATUS",
       "supabase": "REAL_PRODUCT_HTTP_AUTH_PASS_PRIVATE_BUCKET_CREATED_DB_SCHEMA_RLS_PENDING"
     },
     "complete": false,
-    "latest_regression": "Targeted28 and independent31PASS for condition-priority/boundaries; latest full132PASS/1FAIL from in-progress XLSX readability regression. Not final pass."
+    "latest_regression": "137PASS at00:26KST before follow-up XLSX supplemental-source mapping and CJK wrap repair; those remaining changes require fresh checks."
   },
   "raw_logs": {
     "index": "ops/sessions/index.jsonl",
@@ -125,19 +123,19 @@
     "format_scope": "Required main JSONL 1 and optional other-session JSONL ZIP 1; detailed schema/upload limits unverified",
     "main_session_qualified": false,
     "latest_export": {
-      "exported_at_kst": "2026-09-21T22:27:59.500850+09:00",
+      "exported_at_kst": "2026-09-22T00:16:14.749009+09:00",
       "segment_count": 3,
       "event_counts": [
         1782,
         32,
-        2751
+        4576
       ],
-      "latest_sha256": "4a3b38cb50e570d3af862665f3100f99c71a17ff4d1727d76ee7a3c4f77f8ddc",
+      "latest_sha256": "948958d42d078488eca64a618f6754b7c10ba4c7cf8a06fa9e1f836b055aa8dd",
       "user_goal_reference_seen": true,
       "final_goal_result_assessed": false
     },
     "segment_discovery": "3 actual segments exported separately, exact complete-record copies and JSONL validation PASS",
-    "latest_export_scope": "Active snapshot through 2026-09-21T13:27:45.335Z; not final goal result"
+    "latest_export_scope": "Active separate segments through 2026-09-21T15:15:59.253Z; not final goal result"
   },
   "evaluator": {
     "holdout_read": false,
@@ -268,7 +266,10 @@
       "8109130",
       "838b901",
       "e7f8cca",
-      "74cef85"
+      "74cef85",
+      "0344d74",
+      "5bf3e7b",
+      "af35dfb"
     ]
   },
   "completion": {
@@ -324,10 +325,17 @@
     "findings": 12
   },
   "output_review": {
-    "status": "SCOPED_CODE_REPAIRS_VERIFIED_RENDER_IN_PROGRESS",
-    "code_review": "PL01/PL02/PL03 scoped CLOSED, no full product approval",
-    "python_passed": 119,
-    "remaining": "Final renders and effective-condition excerpt priority"
+    "status": "XLSX_RENDER_REPAIR_IN_PROGRESS",
+    "completed": [
+      "PPTX bounded original excerpts and full editable notes",
+      "Primary approved conditions and mixed-value review labels"
+    ],
+    "current_findings": [
+      "Per-item supplemental SourceRef mapping must survive compact display",
+      "CJK wrapped excerpt suffix must remain fully visible",
+      "Actual Risk XLSX readability still to inspect"
+    ],
+    "product_complete": false
   },
   "supabase_storage_configuration": {
     "bucket": "rebuild-agent",

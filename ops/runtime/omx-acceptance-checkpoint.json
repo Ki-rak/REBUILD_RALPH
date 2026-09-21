@@ -1,0 +1,7 @@
+{
+  "kind": "annotate_ledger",
+  "targetGoalId": "G001-source-intake",
+  "evidence": "Local commits74cef85,0344d74,5bf3e7b,af35dfb: effective primary conditions, risk-role/mixed-value guards, editable project Provider configuration, context race repair, mobile layout, owned browser target. Product137PASS; owned8785 browser26/Office16; owned8784 Provider6/mobile9; independent scoped review closures. XLSX readability repair under review: supplemental source mapping and CJK suffix clipping remain open. Actual Supabase Auth/private bucket and deployed OpenAI call retain prior evidence; SQL/RLS/restart pending, plugin disabled/admin and dashboard sign-in. Dedicated official OAuth latest NOT_LOGGED_IN. Actual session segments1782/32/4576 preserved separately, originals398unchanged.",
+  "rationale": "Preserve real progress, verification boundaries and unresolved mandatory checks; no story/native completion or strict-gate pass.",
+  "idempotencyKey": "acceptance-followup-20260922-0035"
+}

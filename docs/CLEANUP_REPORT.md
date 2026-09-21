@@ -11,3 +11,13 @@
 - Gates: Python108, Node31, dynamic UI7 PASS; JavaScript syntax and Python compilation PASS; staged whitespace check PASS excluding unchanged upstream font license; selected source credential-value scan14 files/0 matches. No separate linter or TypeScript compiler configured (N/A).
 - Independent verification: docs/CODE_REVIEW.md and docs/ARCHITECTURE_REVIEW.md. Plan author and code reviewer are separate agents. Initial failures/review verdicts remain in those documents and activity logs.
 - Remaining risks: live Supabase DB/Storage/RLS/persistence and official local OAuth inference unverified; these cannot be replaced by injected-storage tests.
+
+## Acceptance follow-up bounded pass — 2026-09-22
+
+- Scope and pre-edit plan: latest section of CLEANUP_PLAN.md. Examined current condition-role selection, Provider state checks, settings generation guard, responsive hash wrap, and owned-fixture driver/helper.
+- Fallback findings: no masking auth fallback introduced. Unconnected corporate selection fails explicitly; provider configuration races reject409; absent/mismatched fixture ID rejects before synthetic credential use. Existing sanitized public errors remain a grounded security boundary.
+- Pass1/2: no dead code or safe redundant logic deletion justified. Repeated Provider guards cover different race windows; risk classification and numeric sample eligibility intentionally differ. No new production abstraction.
+- Pass3: role names and explicit connection errors describe actual behavior; long hash wrapping preserves the full value. Browser helper replaces inconsistent hardcoded URLs with one strictly checked target.
+- Pass4/gates: targeted28, independent31, frontend context9/errors3, actual owned8784 Provider6/mobile9 and boundary4/independent6 PASS. JS syntax verified. Stage credential scans6/11/15 files each zero matches. Full regression has a separate in-progress XLSX readability failure and is not reported PASS here. No configured separate linter/typechecker (N/A).
+- Independent reviewer: /root/acceptance_architecture scoped condition/runner and Provider races; all reproduced scoped findings closed. Writer/reviewer separated. This bounded pass made no additional product edits because no safe simplification was justified.
+- Remaining: XLSX render/content repair review, mandatory actual Supabase DB/RLS/restart and local OAuth. Final strict completion gate remains unavailable until they pass.

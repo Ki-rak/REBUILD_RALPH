@@ -1,0 +1,13 @@
+{
+  "at": "2026-09-22T00:18:29.2750105+09:00",
+  "service": "Supabase",
+  "project_ref": "wsziosnttnxefgfbgpeq",
+  "plugin_status": "DISABLED_BY_ADMIN",
+  "installation_policy": "NOT_AVAILABLE",
+  "installed": false,
+  "callable_management_tools": false,
+  "browser_dashboard": "REDIRECTED_TO_SIGN_IN",
+  "database_schema": "PENDING_SCHEMA",
+  "next_step": "Authenticated approved SQL management connection is required; no policy bypass or secret extraction",
+  "product_complete": false
+}
