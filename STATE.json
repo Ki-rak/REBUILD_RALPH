@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T01:23:31.7776229+09:00",
+  "updated_at_kst": "2026-09-22T02:01:11.497519+09:00",
   "phase": "DEVELOPMENT_BLOCKED_EXTERNAL_AUTHENTICATION",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -54,13 +54,16 @@
     "Current product server restarted at http://127.0.0.1:8780/; health is configuration evidence only",
     "Absent Supabase rebuild-agent bucket created private via official Storage API and verified; no existing bucket modified",
     "AC25 profile edit/project selection and race repair: profile5/context9/errors3/browser6PASS; core mobile9PASS and XLSX reopen, all injected storage",
-    "ITB/Risk lossless readable excerpts, source-role mapping and literal/formula preservation; actual renders and scoped independent CLEAR; product140/browser26/Office16PASS"
+    "ITB/Risk lossless readable excerpts, source-role mapping and literal/formula preservation; actual renders and scoped independent CLEAR; product140/browser26/Office16PASS",
+    "User-requested pre-auth evidence preparation only: 36 product AC mappings, 94 hashed evidence files, 95-entry ZIP byte/reopen validation, 11 checker probes, explicit incomplete gate refusal; product/native goal remain blocked."
   ],
   "in_progress": [],
   "next": [
-    "Apply prepared SQL with approved authenticated Supabase management access; verify actual two-user DB/Storage RLS and restart flow",
-    "Complete official dedicated Codex OAuth authentication and actual product inference",
-    "Final independent cleaner/review/strict gate only after every required live check succeeds"
+    "After user authentication and resume: apply/verify Supabase schema, actual two-user DB/Storage RLS and cleanup",
+    "Verify official dedicated Codex OAuth actual product inference without key fallback",
+    "Execute real fresh-upload/changed-input/restart persistence E2E for all three outputs",
+    "Final cleaner, regression and independent code-reviewer/architect reviews",
+    "Actual OMX strict completion checkpoint only with complete proof; preserve final raw session and local commits"
   ],
   "blocked_issues": [
     {
@@ -132,23 +135,23 @@
     "format_scope": "Required main JSONL 1 and optional other-session JSONL ZIP 1; detailed schema/upload limits unverified",
     "main_session_qualified": false,
     "latest_export": {
-      "exported_at_kst": "2026-09-22T01:22:50.188684+09:00",
+      "exported_at_kst": "2026-09-22T01:57:20.318544+09:00",
       "segment_count": 3,
       "event_counts": [
         1782,
         32,
-        5698
+        5945
       ],
       "exact_copy_all": true,
       "jsonl_parse_all": "PASS",
       "redaction_count": 0,
-      "latest_sha256": "eb20c08d6738885f0c9885913e663da27382491eb12884a75d0f91a016a816e9",
-      "summary": "ops/runtime/latest-export-summary.json",
+      "latest_sha256": "bb8b3b2f3d55fdd547be6ae3fd0c4083b4835f654af91778665bb5839f3dd3ae",
+      "summary": "ops/verification/preauth-20260922/session-snapshot.json",
       "snapshot_only": true,
       "final_result_assessed": false
     },
     "segment_discovery": "3 actual segments exported separately, exact complete-record copies and JSONL validation PASS",
-    "latest_export_scope": "Active separate segments through 2026-09-21T15:15:59.253Z; not final goal result"
+    "latest_export_scope": "Active separate snapshots through 2026-09-21T16:57:07.748Z; no final goal result qualification"
   },
   "evaluator": {
     "holdout_read": false,
@@ -493,5 +496,25 @@
       "No guessed hands-off intervention exception",
       "No mock or local-health substitution for actual service completion"
     ]
+  },
+  "preauth_evidence_preparation": {
+    "at": "2026-09-22T02:01:11.497519+09:00",
+    "status": "COMPLETE_REQUESTED_ITEM_1_ONLY",
+    "report": "docs/FINAL_VERIFICATION.md",
+    "manifest": "ops/verification/preauth-20260922/manifest.json",
+    "verification": "ops/verification/preauth-20260922/verification.json",
+    "checker_tests": 11,
+    "completion_refusal_exit": 2,
+    "bundle": {
+      "path": "ops/exports/REBuild-Agent-preauth-evidence-20260922.zip",
+      "sha256": "a4c64af78e73026a552ea590cc6c6e3960cdd6c56e1f77a0214d0c4816bcfab3",
+      "files": 95,
+      "reopened": true,
+      "raw_sessions_included": false
+    },
+    "product_complete": false,
+    "goal_resumed": false,
+    "actual_auth_attempted": false,
+    "omx_strict_executed": false
   }
 }

@@ -1,0 +1,156 @@
+{
+  "_notice": "PREPARATION ONLY. Deliberately not a passing OMX payload. Do not submit this pending file as final evidence.",
+  "aiSlopCleaner": {
+    "status": "pending",
+    "evidence": "docs/CLEANUP_REPORT.md contains earlier scoped work only; rerun after required live work."
+  },
+  "verification": {
+    "status": "pending",
+    "commands": [
+      ".\\ops\\python.ps1 -m pytest tests -q",
+      "npm --prefix server/ai test",
+      ".\\ops\\python.ps1 ops/runtime/supabase_live_verify.py",
+      "npm --prefix server/ai run smoke"
+    ],
+    "evidence": "docs/FINAL_VERIFICATION.md; manifest.json records historical evidence and missing real integration proof. Commands listed here are planned, not run by preparation."
+  },
+  "codeReview": {
+    "recommendation": "REQUEST_CHANGES",
+    "architectStatus": "BLOCK",
+    "evidence": "docs/CODE_REVIEW.md and docs/ARCHITECTURE_REVIEW.md; only scoped closures exist.",
+    "independentReview": {
+      "codeReviewer": {
+        "agentRole": "code-reviewer",
+        "evidence": "PENDING final independent review after live checks"
+      },
+      "architect": {
+        "agentRole": "architect",
+        "evidence": "PENDING final independent architecture review after live checks"
+      }
+    }
+  },
+  "architectureInvariantGate": {
+    "status": "pending",
+    "sourceArtifacts": [
+      "SPEC.md",
+      "AGENTS.md",
+      "ops/runtime/GOAL_ENTERED.md",
+      ".omx/ultragoal/brief.md",
+      ".omx/ultragoal/ledger.jsonl",
+      ".omx/ultragoal/goals.json"
+    ],
+    "evidence": "Derived from current SPEC and actual goal; historical brief/accepted steering must also be reconciled by final independent reviewer. Not automatically proved.",
+    "invariants": [
+      {
+        "invariant": "원본 선저장·승인된 폴더만 처리·평가자료 격리",
+        "source": "SPEC.md#AC01",
+        "status": "pending",
+        "implementationEvidence": "backend/server.py; backend/extraction.py",
+        "testEvidence": "tests/test_acceptance_boundaries.py; tests/test_api.py; tests/test_extraction.py",
+        "reviewEvidence": "docs/ACCEPTANCE_REVIEW.md; docs/CODE_REVIEW.md; docs/ARCHITECTURE_REVIEW.md (scoped only)",
+        "blockers": [
+          "Final proof pending for AC01,AC02,AC14,AC16"
+        ]
+      },
+      {
+        "invariant": "표·수치·단위·개정·locator와 검증 가능한 SourceRef 보존",
+        "source": "SPEC.md#AC03",
+        "status": "pending",
+        "implementationEvidence": "backend/extraction.py; backend/security.py",
+        "testEvidence": "tests/test_extraction.py; tests/test_security.py",
+        "reviewEvidence": "docs/ACCEPTANCE_REVIEW.md; docs/CODE_REVIEW.md; docs/ARCHITECTURE_REVIEW.md (scoped only)",
+        "blockers": [
+          "Final proof pending for AC03,AC06"
+        ]
+      },
+      {
+        "invariant": "승인 정정 조항만 대체·관측/허용/설계 구별·부족은 REVIEW_REQUIRED",
+        "source": "SPEC.md#AC04",
+        "status": "pending",
+        "implementationEvidence": "backend/analysis.py",
+        "testEvidence": "tests/test_analysis.py",
+        "reviewEvidence": "docs/ACCEPTANCE_REVIEW.md; docs/CODE_REVIEW.md; docs/ARCHITECTURE_REVIEW.md (scoped only)",
+        "blockers": [
+          "Final proof pending for AC04,AC05,AC12"
+        ]
+      },
+      {
+        "invariant": "입력·근거·양식·초안 버전 결합 승인 및 실제 편집 가능한 세 출력",
+        "source": "SPEC.md#AC07",
+        "status": "pending",
+        "implementationEvidence": "backend/drafts.py; backend/exports.py; backend/templates.py",
+        "testEvidence": "tests/test_exports.py; tests/test_templates.py; tests/test_review_regressions.py",
+        "reviewEvidence": "docs/ACCEPTANCE_REVIEW.md; docs/CODE_REVIEW.md; docs/ARCHITECTURE_REVIEW.md (scoped only)",
+        "blockers": [
+          "Final proof pending for AC07,AC08,AC09,AC34,AC35,AC36,AC37"
+        ]
+      },
+      {
+        "invariant": "실제 Supabase 사용자 소유권·RLS·재시작 영속성",
+        "source": "SPEC.md#AC15",
+        "status": "pending",
+        "implementationEvidence": "backend/storage.py; backend/auth.py; supabase/migrations/20260921210000_rebuild_agent_storage.sql",
+        "testEvidence": "tests/test_storage.py; ops/runtime/supabase_live_verify.py; 실제 통합 증거 미확보",
+        "reviewEvidence": "docs/ACCEPTANCE_REVIEW.md; docs/CODE_REVIEW.md; docs/ARCHITECTURE_REVIEW.md (scoped only)",
+        "blockers": [
+          "Final proof pending for AC15,AC24,AC26,AC28"
+        ]
+      },
+      {
+        "invariant": "DB에 없던 신규 bytes로 비교·graph·승인·출력 및 변경 반응",
+        "source": "SPEC.md#AC10",
+        "status": "pending",
+        "implementationEvidence": "backend/server.py; backend/analysis.py",
+        "testEvidence": "tests/test_api.py; tests/ui/browser_flow.cjs; 실제 Supabase E2E 미확보",
+        "reviewEvidence": "docs/ACCEPTANCE_REVIEW.md; docs/CODE_REVIEW.md; docs/ARCHITECTURE_REVIEW.md (scoped only)",
+        "blockers": [
+          "Final proof pending for AC10,AC11,AC29,AC30,AC38"
+        ]
+      },
+      {
+        "invariant": "지식조회·프로젝트·자료 보유량·Provider/SSO의 정직한 UI",
+        "source": "SPEC.md#AC13",
+        "status": "pending",
+        "implementationEvidence": "frontend/app.js; backend/server.py",
+        "testEvidence": "tests/ui/browser_provider_profiles.cjs; tests/ui/browser_search_scope.cjs",
+        "reviewEvidence": "docs/ACCEPTANCE_REVIEW.md; docs/CODE_REVIEW.md; docs/ARCHITECTURE_REVIEW.md (scoped only)",
+        "blockers": [
+          "Final proof pending for AC13,AC25,AC27,AC31,AC32,AC33"
+        ]
+      },
+      {
+        "invariant": "local/demo 공식 OAuth, deployed OpenAI key, 묵시적 fallback 금지",
+        "source": "SPEC.md#AC23",
+        "status": "pending",
+        "implementationEvidence": "backend/ai.py; server/ai/src/provider.js",
+        "testEvidence": "server/ai/test/provider.test.js; 실제 로컬 OAuth 증거 미확보",
+        "reviewEvidence": "docs/ACCEPTANCE_REVIEW.md; docs/CODE_REVIEW.md; docs/ARCHITECTURE_REVIEW.md (scoped only)",
+        "blockers": [
+          "Final proof pending for AC23,AC39,AC40"
+        ]
+      },
+      {
+        "invariant": "서버 전용 비밀·최소 자식 환경·공개 OAuth 프록시 금지",
+        "source": "SPEC.md#AC41",
+        "status": "pending",
+        "implementationEvidence": "server/ai/src/runtime-config.js; server/ai/src/codex-provider.js",
+        "testEvidence": "server/ai/test/runtime-config.test.js; server/ai/test/codex-provider.test.js",
+        "reviewEvidence": "docs/ACCEPTANCE_REVIEW.md; docs/CODE_REVIEW.md; docs/ARCHITECTURE_REVIEW.md (scoped only)",
+        "blockers": [
+          "Final proof pending for AC41"
+        ]
+      },
+      {
+        "invariant": "Windows 재현·작업 커밋·원시 로그·독립 strict; 배포와 제품 완료 분리",
+        "source": "SPEC.md#AC42",
+        "status": "pending",
+        "implementationEvidence": "ops/omx.mjs; ops/export_session.py; GOAL.md",
+        "testEvidence": "최종 독립 리뷰와 실제 strict gate 미실시",
+        "reviewEvidence": "docs/ACCEPTANCE_REVIEW.md; docs/CODE_REVIEW.md; docs/ARCHITECTURE_REVIEW.md (scoped only)",
+        "blockers": [
+          "Final proof pending for AC42"
+        ]
+      }
+    ]
+  }
+}

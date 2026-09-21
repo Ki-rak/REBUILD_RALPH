@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-22T01:59:02.985275+09:00",
+  "scope": "EVIDENCE_INVENTORY_CHECKER_ONLY",
+  "checks": {
+    "valid_inventory": true,
+    "missing_acceptance_rejected": true,
+    "modified_evidence_rejected": true,
+    "product_completion_claim_rejected": true,
+    "criterion_promotion_rejected": true,
+    "unknown_evidence_rejected": true,
+    "unhashed_source_rejected": true,
+    "secret_path_rejected": true,
+    "raw_archive_path_rejected": true,
+    "traversal_rejected": true,
+    "uninspected_dependency_rejected": true
+  },
+  "all_passed": true,
+  "product_tests_rerun": false,
+  "omx_strict_executed": false
+}

@@ -71,3 +71,12 @@ GOAL.md와 ops/GOAL_INPUT.txt의 자체 완결형 원문이 현재 실행 계약
 제품 로컬 AI용 Codex CLI와 개발 OMX 하네스는 별개다. 로컬 제품 OAuth 로그인 성공이 개발 세션 자동 재시작을 보장하지 않는다. 전원·세션·한도·인증 중단 시 마지막 상태와 커밋을 보존하고 권한 우회 없이 재개 조건을 기록한다.
 
 최신 v1.1은 본 문서와 ledger의 과거 제출 story/AC17–22 포함 표현보다 우선한다. AC17–22 운영 작업은 추후 사용자 요청 전 실행하지 않는다. 실제 두 AI 성공 호출은 필수이지만 실패/한도/시간초과 검증 때문에 실제 사용 한도를 소진시키지 않는다. 오류는 통제된 adapter 시험 또는 실제 발생 증거로 확인한다.
+
+
+## 2026-09-22 인증 전 증거 정리 — 현재 상태
+
+앞의 준비 단계 `goal=null`/pending 표현은 역사적 기록이다. 실제 사용자가 입력한 첨부 원문은 ops/runtime/GOAL_ENTERED.md에 보존되어 있고 현재 native goal은 blocked다. G001 in_progress/4pending/0complete이며, 이번 사용자 요청은 인증 전 증거 정리만이다. goal 재개나 하네스 상태 변경을 수행하지 않았다.
+
+설치된 OMX0.21.5 strict 필드 계약을 소스에서 확인하고 docs/FINAL_VERIFICATION.md와 ops/verification/preauth-20260922/quality-gate.pending.json에 기록했다. 준비 JSON은 pending/REQUEST_CHANGES/BLOCK이며 final quality gate로 제출할 수 없다. 필드 검토와 준비 검사기 성공은 OMX strict 실행 성공이 아니다. 최종 독립 code-reviewer/architect 증거, 모든 불변 조건의 proof, 실제 검증 commands 및 cleaner 근거가 확보된 뒤 실제 --strict checkpoint를 수행한다.
+
+Windows tmux 팀 실행이나 자동 재시작을 새 완료 조건으로 추가하지 않았다. 설치 성공·기록 보존·현재 세션의 작업과 외부 worker/연속 무중단 실행 보장을 구별한다. 아침 재개 순서와 실제 서비스/fixture 경계는 최종 검증 문서에 있다.

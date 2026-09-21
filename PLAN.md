@@ -261,3 +261,18 @@ Final local output checkpoint: commit95736b5, stage scan14files/0credential matc
 Previous goal turn made concrete progress (95736b5/aff55b4). Fresh official OAuth status remains NOT_LOGGED_IN/NOT_TESTED; live Supabase verifier exits at PENDING_SCHEMA before user RLS tests. SQL-management configuration is absent; the Supabase plugin is DISABLED_BY_ADMIN/NOT_AVAILABLE. OAuth is the same verified blocker across three consecutive goal turns, with IDs/timestamps recorded in ops/runtime/external-blocker-audit.json. Native goal is now blocked, not complete. No repeated test or unrelated refactor can resolve the missing authentication.
 
 Resume conditions: authorized authenticated Supabase SQL-management access for the prepared migration, and official dedicated Codex OAuth login. Then execute actual user RLS/new-upload/restart and model inference checks, followed by final independent/OMX strict gates. The original product scope is unchanged. No deployment/public push or inferred hands-off exception.
+
+
+## 인증 전 증거 정리 — 2026-09-22T02:01:11.497519+09:00
+
+사용자가 인증 전 1번 작업만 요청했다. 아래 정리 완료는 제품 완료나 goal 재개가 아니다.
+
+- [x] SPEC 제품 AC01–16/23–42의 36개 기준을 구현·시험·기록·남은 확인에 연결. AC17–22 행사 범위는 별도 유지.
+- [x] 증거94파일 SHA-256, 실제 Office/렌더 포함95항목 검토 ZIP 작성·재개봉 bytes 일치. 원시 세션·인증정보는 ZIP에서 제외.
+- [x] 검사기 부정 사례 포함11개 통과. `--require-complete`는 exit2/BLOCKED로 미완료 거부. OMX strict 실행/통과 아님.
+- [x] 실제 원시 세션3구간을 별도 snapshot으로 보존; 1782/32/5945 events. 최종 결과 포함 여부는 미판정.
+- [x] pending quality-gate 필드와10개 불변 조건, 인증 후2–6 재개 순서 정리.
+- [ ] 실제 Supabase schema/RLS·OAuth 제품 호출·신규 업로드/재시작 통합 검증.
+- [ ] 최종 cleaner/회귀/독립 두 리뷰/OMX strict 및 최종 원시 기록 확인.
+
+자료: docs/FINAL_VERIFICATION.md 및 ops/verification/preauth-20260922/. 현재 native goal은 blocked, G001 in_progress/4pending/0complete 유지. 인증·제품 코드·OMX 목표/ledger·공개 푸시·배포는 변경하지 않았다.

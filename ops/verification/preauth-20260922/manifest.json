@@ -1,0 +1,1288 @@
+{
+  "product": "RE:Build Agent",
+  "schema_version": 1,
+  "captured_at_kst": "2026-09-22T01:54:43.996819+09:00",
+  "source_commit": "62404ea0029c1263d2ee829c37d5ce95a4481caa",
+  "scope": "PRE_AUTH_EVIDENCE_PREPARATION",
+  "native_goal_status": "blocked",
+  "product_complete": false,
+  "completion_claim": "No product test/live call or final review is newly claimed by this inventory. Final acceptance is pending for every criterion; prior scoped results remain valid historical evidence.",
+  "criteria": [
+    {
+      "id": "AC01",
+      "requirement": "폴더 승인 전 무처리",
+      "implementation": [
+        "backend/server.py",
+        "backend/storage.py"
+      ],
+      "tests": [
+        "tests/test_acceptance_boundaries.py"
+      ],
+      "evidence": [
+        "layout"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 사용자 DB에서 승인 전후 부작용 없음 확인"
+    },
+    {
+      "id": "AC02",
+      "requirement": "신규 원본 선저장·해시",
+      "implementation": [
+        "backend/server.py",
+        "backend/storage.py",
+        "backend/extraction.py"
+      ],
+      "tests": [
+        "tests/test_api.py"
+      ],
+      "evidence": [
+        "browser",
+        "mixed"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 Storage bytes와 추출 SourceRef 대조"
+    },
+    {
+      "id": "AC03",
+      "requirement": "4대 형식·표·locator",
+      "implementation": [
+        "backend/extraction.py"
+      ],
+      "tests": [
+        "tests/test_extraction.py"
+      ],
+      "evidence": [
+        "layout"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "최종 회귀 및 실제 저장본 MD/JSON 확인"
+    },
+    {
+      "id": "AC04",
+      "requirement": "승인 정정 조항만 대체",
+      "implementation": [
+        "backend/analysis.py"
+      ],
+      "tests": [
+        "tests/test_analysis.py"
+      ],
+      "evidence": [
+        "layout",
+        "code_review"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "최종 회귀; 실제 프로젝트 입력 비교"
+    },
+    {
+      "id": "AC05",
+      "requirement": "관측·설계·단위 구별",
+      "implementation": [
+        "backend/analysis.py"
+      ],
+      "tests": [
+        "tests/test_analysis.py"
+      ],
+      "evidence": [
+        "layout",
+        "output_review"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "최종 회귀와 신규 입력 의미 대조"
+    },
+    {
+      "id": "AC06",
+      "requirement": "유효 SourceRef·변조 차단",
+      "implementation": [
+        "backend/security.py",
+        "backend/analysis.py"
+      ],
+      "tests": [
+        "tests/test_security.py",
+        "tests/test_api.py"
+      ],
+      "evidence": [
+        "layout",
+        "code_review"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 원본 접근·권한 및 두 AI 결과 근거 검증"
+    },
+    {
+      "id": "AC07",
+      "requirement": "ITB 3개 이상 항목",
+      "implementation": [
+        "backend/analysis.py",
+        "backend/exports.py"
+      ],
+      "tests": [
+        "tests/test_exports.py",
+        "tests/test_analysis.py"
+      ],
+      "evidence": [
+        "office",
+        "layout"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 저장소 경로로 항목·근거·검토사항 확인"
+    },
+    {
+      "id": "AC08",
+      "requirement": "승인 결합·변경 무효화",
+      "implementation": [
+        "backend/drafts.py",
+        "backend/security.py",
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_api.py",
+        "tests/test_review_regressions.py"
+      ],
+      "evidence": [
+        "browser",
+        "code_review"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 DB 원자 승인·동시 변경·다른 사용자 차단"
+    },
+    {
+      "id": "AC09",
+      "requirement": "XLSX 재개봉·표시",
+      "implementation": [
+        "backend/exports.py"
+      ],
+      "tests": [
+        "tests/test_exports.py",
+        "tests/test_slide_layout.py"
+      ],
+      "evidence": [
+        "office",
+        "layout",
+        "output_review"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 저장소 다운로드 파일 재개봉"
+    },
+    {
+      "id": "AC10",
+      "requirement": "같은 해시 중복·별칭",
+      "implementation": [
+        "backend/server.py",
+        "backend/storage.py"
+      ],
+      "tests": [
+        "tests/test_api.py"
+      ],
+      "evidence": [
+        "layout"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 DB 중복 재시도·별칭 보존"
+    },
+    {
+      "id": "AC11",
+      "requirement": "손상·스캔·미지원 격리",
+      "implementation": [
+        "backend/extraction.py",
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_extraction.py",
+        "tests/test_api.py"
+      ],
+      "evidence": [
+        "mixed",
+        "layout"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 저장소 혼합 인입 후 정상 자료 계속 처리"
+    },
+    {
+      "id": "AC12",
+      "requirement": "입력 변경·근거 부족 보류",
+      "implementation": [
+        "backend/analysis.py",
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_analysis.py",
+        "tests/test_acceptance_boundaries.py"
+      ],
+      "evidence": [
+        "layout",
+        "browser"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "신규 두 입력 및 무관 자료로 실서비스 재검증"
+    },
+    {
+      "id": "AC13",
+      "requirement": "API 없는 정직한 경로",
+      "implementation": [
+        "backend/ai.py",
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_api.py"
+      ],
+      "evidence": [
+        "browser",
+        "ai_tests"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "최종 회귀; 실제 로컬 미연결/연결 상태 구분"
+    },
+    {
+      "id": "AC14",
+      "requirement": "평가 자료 런타임 제외",
+      "implementation": [
+        "backend/server.py",
+        "backend/extraction.py"
+      ],
+      "tests": [
+        "tests/test_api.py"
+      ],
+      "evidence": [
+        "layout",
+        "code_review"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "최종 경계 검토; holdout 원문 읽지 않음"
+    },
+    {
+      "id": "AC15",
+      "requirement": "재시작 전체 UI 경로",
+      "implementation": [
+        "backend/server.py",
+        "backend/storage.py"
+      ],
+      "tests": [
+        "tests/test_storage.py"
+      ],
+      "evidence": [
+        "blocked",
+        "browser"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 서버 재시작·새 로그인·전체 재사용 미검증"
+    },
+    {
+      "id": "AC16",
+      "requirement": "원본·실제 로그 보존",
+      "implementation": [
+        "backend/security.py",
+        "ops/export_session.py"
+      ],
+      "tests": [
+        "tests/test_session_export.py"
+      ],
+      "evidence": [
+        "originals",
+        "raw_index"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "현재 작업 snapshot 추가·최종 결과 포함 구간 확인"
+    },
+    {
+      "id": "AC23",
+      "requirement": "실제 AI 호출·근거",
+      "implementation": [
+        "backend/ai.py",
+        "server/ai/src/runtime-config.js",
+        "server/ai/src/provider.js",
+        "server/ai/src/codex-provider.js",
+        "server/ai/src/deployed-provider.js",
+        "server/ai/src/evidence-contract.js"
+      ],
+      "tests": [
+        "tests/test_api.py",
+        "server/ai/test/runtime-config.test.js",
+        "server/ai/test/provider.test.js",
+        "server/ai/test/codex-provider.test.js",
+        "server/ai/test/deployed-provider.test.js",
+        "server/ai/test/evidence-contract.test.js"
+      ],
+      "evidence": [
+        "openai",
+        "blocked"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "로컬 OAuth 제품 호출과 실제 DB 저장 검증"
+    },
+    {
+      "id": "AC24",
+      "requirement": "원본·승인·출력 영속성",
+      "implementation": [
+        "backend/storage.py",
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_storage.py"
+      ],
+      "evidence": [
+        "blocked"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 프로세스 재시작 및 새 세션 복원 미검증"
+    },
+    {
+      "id": "AC25",
+      "requirement": "Provider 프로필·상태",
+      "implementation": [
+        "backend/ai.py",
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_profiles.py",
+        "tests/test_api.py"
+      ],
+      "evidence": [
+        "profiles",
+        "mobile",
+        "code_review"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 DB 프로필 복원·인증 변경 후 호출 상태 확인"
+    },
+    {
+      "id": "AC26",
+      "requirement": "로그인·세션·로그아웃",
+      "implementation": [
+        "backend/auth.py",
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_storage.py"
+      ],
+      "evidence": [
+        "auth"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 DB 결합 전체 흐름 및 최종 회귀"
+    },
+    {
+      "id": "AC27",
+      "requirement": "SSO 설정·미연결 표시",
+      "implementation": [
+        "backend/auth.py",
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_profiles.py"
+      ],
+      "evidence": [
+        "profiles",
+        "browser"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "최종 화면 확인; 사내 IdP 실제 연결은 제외"
+    },
+    {
+      "id": "AC28",
+      "requirement": "사용자별 DB·Storage 격리",
+      "implementation": [
+        "backend/storage.py",
+        "backend/security.py"
+      ],
+      "tests": [
+        "tests/test_storage.py",
+        "tests/test_security.py"
+      ],
+      "evidence": [
+        "blocked",
+        "auth"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "두 실제 사용자 JWT와 무인증으로 RLS/API 부정 시험"
+    },
+    {
+      "id": "AC29",
+      "requirement": "DB 미등록 신규 업로드 E2E",
+      "implementation": [
+        "backend/server.py",
+        "backend/analysis.py",
+        "backend/storage.py"
+      ],
+      "tests": [
+        "tests/test_api.py"
+      ],
+      "evidence": [
+        "browser",
+        "office"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 DB 사전 hash 부재→새 source→승인→3출력→재조회"
+    },
+    {
+      "id": "AC30",
+      "requirement": "다른 입력·무관 근거·무효화",
+      "implementation": [
+        "backend/analysis.py",
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_analysis.py",
+        "tests/test_api.py",
+        "tests/test_acceptance_boundaries.py"
+      ],
+      "evidence": [
+        "layout",
+        "browser"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 DB에서 변경·무관 입력 결과 차이와 승인 무효화"
+    },
+    {
+      "id": "AC31",
+      "requirement": "프로젝트 시작·자료 귀속",
+      "implementation": [
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_api.py"
+      ],
+      "evidence": [
+        "browser",
+        "mobile"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 로그인 계정 프로젝트·자료 재접속 확인"
+    },
+    {
+      "id": "AC32",
+      "requirement": "보유량·승인·정확한 최신 상태",
+      "implementation": [
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_acceptance_boundaries.py"
+      ],
+      "evidence": [
+        "layout",
+        "mixed",
+        "browser"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 DB 승인·변경·권한 상실 시 상태 검증"
+    },
+    {
+      "id": "AC33",
+      "requirement": "지식조회 모드·맥락·범위",
+      "implementation": [
+        "backend/server.py",
+        "backend/analysis.py"
+      ],
+      "tests": [
+        "tests/test_api.py"
+      ],
+      "evidence": [
+        "scope",
+        "profiles"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 사용자·프로젝트 격리 및 SourceRef 열기"
+    },
+    {
+      "id": "AC34",
+      "requirement": "공통 양식 버전·승인 보호",
+      "implementation": [
+        "backend/templates.py",
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_templates.py"
+      ],
+      "evidence": [
+        "browser",
+        "office"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 Storage 사용자별 버전·재시작 복원"
+    },
+    {
+      "id": "AC35",
+      "requirement": "ITB 주요정보·트리거",
+      "implementation": [
+        "backend/analysis.py",
+        "backend/exports.py"
+      ],
+      "tests": [
+        "tests/test_analysis.py",
+        "tests/test_exports.py"
+      ],
+      "evidence": [
+        "office",
+        "layout",
+        "output_review"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 저장소 신규 자료 XLSX 재개봉"
+    },
+    {
+      "id": "AC36",
+      "requirement": "근거 기반 Risk·강도 공란",
+      "implementation": [
+        "backend/analysis.py",
+        "backend/exports.py"
+      ],
+      "tests": [
+        "tests/test_analysis.py",
+        "tests/test_exports.py"
+      ],
+      "evidence": [
+        "office",
+        "layout",
+        "code_review"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 저장소 신규 Risk XLSX 및 근거 표본 대조"
+    },
+    {
+      "id": "AC37",
+      "requirement": "5항목 심의 편집·PPTX",
+      "implementation": [
+        "backend/drafts.py",
+        "backend/exports.py"
+      ],
+      "tests": [
+        "tests/test_exports.py",
+        "tests/test_slide_layout.py",
+        "tests/test_review_regressions.py"
+      ],
+      "evidence": [
+        "office",
+        "slides",
+        "output_review"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 저장소 승인본 PPTX 재개봉·근거 대조"
+    },
+    {
+      "id": "AC38",
+      "requirement": "실자료 노드·양쪽 근거",
+      "implementation": [
+        "backend/analysis.py",
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_analysis.py"
+      ],
+      "evidence": [
+        "browser",
+        "scope"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "실제 신규 업로드 후 graph source 및 원문 권한 확인"
+    },
+    {
+      "id": "AC39",
+      "requirement": "로컬 공식 OAuth 전용",
+      "implementation": [
+        "backend/ai.py",
+        "server/ai/src/runtime-config.js",
+        "server/ai/src/provider.js",
+        "server/ai/src/codex-provider.js",
+        "server/ai/src/deployed-provider.js",
+        "server/ai/src/evidence-contract.js"
+      ],
+      "tests": [
+        "tests/test_api.py",
+        "server/ai/test/runtime-config.test.js",
+        "server/ai/test/provider.test.js",
+        "server/ai/test/codex-provider.test.js",
+        "server/ai/test/deployed-provider.test.js",
+        "server/ai/test/evidence-contract.test.js"
+      ],
+      "evidence": [
+        "blocked",
+        "ai_tests"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "전용 공식 로그인 후 제품 실제 호출; key fallback 금지"
+    },
+    {
+      "id": "AC40",
+      "requirement": "서버 OpenAI API key 전용",
+      "implementation": [
+        "backend/ai.py",
+        "server/ai/src/runtime-config.js",
+        "server/ai/src/provider.js",
+        "server/ai/src/codex-provider.js",
+        "server/ai/src/deployed-provider.js",
+        "server/ai/src/evidence-contract.js"
+      ],
+      "tests": [
+        "tests/test_api.py",
+        "server/ai/test/runtime-config.test.js",
+        "server/ai/test/provider.test.js",
+        "server/ai/test/codex-provider.test.js",
+        "server/ai/test/deployed-provider.test.js",
+        "server/ai/test/evidence-contract.test.js"
+      ],
+      "evidence": [
+        "openai",
+        "ai_tests"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "최종 adapter 회귀; 이미 실제 호출한 배포용 경로와 배포 분리"
+    },
+    {
+      "id": "AC41",
+      "requirement": "인증·최소 환경·비밀 경계",
+      "implementation": [
+        "backend/ai.py",
+        "backend/security.py",
+        "backend/auth.py",
+        "server/ai/src/runtime-config.js",
+        "server/ai/src/provider.js",
+        "server/ai/src/codex-provider.js",
+        "server/ai/src/deployed-provider.js",
+        "server/ai/src/evidence-contract.js"
+      ],
+      "tests": [
+        "tests/test_api.py",
+        "tests/test_security.py",
+        "server/ai/test/runtime-config.test.js",
+        "server/ai/test/provider.test.js",
+        "server/ai/test/codex-provider.test.js",
+        "server/ai/test/deployed-provider.test.js",
+        "server/ai/test/evidence-contract.test.js"
+      ],
+      "evidence": [
+        "ai_tests",
+        "code_review",
+        "openai"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "최종 AI 회귀와 실제 OAuth 오류·비밀 비노출 점검"
+    },
+    {
+      "id": "AC42",
+      "requirement": "Windows·기록·독립 strict",
+      "implementation": [
+        "backend/server.py"
+      ],
+      "tests": [
+        "tests/test_live_verifier.py",
+        "tests/test_session_export.py"
+      ],
+      "evidence": [
+        "blocked",
+        "native",
+        "omx_plan",
+        "omx_source",
+        "architecture",
+        "cleanup"
+      ],
+      "final_acceptance": "PENDING",
+      "remaining": "cleaner→최종 회귀→독립 두 리뷰→실제 OMX strict; 연속 실행 보장 아님"
+    }
+  ],
+  "deferred_event_criteria": [
+    "AC17",
+    "AC18",
+    "AC19",
+    "AC20",
+    "AC21",
+    "AC22"
+  ],
+  "blockers": [
+    "SUPABASE_SCHEMA_AND_USER_RLS",
+    "LIVE_NEW_UPLOAD_AND_PROCESS_RESTART",
+    "LOCAL_CODEX_OAUTH_PRODUCT_CALL",
+    "FINAL_CLEANER_INDEPENDENT_REVIEWS_OMX_STRICT",
+    "FINAL_RAW_SESSION_RESULT_QUALIFICATION"
+  ],
+  "pending_gate": "ops/verification/preauth-20260922/quality-gate.pending.json",
+  "raw_session_snapshots": [
+    {
+      "path": "ops/sessions/01a0c294-1149-70e2-8a8a-c9634b1f450f/20260922T015720318544+0900-segment-001/rollout.raw.jsonl",
+      "sha256": "69134c3267dba68e2beaf48c98a21e78f5d076209f1b365c1685bac9a452c2b4",
+      "events": 1782,
+      "segment_sequence": 1,
+      "active_snapshot": true,
+      "final_result_assessed": false
+    },
+    {
+      "path": "ops/sessions/01a0c294-1149-70e2-8a8a-c9634b1f450f/20260922T015720318544+0900-segment-002/rollout.raw.jsonl",
+      "sha256": "ca45a971dd1c8221fe5344aa32af9affff38e4f82ba76d9c0dba535434dc4ee8",
+      "events": 32,
+      "segment_sequence": 2,
+      "active_snapshot": true,
+      "final_result_assessed": false
+    },
+    {
+      "path": "ops/sessions/01a0c294-1149-70e2-8a8a-c9634b1f450f/20260922T015720318544+0900-segment-003/rollout.raw.jsonl",
+      "sha256": "bb8b3b2f3d55fdd547be6ae3fd0c4083b4835f654af91778665bb5839f3dd3ae",
+      "events": 5945,
+      "segment_sequence": 3,
+      "active_snapshot": true,
+      "final_result_assessed": false
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "browser",
+      "path": "ops/runtime/browser-report-2026-09-21T16-01-55-875Z.json",
+      "sha256": "325043df1d45af9a0857b2a660dbd9ac00c8d457b0f6da4b042795fada6fa8be",
+      "boundary": "TEST_STORAGE_INJECTED; 26 checks, historical execution"
+    },
+    {
+      "id": "office",
+      "path": "ops/runtime/browser-workbook-20260921T160337Z.json",
+      "sha256": "f45d9ee287122d9e454f9c7463d33a78af1745a0650b1fb01546c7e21c9022af",
+      "boundary": "TEST_STORAGE_INJECTED; 16 reopen checks, historical execution"
+    },
+    {
+      "id": "layout",
+      "path": "ops/runtime/output-layout-verification.json",
+      "sha256": "6e935eed51a489efb7929232d9c452493c9ee11d5627094110cd045ff4788030",
+      "boundary": "ROOT_RECORDED_OUTPUT_REVIEW; prior140 tests/2warnings, not rerun in this task"
+    },
+    {
+      "id": "mixed",
+      "path": "ops/runtime/browser-mixed-upload-2026-09-21T13-28-04-176Z.json",
+      "sha256": "f7a5b3c5c2d4a7a274d335ff6234e07fa7a2814773d01784c08d884be16c2b95",
+      "boundary": "TEST_STORAGE_INJECTED; 10 mixed-upload checks"
+    },
+    {
+      "id": "scope",
+      "path": "ops/runtime/browser-search-scope-2026-09-21T14-33-57-842Z.json",
+      "sha256": "08e6a6ee2dbf99fded6a16bcb3e4d74e230ade055b5937a7c5f6215a72a2cf4b",
+      "boundary": "TEST_STORAGE_INJECTED; 7 search-scope checks"
+    },
+    {
+      "id": "slides",
+      "path": "ops/runtime/browser-slide-limits-2026-09-21T14-15-04-961Z.json",
+      "sha256": "e1fddadd996d584991c253c8d3ef33bc5111f8526c093889b633c6a4b1c77a2e",
+      "boundary": "TEST_STORAGE_INJECTED; 9 slide-limit checks"
+    },
+    {
+      "id": "profiles",
+      "path": "ops/runtime/browser-provider-profiles-2026-09-21T15-07-45-436Z.json",
+      "sha256": "c64303ce92f0518d2c00cf35e6625b9db0236b5fd3fb9b403b2d7aa5572af5e2",
+      "boundary": "TEST_STORAGE_INJECTED; 6 profile checks"
+    },
+    {
+      "id": "mobile",
+      "path": "ops/runtime/browser-mobile-core-2026-09-21T15-07-50-276Z.json",
+      "sha256": "247a7a8f1a782b3b9f7e5d7c692de6e1de9efe6325e21661c28401448894546a",
+      "boundary": "TEST_STORAGE_INJECTED; 9 mobile checks"
+    },
+    {
+      "id": "openai",
+      "path": "ops/runtime/product-openai-usage-20260921T124924Z.json",
+      "sha256": "6b9a5bf759dbe19715bb24fce481019c0ed445a9dc5a28581d8215c945a38927",
+      "boundary": "ACTUAL_OPENAI_API_KEY_CALL; TEST_STORAGE_INJECTED and SYNTHETIC_TEST_APPROVAL; not OAuth/DB proof"
+    },
+    {
+      "id": "auth",
+      "path": "ops/runtime/product-auth-live-20260921T133655Z.json",
+      "sha256": "19bc79c3f7a31b38addc90a6efc9be20529e58495cd52624ace56cd765c8db09",
+      "boundary": "ACTUAL_SUPABASE_AUTH; not DB/Storage/OAuth proof"
+    },
+    {
+      "id": "bucket",
+      "path": "ops/runtime/supabase-bucket-configuration-20260921T135051Z.json",
+      "sha256": "e3c9d3d3281c013efb4ed6dd22d5bdba63858150c2625cffd505ee718261d49a",
+      "boundary": "ACTUAL_PRIVATE_BUCKET_CONFIGURATION; not user RLS proof"
+    },
+    {
+      "id": "blocked",
+      "path": "ops/runtime/external-blocker-audit.json",
+      "sha256": "6af5ba8c6f4438a23ec4ec620f1939c59a7ec715b1f3df761709dea0f1210f03",
+      "boundary": "ACTUAL_LAST_AUTH_CHECKS; PENDING_SCHEMA and NOT_LOGGED_IN, not fresh service recheck"
+    },
+    {
+      "id": "originals",
+      "path": "ops/runtime/original-integrity-current.json",
+      "sha256": "4f6d7745fe49bef3dfdfaa2dd1fffc3c1aae572331e4789e1323c222136591ab",
+      "boundary": "ORIGINAL_BYTES_HASH_ONLY; prior398-file audit, no source content input"
+    },
+    {
+      "id": "raw_index",
+      "path": "ops/runtime/latest-export-summary.json",
+      "sha256": "62ebb5be7418556f3fa3ecbcba6e15da56875a583f3b5c9332b49a03a7a21efa",
+      "boundary": "ACTUAL_ACTIVE_SESSION_SNAPSHOTS; not final submission qualification"
+    },
+    {
+      "id": "native",
+      "path": "ops/runtime/native-goal-current.json",
+      "sha256": "8293306c27483fa6fc6dc302f08d7d53aac49b2a4612fa00fdd9eecfbe09e1c8",
+      "boundary": "ACTUAL_GET_GOAL_RESPONSE; blocked, not complete"
+    },
+    {
+      "id": "entered",
+      "path": "ops/runtime/GOAL_ENTERED.md",
+      "sha256": "6abd3d24c3cb6b561f7bf7aebd6a7bf6e9033f1ac4e09e0735edd5e3c767f297",
+      "boundary": "PRESERVED_ACTUAL_GOAL_ATTACHMENT; current contract"
+    },
+    {
+      "id": "ai_tests",
+      "path": "ops/runtime/ai-component-checkpoint.json",
+      "sha256": "64befe12fc427baa023b4122b701544ab81a73bc37caea4619bc48c5fa703830",
+      "boundary": "RECORDED_AI_COMPONENT_CHECKPOINT; test source and later review also required"
+    },
+    {
+      "id": "acceptance",
+      "path": "docs/ACCEPTANCE_REVIEW.md",
+      "sha256": "873041afb814bc2e4ee971388013478345e42137284f5bd34a62cd9a3ee6b70c",
+      "boundary": "HISTORICAL_SCOPED_REVIEW; not final live-dependent APPROVE/CLEAR"
+    },
+    {
+      "id": "code_review",
+      "path": "docs/CODE_REVIEW.md",
+      "sha256": "ecffa1911b55666535b4c7651051833b2cfcb306b3a0c1bf684d5a3130b4e172",
+      "boundary": "HISTORICAL_SCOPED_REVIEW; not final live-dependent APPROVE/CLEAR"
+    },
+    {
+      "id": "architecture",
+      "path": "docs/ARCHITECTURE_REVIEW.md",
+      "sha256": "f939cf2f8e387c94884755aa72d4b78aa4fbdbdeb80e33ec19f6d51034720e81",
+      "boundary": "HISTORICAL_SCOPED_REVIEW; not final live-dependent APPROVE/CLEAR"
+    },
+    {
+      "id": "output_review",
+      "path": "docs/OUTPUT_REVIEW.md",
+      "sha256": "5aaacd59cf9e80a70b7e9749fd85a938c5223baed848b23eca7d13f61a1bc2a2",
+      "boundary": "HISTORICAL_SCOPED_REVIEW; not final live-dependent APPROVE/CLEAR"
+    },
+    {
+      "id": "cleanup",
+      "path": "docs/CLEANUP_REPORT.md",
+      "sha256": "4f6db589a6a6187862e7419995ab6f5a016359023a7eec19e290c32a2dfe86c9",
+      "boundary": "HISTORICAL_SCOPED_REVIEW; not final live-dependent APPROVE/CLEAR"
+    },
+    {
+      "id": "spec",
+      "path": "SPEC.md",
+      "sha256": "b284fa1287d733f940b9288b30d4a3b8277c1ce0f523fb04b3184f6efb5ce58f",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "agents",
+      "path": "AGENTS.md",
+      "sha256": "555f88386348f687c5caba592b7843613d26ebe596e973f0673247952e147e19",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "goal",
+      "path": "GOAL.md",
+      "sha256": "f9d37fef091fa5011090053525307f2f3174ad62d152e582f9ba06fcfa5a6820",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "goal_input",
+      "path": "ops/GOAL_INPUT.txt",
+      "sha256": "42b52155828edb83c05b0002ae1d38178b5712e6340efc7fc7ca06c3000efcf9",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "provider_contract",
+      "path": "docs/PROVIDER_AUTH.md",
+      "sha256": "bc3b1f98bd7e6ffa1e2c9a854c227cb9685c7678d959630881402d235f5077e3",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "runbook",
+      "path": "docs/RUNBOOK.md",
+      "sha256": "bc24cb743e05174c8643bc41cf92d7e073485ee4a96e08bec2954cb2b39886f4",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "browser_runbook",
+      "path": "tests/ui/browser_README.md",
+      "sha256": "2eae6cdfed0cdc17cff369938e314cca66c477b9dcfaad24d646e93dfc880f10",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "dependencies",
+      "path": "docs/DEPENDENCIES.md",
+      "sha256": "834faf695a4268a095a49dc57bf7d48aacd58f90481ea642f71c7ffc828f0318",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "capabilities",
+      "path": "docs/CAPABILITIES.md",
+      "sha256": "1ffbb7e81126dc4ad7bc6ece508b3c4eafe9d5d00d79b7463d04ff58f578358a",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "omx_source",
+      "path": "tools/omx/node_modules/oh-my-codex/dist/ultragoal/artifacts.js",
+      "sha256": "41e8bb99dde45f0988174041ca8c371ea4e838be99166fe021393c46734e6fa1",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "omx_brief",
+      "path": ".omx/ultragoal/brief.md",
+      "sha256": "f839c9b3fd4731f1f641163f1a67cc31617580c191165c47e07d0fc68537e492",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "omx_plan",
+      "path": ".omx/ultragoal/goals.json",
+      "sha256": "495820c26f649a296141a1359961b6541fbcb90f08df228459c1a0b9532b472a",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "omx_ledger",
+      "path": ".omx/ultragoal/ledger.jsonl",
+      "sha256": "24d15fed7d3d937ed6366ad48152458de342e2852ca6c3d1bd251e114ee6930a",
+      "boundary": "CONTRACT_OR_IMPLEMENTATION_SNAPSHOT; presence/hash is not execution proof"
+    },
+    {
+      "id": "source_1",
+      "path": "backend/ai.py",
+      "sha256": "803de95bb1e44c776633e124e053a9c8c2034b2eef09299ae95e1ae5daf40ff5",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_2",
+      "path": "backend/analysis.py",
+      "sha256": "ef5e58da1f52bc496dfd815775885fd71336f74621b16f3f58ca9c96e7c1e90a",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_3",
+      "path": "backend/auth.py",
+      "sha256": "c23aadbc66b1d01902a949454b908c08f31946270c8ba484d70101170359a983",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_4",
+      "path": "backend/drafts.py",
+      "sha256": "5065b9328cbbf73836619ce55457d56fac9405cc4f65b40a509270ea0f098ba6",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_5",
+      "path": "backend/exports.py",
+      "sha256": "1a2512508b13ab911503d4b2ef657c935f5c74598695b833043b726eb406210b",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_6",
+      "path": "backend/extraction.py",
+      "sha256": "400746e333ce47fde943524687ccd64c32365365ee70fef89ef1906fb9435179",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_7",
+      "path": "backend/security.py",
+      "sha256": "1c10522f9b1500dbb4afad98e666523786b7bf40243b2c2063975d38048258b1",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_8",
+      "path": "backend/server.py",
+      "sha256": "89e460e756d4b65b2e4a469d2ca20445bd142dfca3d521d38fa2dda6f2411800",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_9",
+      "path": "backend/storage.py",
+      "sha256": "19e2636494e4fea39f7f5a0258300a7dc54f8960b69bfbf1ccce407e815f689b",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_10",
+      "path": "backend/templates.py",
+      "sha256": "1feb7c9e4159b058fe314e0f8d4bc1b7e073d399676467402ce90a34bd2f25d8",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_11",
+      "path": "frontend/app.js",
+      "sha256": "e3755c3e213f365beca7d98a8f67673becdc24f3117a11bc243fe83b0c2fd7c7",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_12",
+      "path": "ops/export_session.py",
+      "sha256": "43f49c08faea5073a5f4fa8a3c8311691fa26e873519b0fc3b6b8833c4356991",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_13",
+      "path": "ops/runtime/supabase_live_verify.py",
+      "sha256": "787ef52ec6c22eb9ca31614d0ad6913bb302d4ec4dc9528b6e00f1a930f0aa40",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_14",
+      "path": "ops/verify_evidence_bundle.py",
+      "sha256": "223f6cd93275e630b5f31f503dfdc7d21835b7aaa7f636a0ea9015c74ad5ff39",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_15",
+      "path": "requirements-dev.txt",
+      "sha256": "86083a12fab36857cf6ac4f6946656408ebed0f1ae64e5f52bdf85175525ef6a",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_16",
+      "path": "requirements.txt",
+      "sha256": "4cd24b051159406842336269058a4099f094f7a44d4e16d5608ebfa931a9f7c2",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_17",
+      "path": "server/ai/package-lock.json",
+      "sha256": "e50ae45b0b36eba740109d0fe5d6ed4d9d0ccd08c96cf13196890b9cf4b0ee06",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_18",
+      "path": "server/ai/src/codex-provider.js",
+      "sha256": "200d91c0cac6fcfe998b3a8928aa49e2e150ab7ad8c640d38c4010eb697d6fb3",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_19",
+      "path": "server/ai/src/deployed-provider.js",
+      "sha256": "cac558db8d8eaa188931f23d883a3e3b47f76d8d93fb7bede71d15a11a7de774",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_20",
+      "path": "server/ai/src/evidence-contract.js",
+      "sha256": "5fd771d8111fd4461314c8abfaba25ee5f9340b66eacec43c96d5f86aef79b79",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_21",
+      "path": "server/ai/src/provider.js",
+      "sha256": "6d04afae2e5690964d617b12db4203c56d4ccdbbbc6725faab4b4889b6fdfb46",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_22",
+      "path": "server/ai/src/runtime-config.js",
+      "sha256": "cfd5a291be084f137654135331e2eee8ff80991d5579d4aec83410305d858e51",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_23",
+      "path": "server/ai/test/codex-provider.test.js",
+      "sha256": "91afbc05fd9073f24b6e2a1398acd005872198b177806d4e5c8a74510e063c83",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_24",
+      "path": "server/ai/test/deployed-provider.test.js",
+      "sha256": "4ee275797dfa37a511327667b7ca951e3b5882ead25e662dbf7f787faf3c2be8",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_25",
+      "path": "server/ai/test/evidence-contract.test.js",
+      "sha256": "100aac7d6a40a6f55b38375dd0431d6e3fce30397d732952d56b2508da334c78",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_26",
+      "path": "server/ai/test/provider.test.js",
+      "sha256": "3f729c70fbbae1b0e597c08250c8e3f7da6754501848cca3a4caf676d4bb8e17",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_27",
+      "path": "server/ai/test/runtime-config.test.js",
+      "sha256": "b0f02732aeb1f18475fd054ce5b9865c8dfd4e0943f6f6db032ebcf2ff74a502",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_28",
+      "path": "supabase/migrations/20260921210000_rebuild_agent_storage.sql",
+      "sha256": "46dc26088d826a5cc12cbf7091a5489c1fba13cd4e9de7381c55189849a0f431",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_29",
+      "path": "tests/test_acceptance_boundaries.py",
+      "sha256": "32768b539b2b4372148c2174c0d7bd914f627172326c84850749006931f3f537",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_30",
+      "path": "tests/test_analysis.py",
+      "sha256": "750349dbc3b27a02598f9215026f50a0200b6ef01821b29f221dffe712290161",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_31",
+      "path": "tests/test_api.py",
+      "sha256": "d7f6c5b07afc308bd1ddd4144156bdd689f61ac02e6a4591899075e8de9d0194",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_32",
+      "path": "tests/test_exports.py",
+      "sha256": "7f870542f58334939ff1162e2b432d05a531b759d5d6b84f29b6ba316289fcac",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_33",
+      "path": "tests/test_extraction.py",
+      "sha256": "ae3a5ee9cc273fd59c4367464977d362a7f2b35093d2409f78bd7ec08a878fad",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_34",
+      "path": "tests/test_live_verifier.py",
+      "sha256": "8d12302a32fc12c11695a66ddc8847b053ec27f180a15767b98539afac8874c1",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_35",
+      "path": "tests/test_profiles.py",
+      "sha256": "da2445990fd7981eae7edeac546f04a0f3c0222cde2f4ba57362bfa841ec2abb",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_36",
+      "path": "tests/test_review_regressions.py",
+      "sha256": "b85355a8d646c3ce32017d35b4ed3e8a8c800ace3bedb11dec6d6e0474c83760",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_37",
+      "path": "tests/test_security.py",
+      "sha256": "1dbf1d6e46e5c2de508b75a8d9243ccf068e472619a2db34e46fc37c3d19929d",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_38",
+      "path": "tests/test_session_export.py",
+      "sha256": "6797de0d0e2408a6f78483b703219fd26eba239d7fc22a8d596254a0b1878f76",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_39",
+      "path": "tests/test_slide_layout.py",
+      "sha256": "46a12b6ba2bf8a6c53540cb29728da53c94ee2f224a0c8fd5fe121477e9252c2",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_40",
+      "path": "tests/test_storage.py",
+      "sha256": "36c6d4cdee310a30bc00eff318bc9e3a4426eef715b5f8c90581ab2440291b9e",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_41",
+      "path": "tests/test_templates.py",
+      "sha256": "8abefa851cd1541363834347f1159860fb46f64ee9b58895e03faf9d114dc6be",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "source_42",
+      "path": "tools/omx/package-lock.json",
+      "sha256": "cd21c61124d7cb21d956ec04e02d2fc60c76f74f25dfa9dd125564713ff24e39",
+      "boundary": "IMPLEMENTATION_OR_TEST_SOURCE_ONLY; existence is not a passing execution"
+    },
+    {
+      "id": "output_asset_1",
+      "path": "ops/runtime/xlsx-real-ac35-itb-fixed.png",
+      "sha256": "f7fd20b8384197197983daddfee5d0bf7502574006e83af45f242e8d0c13cf11",
+      "boundary": "EXISTING_ACTUAL_OFFICE_OR_RENDER; no raw source corpus; scoped layout evidence"
+    },
+    {
+      "id": "output_asset_2",
+      "path": "ops/runtime/xlsx-real-ac35-risk-before-fix.png",
+      "sha256": "65ed9b163c8d7db13a28b31ce0993b07af74af0d7f1099c5964c1219edba02fb",
+      "boundary": "EXISTING_ACTUAL_OFFICE_OR_RENDER; no raw source corpus; scoped layout evidence"
+    },
+    {
+      "id": "output_asset_3",
+      "path": "ops/runtime/xlsx-real-ac35-risk-fixed.png",
+      "sha256": "c393b2653d292b62fa215f257eb8bba642b68393ec175128328945024590e17f",
+      "boundary": "EXISTING_ACTUAL_OFFICE_OR_RENDER; no raw source corpus; scoped layout evidence"
+    },
+    {
+      "id": "output_asset_4",
+      "path": "ops/runtime/xlsx-real-ac35-risk-final.png",
+      "sha256": "ae034a3949e840295a63ebc7634b6249ae5b0e29c899a3326081ee811aa0a8d8",
+      "boundary": "EXISTING_ACTUAL_OFFICE_OR_RENDER; no raw source corpus; scoped layout evidence"
+    },
+    {
+      "id": "output_asset_5",
+      "path": "ops/runtime/xlsx-real-ac35-itb-final.xlsx",
+      "sha256": "908cb740334064919ace40577598f4c7edbba9be54f1496744992d0affdc3b4f",
+      "boundary": "EXISTING_ACTUAL_OFFICE_OR_RENDER; no raw source corpus; scoped layout evidence"
+    },
+    {
+      "id": "output_asset_6",
+      "path": "ops/runtime/xlsx-real-ac35-risk-final.xlsx",
+      "sha256": "dec701b2ef0fa653d98e0cd27e6ee0bad1c4ceb6598d565a6d23b8178dd64e3b",
+      "boundary": "EXISTING_ACTUAL_OFFICE_OR_RENDER; no raw source corpus; scoped layout evidence"
+    },
+    {
+      "id": "pending_gate",
+      "path": "ops/verification/preauth-20260922/quality-gate.pending.json",
+      "sha256": "5e79103df9fad30de47e707018851e8fd27fc5c8263bc3b91b6e6880ada95d0f",
+      "boundary": "INTENTIONALLY_NONPASSING_OMX_INPUT_TEMPLATE; strict gate not executed"
+    },
+    {
+      "id": "verification_guide",
+      "path": "docs/FINAL_VERIFICATION.md",
+      "sha256": "eb37af5f7e87e85c8e44b2b3964117aca70c588d1389ff7c8760d76fbcdbd3c8",
+      "boundary": "PRE_AUTH_ACCEPTANCE_MAP_AND_POST_AUTH_RUNBOOK"
+    },
+    {
+      "id": "fresh_native",
+      "path": "ops/verification/preauth-20260922/native-goal.json",
+      "sha256": "8293306c27483fa6fc6dc302f08d7d53aac49b2a4612fa00fdd9eecfbe09e1c8",
+      "boundary": "FRESH_ACTUAL_GET_GOAL; remains blocked"
+    },
+    {
+      "id": "fresh_raw_index",
+      "path": "ops/verification/preauth-20260922/session-snapshot.json",
+      "sha256": "eaa2fb7eba9f80d6b74ad6bc738fe29c98005b4ed15a3eccf4d498e529a7787d",
+      "boundary": "ACTUAL_SEPARATE_ACTIVE_RAW_SNAPSHOTS; final result not assessed"
+    },
+    {
+      "id": "additional_source_1",
+      "path": "ops/omx.mjs",
+      "sha256": "fb7e3dac03445cd72d60464e00b5a95e39737623ad19af6f04380784cbf06801",
+      "boundary": "SOURCE_ONLY; execution evidence is separate"
+    },
+    {
+      "id": "additional_source_2",
+      "path": "ops/python.ps1",
+      "sha256": "bd42c344fbc376602d047510437ff51aeda0118bf7454d6abb5fb6533e965a24",
+      "boundary": "SOURCE_ONLY; execution evidence is separate"
+    },
+    {
+      "id": "additional_source_3",
+      "path": "tests/ui/browser_flow.cjs",
+      "sha256": "866691ea2afe0a12159ebbbc0081699b4127094e977b4e70fd84fa60d4fc71d3",
+      "boundary": "SOURCE_ONLY; execution evidence is separate"
+    },
+    {
+      "id": "additional_source_4",
+      "path": "tests/ui/browser_provider_profiles.cjs",
+      "sha256": "6278af322a68efcd6ee2187c6fc133f76920a710b6524d9becef8d9f047cad5e",
+      "boundary": "SOURCE_ONLY; execution evidence is separate"
+    },
+    {
+      "id": "additional_source_5",
+      "path": "tests/ui/browser_search_scope.cjs",
+      "sha256": "f1ee61b3f8d51aa47c7b0751ee4c905595f298425b71b2fec51c18492292c674",
+      "boundary": "SOURCE_ONLY; execution evidence is separate"
+    },
+    {
+      "id": "additional_source_6",
+      "path": "tests/ui/run_browser.py",
+      "sha256": "ad7f2449ea293fa4d03781ec3016fc62a11ae792567adcb8fa3b478641673520",
+      "boundary": "SOURCE_ONLY; execution evidence is separate"
+    },
+    {
+      "id": "additional_source_7",
+      "path": "tests/ui/browser_workbook.py",
+      "sha256": "cf327c662228d9db2e382b13b0dd43213314cbbd19441a39c093cd4ab6346c04",
+      "boundary": "SOURCE_ONLY; execution evidence is separate"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "status": "BLOCKED",
+  "scope": "PRE_AUTH_EVIDENCE_PREPARATION",
+  "product_criteria": 36,
+  "deferred_event_criteria": 6,
+  "hashed_artifacts": 94,
+  "product_complete": false,
+  "omx_strict_executed": false,
+  "blockers": [
+    "SUPABASE_SCHEMA_AND_USER_RLS",
+    "LIVE_NEW_UPLOAD_AND_PROCESS_RESTART",
+    "LOCAL_CODEX_OAUTH_PRODUCT_CALL",
+    "FINAL_CLEANER_INDEPENDENT_REVIEWS_OMX_STRICT",
+    "FINAL_RAW_SESSION_RESULT_QUALIFICATION"
+  ]
+}

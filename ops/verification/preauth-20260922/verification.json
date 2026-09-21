@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "scope": "PRE_AUTH_EVIDENCE_PREPARATION",
+  "product_criteria": 36,
+  "deferred_event_criteria": 6,
+  "hashed_artifacts": 94,
+  "product_complete": false,
+  "omx_strict_executed": false,
+  "raw_snapshots_verified": 3,
+  "bundle": {
+    "path": "ops/exports/REBuild-Agent-preauth-evidence-20260922.zip",
+    "sha256": "a4c64af78e73026a552ea590cc6c6e3960cdd6c56e1f77a0214d0c4816bcfab3",
+    "files": 95,
+    "reopened": true,
+    "raw_sessions_included": false
+  }
+}
