@@ -26,3 +26,9 @@ ops/checkpoints/
 
 # Evaluator material is never part of product or public source.
 data/REBUILD_EVALUATOR_v1/
+
+
+# Project-local Codex OAuth, private subprocess artifacts and test runs
+ops/private/
+server/ai/.codex/
+server/ai/coverage/

@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-21T19:30:12.678356+09:00",
+  "checks": {
+    "goal_codeblock_matches": true,
+    "within_4000_LF": true,
+    "within_4000_CRLF": true,
+    "harness_matches": true,
+    "all_pending": true,
+    "latest_name": true,
+    "required_paths": true,
+    "env_template_blank_secret": true
+  },
+  "passed": 8,
+  "failed": 0,
+  "objective_characters": 3922,
+  "sha256": "42b52155828edb83c05b0002ae1d38178b5712e6340efc7fc7ca06c3000efcf9",
+  "independent_review": "goal_review reviewed; official API URL and controlled error testing clarified; historical event-story scope explicitly superseded in HARNESS",
+  "native_goal_started": false,
+  "preparation": "14 PASS, 1 FAIL (pre-existing global Codex config drift); original 398 files unchanged; smoke canonical-path migration investigated and stable on rerun",
+  "doctor": "17 PASS, 3 WARN, 0 FAIL under normal user permissions; sandbox native process identity unavailable"
+}

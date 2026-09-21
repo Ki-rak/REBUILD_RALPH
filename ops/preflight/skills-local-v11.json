@@ -1,0 +1,23 @@
+[
+  {
+    "name": "openai-docs",
+    "source": "C:/Users/GS/.codex/skills/.system/openai-docs",
+    "destination": "D:\\REBUILD_RALPH\\.codex\\skills\\openai-docs",
+    "sha256": "8CE8021101BCEA594FF92EE6CFD8CA7641A49EE66D7BC6070555F1A33FC239D9",
+    "status": "COPIED_LOCAL_SKILL_NOT_EXTERNAL_PLUGIN"
+  },
+  {
+    "name": "ui-ux-pro-max",
+    "source": "C:/Users/GS/.agents/skills/ui-ux-pro-max",
+    "destination": "D:\\REBUILD_RALPH\\.codex\\skills\\ui-ux-pro-max",
+    "sha256": "88AADD21220542083A455E373BD162FFE7843266A71F06F4D837BB3B34F9C9C7",
+    "status": "COPIED_LOCAL_SKILL_NOT_EXTERNAL_PLUGIN"
+  },
+  {
+    "name": "verification-before-completion",
+    "source": "C:/Users/GS/.agents/skills/verification-before-completion",
+    "destination": "D:\\REBUILD_RALPH\\.codex\\skills\\verification-before-completion",
+    "sha256": "2BEFE7FC55BCADAA3D97DD9E8EFEB633D2561C0EBE74C5A8B17C4D9E7E4520B3",
+    "status": "COPIED_LOCAL_SKILL_NOT_EXTERNAL_PLUGIN"
+  }
+]

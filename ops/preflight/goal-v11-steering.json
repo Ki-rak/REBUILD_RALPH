@@ -1,0 +1,102 @@
+[
+  {
+    "id": "G001-source-intake",
+    "exit": 0,
+    "accepted": true,
+    "audit": {
+      "kind": "revise_pending_wording",
+      "source": "cli",
+      "targetGoalId": "G001-source-intake",
+      "targetGoalIds": [
+        "G001-source-intake"
+      ],
+      "evidence": "Latest user /goal revision + UI06 + actual AI authentication split; GOAL.md v1.1; SPEC AC39-42",
+      "rationale": "Apply explicit latest user scope before execution, preserving completion requirements and history.",
+      "idempotencyKey": "goal-v11-G001-source-intake",
+      "accepted": true,
+      "rejectedReasons": [],
+      "deduped": false
+    },
+    "rejectedReasons": []
+  },
+  {
+    "id": "G002-evidence-comparison",
+    "exit": 0,
+    "accepted": true,
+    "audit": {
+      "kind": "revise_pending_wording",
+      "source": "cli",
+      "targetGoalId": "G002-evidence-comparison",
+      "targetGoalIds": [
+        "G002-evidence-comparison"
+      ],
+      "evidence": "Latest user /goal revision + UI06 + actual AI authentication split; GOAL.md v1.1; SPEC AC39-42",
+      "rationale": "Apply explicit latest user scope before execution, preserving completion requirements and history.",
+      "idempotencyKey": "goal-v11-G002-evidence-comparison",
+      "accepted": true,
+      "rejectedReasons": [],
+      "deduped": false
+    },
+    "rejectedReasons": []
+  },
+  {
+    "id": "G003-approved-itb-output",
+    "exit": 0,
+    "accepted": true,
+    "audit": {
+      "kind": "revise_pending_wording",
+      "source": "cli",
+      "targetGoalId": "G003-approved-itb-output",
+      "targetGoalIds": [
+        "G003-approved-itb-output"
+      ],
+      "evidence": "Latest user /goal revision + UI06 + actual AI authentication split; GOAL.md v1.1; SPEC AC39-42",
+      "rationale": "Apply explicit latest user scope before execution, preserving completion requirements and history.",
+      "idempotencyKey": "goal-v11-G003-approved-itb-output",
+      "accepted": true,
+      "rejectedReasons": [],
+      "deduped": false
+    },
+    "rejectedReasons": []
+  },
+  {
+    "id": "G004-complete-product-flow",
+    "exit": 0,
+    "accepted": true,
+    "audit": {
+      "kind": "revise_pending_wording",
+      "source": "cli",
+      "targetGoalId": "G004-complete-product-flow",
+      "targetGoalIds": [
+        "G004-complete-product-flow"
+      ],
+      "evidence": "Latest user /goal revision + UI06 + actual AI authentication split; GOAL.md v1.1; SPEC AC39-42",
+      "rationale": "Apply explicit latest user scope before execution, preserving completion requirements and history.",
+      "idempotencyKey": "goal-v11-G004-complete-product-flow",
+      "accepted": true,
+      "rejectedReasons": [],
+      "deduped": false
+    },
+    "rejectedReasons": []
+  },
+  {
+    "id": "G005-expansion-and-submission",
+    "exit": 0,
+    "accepted": true,
+    "audit": {
+      "kind": "revise_pending_wording",
+      "source": "cli",
+      "targetGoalId": "G005-expansion-and-submission",
+      "targetGoalIds": [
+        "G005-expansion-and-submission"
+      ],
+      "evidence": "Latest user /goal revision + UI06 + actual AI authentication split; GOAL.md v1.1; SPEC AC39-42",
+      "rationale": "Apply explicit latest user scope before execution, preserving completion requirements and history.",
+      "idempotencyKey": "goal-v11-G005-expansion-and-submission",
+      "accepted": true,
+      "rejectedReasons": [],
+      "deduped": false
+    },
+    "rejectedReasons": []
+  }
+]

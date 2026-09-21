@@ -1,6 +1,6 @@
 # RE:Build Agent 실행 계획
 
-상태: 16:52 KST 설치 검증 완료 / SPEC v0.9. Supabase·Vercel 확정, 사내 SSO/LLM 실제 연결은 추후 결정. writing-plans 절차로 선행조건과 검증을 분리했다. 제품 구현은 승인된 SPEC과 17:30 /goal 인계 후 시작한다.
+상태: v1.1. 최신 UI06과 AI 인증 분리 반영. 전체 goal 미시작; 인증 adapter는 별도 사용자 지시로 구현 중. 17:00/17:30 예정 시각 경과를 실제 제출/Hands-off로 간주하지 않는다.
 
 ## 현재 완료된 준비
 
@@ -80,7 +80,7 @@
 
 ### M5. 기능 확장과 제품 완료 검증
 
-- [ ] P0 통과 후 Risk Register의 실제 점수/출처·수식 검증, 그래프·추가 자료 순으로 진행.
+- [ ] P0 통과 후 Risk Register의 근거 있는 강도 후보·출처·검토 상태 검증, 그래프·추가 자료 순으로 진행.
 - [ ] N02와 추가 조사 PDF는 별도 신규 프로젝트로 검증. 근거가 늘어도 설계 펌프량을 임의 확정하지 않음.
 - [ ] `README.md`, `KNOWN_LIMITATIONS.md`, 시연 순서, 검증 결과, 의존성·라이선스, 로그·세션 인덱스 포함.
 - [ ] 제출 패키지에서 키·인증·캐시·가상환경 제외, 원기록 별도 보존.
@@ -174,3 +174,15 @@ GOAL.md와 ops/GOAL_INPUT.txt의 자체 완결형 원문이 현재 실행 계약
 이번 요청은 UI 수정이다. GOAL.md·ops/GOAL_INPUT.txt·OMX 목표는 사용자 요청에 따라 수정하지 않았으며 후속 /goal 개정 시 최신 UI 계약을 반영해야 한다. 기존 goal의 명칭·화면 지시보다 이번 UI 지시가 우선한다. 이 시안은 백엔드·Supabase·LLM·최종 파일 생성 완료의 증거가 아니다.
 
 UI 06 검증 완료: 브라우저 38개 PASS / page error 0, 실제 양식 7개 byte 일치, 원본 무결성 PASS, GOAL/OMX 계획 hash 불변. 준비 점검의 공통 Codex 설정 기준선 차이는 별도 기록하며 UI 성공으로 덮어쓰지 않는다.
+
+
+## v1.1 실행 인계와 남은 실제 작업
+- [x] UI06 및 두 AI 인증 경로를 /goal 본문에 반영. 본문 4,000자 이하. 원본 보존.
+- [x] 공식 SDK/인증 문서와 설치 가능한 스킬·플러그인 상태 확인; OpenAI 문서/UI/검증 스킬 프로젝트 로컬 복사.
+- [ ] server/ai adapter 검증·독립 리뷰·로컬 작업 커밋 (결과는 STATE와 작업 로그 참조).
+- [ ] 공식 로컬 Codex OAuth 로그인 후 실제 호출; 배포용 key adapter 실제 호출. 준비·모의 검증과 구별.
+- [ ] 실제 제품 인입·추출·근거·Supabase DB/Storage/Auth/RLS·세 결과물·Provider 설정 화면에 연결.
+- [ ] 서로 다른 신규 업로드 E2E, 재사용/복구/권한/승인 무효화, 최종 strict 검토.
+- [ ] 사용자가 실제 /goal 입력하면 현재 시각/남은 시간에 맞춰 순서 조정. 이후 하네스 루프를 기능 완료까지 수행하되 마감만으로 완료 판정을 바꾸지 않음.
+
+검증 명령: `npm --prefix server/ai test`, `npm --prefix server/ai run status` (로그인 상태만), `npm --prefix server/ai run smoke` (실제 호출 시험; 존재/사용법은 server/ai README 확인). 전체 제품 E2E는 구현 후 실제 명령을 추가한다. 준비 검증 `python -X utf8 ops/verify_preparation.py`는 전체 제품 검증이 아니다. 기존 global config baseline 불일치는 해결 전까지 실패로 유지한다.

@@ -91,3 +91,8 @@ GOAL.md와 ops/GOAL_INPUT.txt의 자체 완결형 원문이 현재 실행 계약
 현재 UI 계약은 docs/UX_DECISIONS.md와 docs/ui-review/index.html이다. 지식조회로 명칭을 변경하고, 새 프로젝트 이름 아래 파일 업로드를 제공한다. ITB 분석표·심의장표·Risk Register의 초안·근거·검토·승인 흐름을 유지한다. 지식 자료실은 목록/관계 보기 전환 없이 기본 지식 연결 노드와 과거↔신규 비교 설명을 함께 보여준다. 데이터 관리에는 과거 프로젝트/문서 보유량과 새로 유입된 문서를 표시하고 실패/처리중 KPI와 등록 대상 섹션은 제거한다. 폴더 자료 확인·승인은 별도 작업에서 유지한다. 실제 양식 폴더는 data/REBUILD_INPUT_v1/REBUILD_INPUT_v1/03_OUTPUT_TEMPLATES이며 제공 7종을 표시한다.
 
 이번 요청은 UI 수정이다. GOAL.md·ops/GOAL_INPUT.txt·OMX 목표는 사용자 요청에 따라 수정하지 않았으며 후속 /goal 개정 시 최신 UI 계약을 반영해야 한다. 기존 goal의 명칭·화면 지시보다 이번 UI 지시가 우선한다. 이 시안은 백엔드·Supabase·LLM·최종 파일 생성 완료의 증거가 아니다.
+
+
+## /goal v1.1 — AI 인증 분리 (최신)
+GOAL.md와 ops/GOAL_INPUT.txt v1.1은 작성된 실행 계약이며 실제 /goal 입력과 다르다. 사용자는 이번에 server/ai 인증 경로의 실제 구현을 별도로 지시했다. 전체 제품 goal은 명시적 입력 전 시작하지 않는다. AI는 로컬 개발·로컬 데모에서 공식 Codex SDK/CLI ChatGPT OAuth, 배포용 서버에서 OpenAI API key로 분리한다. 로컬 API key 또는 배포 OAuth의 묵시적 fallback은 금지한다. 전용 프로젝트 인증 디렉터리와 최소 권한 실행 환경을 사용하고 OAuth 토큰을 직접 추출하지 않는다. 개인 구독을 공개 프록시로 제공하지 않는다. 환경·로그인 상태·모델 호출 성공·전체 제품 완성을 구별한다. AC39–42와 docs/PROVIDER_AUTH.md를 따른다. 기존 모든 환경 API-key 규정은 이 문단으로 대체한다. 기존 UI 수정 06의 goal 개정 보류는 이번 개정 요청으로 해소되었다.
+필요 도구는 프로젝트 범위로 검토·설치·사용하고 검증된 작업 단위 및 세션 전환마다 로컬 Git 커밋한다. 독립 구현/리뷰는 설치된 개발 스킬과 OMX 최종 strict gate에 따라 필요한 경우 수행한다. 배포·공개 푸시·행사 제출은 여전히 별도 요청까지 제외한다.

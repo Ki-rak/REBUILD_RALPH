@@ -1,0 +1,30 @@
+oh-my-codex doctor
+==================
+
+Resolved setup scope: project (from .omx/setup-scope.json)
+Resolved setup MCP mode: none (from .omx/setup-scope.json)
+
+  [OK] Codex CLI: installed (codex-cli 0.154.0)
+  [OK] Node.js: v24.15.0
+  [OK] Process identity: native process identity provider is ready
+  [OK] Explore Harness: skipped: omx explore is hard-deprecated and explore routing is disabled by default; use omx sparkshell for shell-native read-only evidence
+  [OK] Codex home: D:\REBUILD_RALPH\.codex
+  [OK] Config: config.toml has OMX entries
+  [!!] Native hooks: expected setup-owned hooks.json is missing at D:\REBUILD_RALPH\.codex\hooks.json even though config.toml has OMX entries; run "omx setup" to restore native hook coverage
+  [OK] Native hook dist smoke: installed dist/scripts/codex-native-hook.js parsed and accepted a minimal UserPromptSubmit payload
+  [OK] Explore routing: deprecated compatibility routing disabled by environment override (recommended)
+  [OK] Lore commit guard: disabled by default
+  [OK] Prompts: 31 agent prompts installed
+  [OK] Skills: 25 skills installed
+  [OK] Spark routing: lanes: frontier=`gpt-6-astra`, standard=`gpt-6-astra`, spark=`gpt-6-astra` (source: built-in default); Spark-lane native agent(s) wired: explore -> `gpt-6-astra`. If Spark quota is still unused, the leader may not be delegating read-only lookups to the Spark lane, or the Codex usage view may lag.
+  [!!] AGENTS.md: OMX AGENTS contract markers missing; file may have been overwritten by another tool. Run "omx setup --scope project --merge-agents" to preserve local guidance while restoring OMX-managed sections, or "omx setup --scope project --force" to replace it after backup. Path: D:\REBUILD_RALPH\AGENTS.md
+  [OK] State dir: D:\REBUILD_RALPH\.omx\state
+  [!!] State root/session binding: src=cwd-default ptr=absent; runtime binding unavailable: inherited CODEX_SESSION_ID has no OMX session pointer; no runtime authority verified
+  [OK] Repo artifact ownership: repo-local .omx/.beads artifacts are writable by the current user
+  [OK] Credential provenance: user auth.json will be seeded into the project launch home (no copy into the project)
+  [OK] MCP Servers: CLI-first default: no first-party OMX MCP servers configured
+  [OK] Prompt triage: config: enabled (default)
+
+Results: 17 passed, 3 warnings, 0 failed
+
+Review warnings above. Follow the check-specific recovery guidance; for AGENTS.md preservation prefer "omx setup --merge-agents".
