@@ -33,3 +33,9 @@
 종료 코드 0 및 PASSED, auth_login_verified, db_rls_verified, storage_rls_verified, logout_verified, cleanup_complete가 모두 참이어야 해당 검증이 통과다. PENDING_SCHEMA는 미완료다. 그 뒤 실제 제품에서 신규 업로드→근거→검토/승인→출력과 서버 재시작 후 지속성을 별도로 검증한다.
 
 키 값이나 인증 응답 본문을 보고서에 복사하지 않는다. .env와 ops/private는 Git에서 제외한다.
+
+## 실제 제품 HTTP 인증 검증
+
+2026-09-21 22:36 KST: 최신 로컬 제품 서버의 /api/auth/login, /me, /refresh, /logout을 실제 Supabase 시험 계정으로 실행했다. 로그인·본인 확인·세션 갱신·로그아웃·로그아웃 후 갱신 차단·잘못된 비밀번호 거부·인증 응답 no-store가 통과했고 시험 계정은 삭제했다.
+
+증거: ops/runtime/product-auth-live-20260921T133655Z.json. 재현 스크립트: ops/runtime/product_auth_live.py. 이는 실제 제품 HTTP 인증 성공이며 DB/Storage/RLS와 OAuth의 미완료 상태를 바꾸지 않는다.

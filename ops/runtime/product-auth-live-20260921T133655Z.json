@@ -1,0 +1,15 @@
+{
+  "at": "2026-09-21T13:36:51.276259+00:00",
+  "scope": "REAL_PRODUCT_HTTP_AUTH_WITH_REAL_SUPABASE",
+  "login": true,
+  "me": true,
+  "refresh": true,
+  "logout": true,
+  "refresh_revoked": true,
+  "response_no_store": true,
+  "invalid_credentials_rejected": true,
+  "cleanup_complete": true,
+  "db_storage_verified": false,
+  "oauth_verified": false,
+  "status": "PASS"
+}
