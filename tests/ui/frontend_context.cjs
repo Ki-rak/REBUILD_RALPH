@@ -51,7 +51,7 @@ function harness() {
   context.globalThis = context;
   const source = fs.readFileSync(path.join(__dirname,'../../frontend/app.js'),'utf8')
     .replace(/initialize\(\);\s*$/,'')
-    + '\nglobalThis.__test={state,runKnowledgeQuery:typeof runKnowledgeQuery==="function"?runKnowledgeQuery:null,setKnowledgeProject:typeof setKnowledgeProject==="function"?setKnowledgeProject:null,setKnowledgeMode:typeof setKnowledgeMode==="function"?setKnowledgeMode:null};';
+    + '\nglobalThis.__test={state,runKnowledgeQuery:typeof runKnowledgeQuery==="function"?runKnowledgeQuery:null,setKnowledgeScope:typeof setKnowledgeScope==="function"?setKnowledgeScope:null,setKnowledgeProject:typeof setKnowledgeProject==="function"?setKnowledgeProject:null,setKnowledgeMode:typeof setKnowledgeMode==="function"?setKnowledgeMode:null};';
   vm.createContext(context);
   vm.runInContext(source,context,{filename:'frontend/app.js'});
   return {context,listeners,resultRegion};
@@ -137,10 +137,47 @@ function testUnsubmittedQuestionSurvivesModeChange() {
   assert.equal(test.state.query,'unfinished question');
 }
 
+async function testScopeSwitchRejectsStaleResponse() {
+  const {context,resultRegion}=harness(),test=context.__test;
+  assert.equal(typeof test.setKnowledgeScope,'function');
+  test.state.project={id:'p1'};
+  const request=deferred(); let requested;
+  context.fetch=url=>{requested=url;return request.promise};
+  test.setKnowledgeScope('current');
+  const pending=test.runKnowledgeQuery('notice',resultRegion);
+  assert.match(requested,/scope=current/);
+  test.setKnowledgeScope('historical');
+  request.resolve(jsonResponse({results:[{title:'stale current result'}]}));
+  await pending;
+  assert.equal(test.state.result,null);
+  assert.equal(test.state.query,'notice');
+  assert.equal(test.state.searchScope,'historical');
+  assert.doesNotMatch(resultRegion.innerHTML,/stale current result/);
+}
+async function testScopePersistsAcrossModesAndBindsFreshResult() {
+  const {context,resultRegion}=harness(),test=context.__test;
+  assert.equal(typeof test.setKnowledgeScope,'function');
+  test.state.project={id:'p1'};
+  test.setKnowledgeScope('historical');
+  test.setKnowledgeMode('ai');
+  assert.equal(test.state.searchScope,'historical');
+  test.setKnowledgeMode('search');
+  let requested;
+  context.fetch=async url=>{requested=url;return jsonResponse({results:[{title:'past only'}]})};
+  await test.runKnowledgeQuery('notice',resultRegion);
+  assert.match(requested,/scope=historical/);
+  assert.equal(test.state.resultContext.scope,'historical');
+  assert.match(resultRegion.innerHTML,/past only/);
+  test.setKnowledgeScope('invalid');
+  assert.equal(test.state.searchScope,'historical','unsupported scope must be ignored');
+}
+
 (async()=>{
   await testProjectSwitchRejectsStaleResponse();
   await testModeSwitchPreservesQuestionAndRejectsStaleResponse();
   await testNewerQueryWinsWhenOlderPromiseResolvesLast();
   testUnsubmittedQuestionSurvivesModeChange();
-  console.log('frontend context isolation: 4 passed');
+  await testScopeSwitchRejectsStaleResponse();
+  await testScopePersistsAcrossModesAndBindsFreshResult();
+  console.log('frontend context isolation: 6 passed');
 })().catch(error=>{console.error(error);process.exitCode=1});
