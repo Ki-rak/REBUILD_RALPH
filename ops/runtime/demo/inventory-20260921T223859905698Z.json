@@ -1,0 +1,1167 @@
+{
+  "product": "RE:Build Agent",
+  "at": "2026-09-21T22:38:59.636197+00:00",
+  "scope": "USER_SELECTED_INPUT_PREPARATION",
+  "command": "inventory",
+  "status": "INVENTORY_ONLY",
+  "projects": [
+    {
+      "code": "P01",
+      "name": "P01_Haeon_Metro_Package_2",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P01_Haeon_Metro_Package_2/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39725,
+          "sha256": "0a71a19def1ea04eb8cd4cec6133a5c7b234d1e26f47fa77afea95332638c029"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P01_Haeon_Metro_Package_2/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39656,
+          "sha256": "5c82f5f65c132efd9c2200f0c54dcbf7cec9a82a864a53a32f32ac68051c87c5"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P01_Haeon_Metro_Package_2/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13905,
+          "sha256": "bf7963cbb6369fc41bbfd33a26609ff118e756d0a65f64aca88492210909cdf2"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P01_Haeon_Metro_Package_2/04_Closeout_Review.pptx",
+          "bytes": 21754,
+          "sha256": "2e356cdbcb1d361e020241c6528108d4bad0dcaadfcd462cc86b7cd0fd16c4a5"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P01_Haeon_Metro_Package_2/06_Interface_Meeting.md",
+          "bytes": 1143,
+          "sha256": "4709f9182769702c1fcbcf3037188fa149561872d7f26d7cf91ca9429cb07d5d"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P01_Haeon_Metro_Package_2/07_Contract_Correspondence.eml",
+          "bytes": 1020,
+          "sha256": "9123664f7f3a32a176b3c1404b7136ffedf8b2a2cd55f89ed63a4dfd56eeeb80"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P01_Haeon_Metro_Package_2/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "44621cb85e5b0f4136fd363dd3652247681c903112f11cfd03d65575c8f38500"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P01_Haeon_Metro_Package_2/09_Ground_and_Environmental_Log.txt",
+          "bytes": 662,
+          "sha256": "7c75514e69195fe390d7baece1c17399846d5b28afa2dcb4cb3472d0d857d92b"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P01_Haeon_Metro_Package_2/10_Archived_ITB_Analysis.csv",
+          "bytes": 568,
+          "sha256": "afe93bde2451af4ed67b3fac7a9780672bc7b0a936e51e69532a72a3f34ea31b"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P01_Haeon_Metro_Package_2/13_Field_Measurements.csv",
+          "bytes": 1100,
+          "sha256": "d2e7ea5455b2da552281562c9a6669d4919ee08407d335647df437c2c7433df7"
+        },
+        {
+          "name": "14_Lessons_Final_Archive_Copy.docx",
+          "path": "01_PAST_PROJECTS/P01_Haeon_Metro_Package_2/14_Lessons_Final_Archive_Copy.docx",
+          "bytes": 39725,
+          "sha256": "0a71a19def1ea04eb8cd4cec6133a5c7b234d1e26f47fa77afea95332638c029"
+        }
+      ]
+    },
+    {
+      "code": "P02",
+      "name": "P02_Unryeong_Mountain_Tunnel",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P02_Unryeong_Mountain_Tunnel/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39669,
+          "sha256": "8f74df65a58f605e8f8927345dfcbbafd615f6314ee382b727d1f4548af54bc5"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P02_Unryeong_Mountain_Tunnel/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39775,
+          "sha256": "6904d96420ca731252e2c90fd697614a4c1419a5cfd2cb9949e1435144054347"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P02_Unryeong_Mountain_Tunnel/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13823,
+          "sha256": "1f91d8e6860f2e10f563477ad5e8b7a2ea63bfef628212b500f08ef6c57468f7"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P02_Unryeong_Mountain_Tunnel/04_Closeout_Review.pptx",
+          "bytes": 21651,
+          "sha256": "b692f2d1268ce88b8cd9fcac930190043b02bcdefb4fe09b590cf2ed9d0150f9"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P02_Unryeong_Mountain_Tunnel/06_Interface_Meeting.md",
+          "bytes": 1075,
+          "sha256": "38811847e1e0bdf857df2a1657200d4e2483f175e509da59469ed6829cafe590"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P02_Unryeong_Mountain_Tunnel/07_Contract_Correspondence.eml",
+          "bytes": 968,
+          "sha256": "b1974407ced10d5bb0bb3d9f2971d7ef4e6288f19200d4435ff84760868e9818"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P02_Unryeong_Mountain_Tunnel/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "a5080395d1468c2469fcc75ff4d2cc3dffe86b9f378c8e02114e6931dc2a9b24"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P02_Unryeong_Mountain_Tunnel/09_Ground_and_Environmental_Log.txt",
+          "bytes": 675,
+          "sha256": "080a95680dc482df1a3705ce7d95447f401114a8aa2744b9c11e365d952a8852"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P02_Unryeong_Mountain_Tunnel/10_Archived_ITB_Analysis.csv",
+          "bytes": 550,
+          "sha256": "372133f521786d8f3213fc1d52c8aa4cdd2557cee9b5a2fdf6a926c564335fda"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P02_Unryeong_Mountain_Tunnel/13_Field_Measurements.csv",
+          "bytes": 1108,
+          "sha256": "e354ee9d1a17bec735781617f567d245fe3fe70dc166947d0f5a25f18f72c3be"
+        }
+      ]
+    },
+    {
+      "code": "P03",
+      "name": "P03_Seorim_Elevated_Transit",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P03_Seorim_Elevated_Transit/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39626,
+          "sha256": "86f4b9da112192e362e41223fc5621b6ae0471194b70cab7e41a3b6288a9e0b6"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P03_Seorim_Elevated_Transit/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39797,
+          "sha256": "13f5e0e13dfeb9cb5f60f6f2407fa481a9f516f53c220bd116439422436fa387"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P03_Seorim_Elevated_Transit/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13837,
+          "sha256": "37df4fa6b802106f0b8054ba2b474ce6c6d205b416e359e817e6816e8f9f20a6"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P03_Seorim_Elevated_Transit/04_Closeout_Review.pptx",
+          "bytes": 21631,
+          "sha256": "ef54c3c5d0927f03472534a13ae132b4c98a4e4e06f6a0c23a96b92d10500634"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P03_Seorim_Elevated_Transit/06_Interface_Meeting.md",
+          "bytes": 1081,
+          "sha256": "fcd5e470e86fd533f1330a11d312a1dbe20d92d31f0195dcb88a991cb575b808"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P03_Seorim_Elevated_Transit/07_Contract_Correspondence.eml",
+          "bytes": 964,
+          "sha256": "8235a13e990ed3f3598195f9491d3ffcd867a483ccaadbc794c28cb47c3698c4"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P03_Seorim_Elevated_Transit/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "361465c24cb5355bffef76311c757f83d62c43b98c2738bcf9fecde877db9710"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P03_Seorim_Elevated_Transit/09_Ground_and_Environmental_Log.txt",
+          "bytes": 673,
+          "sha256": "91a36a0f32fb95139f47ca97d40e8d8e5219f3ad2c144db134e7c060ebaca3a8"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P03_Seorim_Elevated_Transit/10_Archived_ITB_Analysis.csv",
+          "bytes": 567,
+          "sha256": "f4a1a2b1bd2dd642093825c83254e36ded5efdac8e380dc27393b45b9b4a9513"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P03_Seorim_Elevated_Transit/13_Field_Measurements.csv",
+          "bytes": 1088,
+          "sha256": "5fb0b56750a9fe813cd751bc5e5c93f80e0af7ccea45047c384d578458c12799"
+        }
+      ]
+    },
+    {
+      "code": "P04",
+      "name": "P04_Gaon_North_Port_Berth",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P04_Gaon_North_Port_Berth/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39623,
+          "sha256": "042c1cb3cb8c07cd8fd81cb0216563f99a0e031ed62ec90af99296b8a132f99a"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P04_Gaon_North_Port_Berth/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39924,
+          "sha256": "aa98bae4b4dabf3aa23bc87ba9eaf70462d31ef6c10ddd6c1ab12ee008664c53"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P04_Gaon_North_Port_Berth/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13868,
+          "sha256": "130cc04f951255be7b4100f8de5eeb16a702f08e77d157d299e3a8993e4c9e83"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P04_Gaon_North_Port_Berth/04_Closeout_Review.pptx",
+          "bytes": 21621,
+          "sha256": "8e5bec36cc273fd25c1e9ba40e16a1556edbcf85fc0a1d70eb67ca085b1aabbf"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P04_Gaon_North_Port_Berth/06_Interface_Meeting.md",
+          "bytes": 1082,
+          "sha256": "520609c6ba510743324ffc33c43c43e27f864630c7db81b2a5e913de589362e6"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P04_Gaon_North_Port_Berth/07_Contract_Correspondence.eml",
+          "bytes": 934,
+          "sha256": "2769605695b8f63461a39a2dd55fb564d9c56f16e8e11b5d193ac32bd268da26"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P04_Gaon_North_Port_Berth/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "1723d56a1a956fe89d96f591b90a0c7051b57c021cdf6a59e5168c4dee8b2aec"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P04_Gaon_North_Port_Berth/09_Ground_and_Environmental_Log.txt",
+          "bytes": 669,
+          "sha256": "2ad365f6a57b41d1fda3e4d9c1b89344e7495266d0886c493a23dab34f0e7aeb"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P04_Gaon_North_Port_Berth/10_Archived_ITB_Analysis.csv",
+          "bytes": 542,
+          "sha256": "a3cb25adcc6222ca69e1de379e25272bce6544378f83250e8fea0dff4eb12752"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P04_Gaon_North_Port_Berth/13_Field_Measurements.csv",
+          "bytes": 1112,
+          "sha256": "d80e3ba7527724af8f733972ac6f7adce18585f368547d0b392aaf119f31464f"
+        },
+        {
+          "name": "14_Cost_Estimate_DRAFT.txt",
+          "path": "01_PAST_PROJECTS/P04_Gaon_North_Port_Berth/14_Cost_Estimate_DRAFT.txt",
+          "bytes": 256,
+          "sha256": "9cf7cc44b6fe84a6474044c7eb1509cbe602a73410c258d191880fbaac393bb2"
+        }
+      ]
+    },
+    {
+      "code": "P05",
+      "name": "P05_Nuri_River_Crossing",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P05_Nuri_River_Crossing/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39624,
+          "sha256": "1b6c1b2683f7da1080db5078e2c53c6fcb77d00c2aec4055a1be8a6de2019219"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P05_Nuri_River_Crossing/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39861,
+          "sha256": "4aa1b8e3df80e33c0cbbb2c34f28ebf1c13154919f8b05b41ce142c4ded1d5e1"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P05_Nuri_River_Crossing/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13841,
+          "sha256": "a2fbec70e7ac26c51009c1e3fa51b649e91ac850a4c379a73fb9932a80f56306"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P05_Nuri_River_Crossing/04_Closeout_Review.pptx",
+          "bytes": 21611,
+          "sha256": "ac21080c4b233575223dea3db5674fd724133a2cfe8975c388e44d8f97f7b3bd"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P05_Nuri_River_Crossing/06_Interface_Meeting.md",
+          "bytes": 1071,
+          "sha256": "5333b99504e1bcb2c7b3e02503f1cc187cdc2441b1c0aec8c710afe39232997c"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P05_Nuri_River_Crossing/07_Contract_Correspondence.eml",
+          "bytes": 934,
+          "sha256": "e05aca9a6d10cb2a6d2f7dc94a32a4e299f6b81384ba615e6a8791f669617828"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P05_Nuri_River_Crossing/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "65932ff72632796abfa6ff5c62103312cb6eaddd1abaca66d1d531290cd53916"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P05_Nuri_River_Crossing/09_Ground_and_Environmental_Log.txt",
+          "bytes": 675,
+          "sha256": "1d83bbfd5b353cd6f90f18fef672e9223f5668cb082e5116f9fc8b6d32a59489"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P05_Nuri_River_Crossing/10_Archived_ITB_Analysis.csv",
+          "bytes": 557,
+          "sha256": "2a0268cd51e65707bbf6fcbb93657ef5b25d44b7f746ed9e1634a911207d081e"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P05_Nuri_River_Crossing/13_Field_Measurements.csv",
+          "bytes": 1100,
+          "sha256": "db07941fc5baa179a34668b736375ca4f930f02dc945ae87503257bf2d4ade28"
+        }
+      ]
+    },
+    {
+      "code": "P06",
+      "name": "P06_Cheongra_Desalination_Intake",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P06_Cheongra_Desalination_Intake/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39660,
+          "sha256": "23f2bf1e03fd2aae4c96d84e1316b62033b19156920ee1fddb3d34c4e15b2aee"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P06_Cheongra_Desalination_Intake/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39363,
+          "sha256": "e39e4ababea11c7ee9d6488a3c4cefc205879ec5a0511ac75a3f1e4fbe189fe9"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P06_Cheongra_Desalination_Intake/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13888,
+          "sha256": "a4f3a1727f09d6d65ebcfaa6ee9c824dbe93e5f7a0faf6d2bf4fc40434f39635"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P06_Cheongra_Desalination_Intake/04_Closeout_Review.pptx",
+          "bytes": 21683,
+          "sha256": "d55a71fc21d56b128031a5a581a4ee5eea409ea80de9f2d94482a6e501c340f5"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P06_Cheongra_Desalination_Intake/06_Interface_Meeting.md",
+          "bytes": 1081,
+          "sha256": "8b6599184148219a904afdffe32eb6799f7466684cc08256720cbcd9da219bdd"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P06_Cheongra_Desalination_Intake/07_Contract_Correspondence.eml",
+          "bytes": 946,
+          "sha256": "dbf4769a86792c0136292fdd2e7ef9145b5d057a46acfa49759b4d97775882a2"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P06_Cheongra_Desalination_Intake/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "1a647bb745eeeb0e9ec406636ee714d7eeb1e11ed449c2e9246cb2e37b12cbb7"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P06_Cheongra_Desalination_Intake/09_Ground_and_Environmental_Log.txt",
+          "bytes": 675,
+          "sha256": "448aafdf3556aa236cc636d3c7a6e9941fee475dc8921786ad3ed1c871cd6f07"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P06_Cheongra_Desalination_Intake/10_Archived_ITB_Analysis.csv",
+          "bytes": 567,
+          "sha256": "d3072c9fcee6c31979b9551c517ba8a94294654f9235c2eb838105dc82831f37"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P06_Cheongra_Desalination_Intake/13_Field_Measurements.csv",
+          "bytes": 1112,
+          "sha256": "3cd6961fe525f1cec87977edd35ac82006748a64eaf2b34a99063085c7e059dc"
+        }
+      ]
+    },
+    {
+      "code": "P07",
+      "name": "P07_Dasol_Bulk_Water_Pipeline",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P07_Dasol_Bulk_Water_Pipeline/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39615,
+          "sha256": "b084ca710d0d1c160fae9d64c64d334990b02e43a4df79cc0e5c14b8f0736fd8"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P07_Dasol_Bulk_Water_Pipeline/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39679,
+          "sha256": "9804eb0c851e7a15935e01fd22484e72224f89b48981635ab8951b009847a104"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P07_Dasol_Bulk_Water_Pipeline/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13835,
+          "sha256": "3c44948e4319d56880b2fc76bf48b9cae56bf852548a8453c8e95e08edd16d14"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P07_Dasol_Bulk_Water_Pipeline/04_Closeout_Review.pptx",
+          "bytes": 21602,
+          "sha256": "5fbed801a524fe8e8123217ec3ca70b1e8476684cc6034f17c0e832fc1d46d30"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P07_Dasol_Bulk_Water_Pipeline/06_Interface_Meeting.md",
+          "bytes": 1058,
+          "sha256": "f3848cbdc8dc62eb20d9b4933d9fb2e10c6e624cae864d80e1dd47ba07bc40d1"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P07_Dasol_Bulk_Water_Pipeline/07_Contract_Correspondence.eml",
+          "bytes": 938,
+          "sha256": "555bf30785c3d2b2630f58e190c6ed2f3a9a90798c3dd47b48d5b19a1f48af63"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P07_Dasol_Bulk_Water_Pipeline/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "a16e7f2da2bc30c4940ed0b3bc594e8a8bf4aa0c1a48a786a233bb6f20d4f7d8"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P07_Dasol_Bulk_Water_Pipeline/09_Ground_and_Environmental_Log.txt",
+          "bytes": 673,
+          "sha256": "ce876f50a406d8c0d5edd3b84ca3da2886a8b1a0c2d91126b125877ca99b2c0b"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P07_Dasol_Bulk_Water_Pipeline/10_Archived_ITB_Analysis.csv",
+          "bytes": 556,
+          "sha256": "c9cb32161000e70caf656679ecaf355e71a3f3e7ce726f1e862d4ae30eb9b562"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P07_Dasol_Bulk_Water_Pipeline/13_Field_Measurements.csv",
+          "bytes": 1100,
+          "sha256": "4ec2f2495895f9491cbaee09398ce8a86609f9c2124a19c1d1d94252b7b85625"
+        },
+        {
+          "name": "14_Board_Financial_Note.txt",
+          "path": "01_PAST_PROJECTS/P07_Dasol_Bulk_Water_Pipeline/14_Board_Financial_Note.txt",
+          "bytes": 306,
+          "sha256": "060b52fae5db7f21b951711e8ae6ee4cc6db7ff9f460d2bd85b61e5cf4783f97"
+        }
+      ]
+    },
+    {
+      "code": "P08",
+      "name": "P08_Aram_Industrial_Wastewater",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P08_Aram_Industrial_Wastewater/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39635,
+          "sha256": "d31372daeb68c4e9188a274d5fd2a9dae7e5ca8cc96f7fa49d26e216d7c9def8"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P08_Aram_Industrial_Wastewater/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39482,
+          "sha256": "fa1499e9582748e7fd2e410855ee55b1d8670acfac5321b5d5c92159a94dc453"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P08_Aram_Industrial_Wastewater/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13841,
+          "sha256": "c8e1b98c5313eb9d9bd52c3c347ed569097c86a4ec90292e63b8d472aa6949bf"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P08_Aram_Industrial_Wastewater/04_Closeout_Review.pptx",
+          "bytes": 21665,
+          "sha256": "7242c0087221761ad5d4685ebbbf47125277710ae123cea6f2468f78e19820ee"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P08_Aram_Industrial_Wastewater/06_Interface_Meeting.md",
+          "bytes": 1082,
+          "sha256": "3e43c79e013c9f4355c8653f9ab228c0c19258a0854af1d47ea8ffb1b538358b"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P08_Aram_Industrial_Wastewater/07_Contract_Correspondence.eml",
+          "bytes": 956,
+          "sha256": "8cb05a8f21b2e1caa94b319eb852e330a508cbe2d1c880c34c9f74fe28e9de03"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P08_Aram_Industrial_Wastewater/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "9890a3d0255db5866d393f6c23294f912a72c2a8439f75220fa8d43e5986862e"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P08_Aram_Industrial_Wastewater/09_Ground_and_Environmental_Log.txt",
+          "bytes": 683,
+          "sha256": "b70b8fb7f95a507aaf0b11704e46f1e4f264db0437780a7500bc6a58fe5380aa"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P08_Aram_Industrial_Wastewater/10_Archived_ITB_Analysis.csv",
+          "bytes": 568,
+          "sha256": "dad2435b952f6f7e31f024f5856939f20eafee1a61dab2df0982f5bac0e7458b"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P08_Aram_Industrial_Wastewater/13_Field_Measurements.csv",
+          "bytes": 1092,
+          "sha256": "9bdd157544fd5264949726ecc360e9aafda737d3b820c6382d8c0cd1ab39705c"
+        }
+      ]
+    },
+    {
+      "code": "P09",
+      "name": "P09_Haesol_Airport_Taxiway",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P09_Haesol_Airport_Taxiway/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39600,
+          "sha256": "4005bb56a5988ea987daaa6c62898dea2a800b27dead067866af158eedf53e96"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P09_Haesol_Airport_Taxiway/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39158,
+          "sha256": "0b6c0fb98be11bd6551939eb37609da4a3e4489691da115982844be4519e5846"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P09_Haesol_Airport_Taxiway/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13856,
+          "sha256": "cd01f56d543428effb75278d652d70143d73be23dc6000ea1453fd25d4484fff"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P09_Haesol_Airport_Taxiway/04_Closeout_Review.pptx",
+          "bytes": 21620,
+          "sha256": "7a83d7ace4270ffb62e326387edd5b4d3763af64ec3750d1a16d7761b7052d3b"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P09_Haesol_Airport_Taxiway/06_Interface_Meeting.md",
+          "bytes": 1070,
+          "sha256": "02eed153e20b7b93ab3d615d37f3103ce77986126cbfd69999a161995fe5c8cd"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P09_Haesol_Airport_Taxiway/07_Contract_Correspondence.eml",
+          "bytes": 938,
+          "sha256": "c5b962288323a437e122ec1a8cd8844275b530942dcf271e39af798672d96f34"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P09_Haesol_Airport_Taxiway/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "500ed4d0c00b15bf9a4443bda2366bcd02e80d52fdd28c895dc40c122df880f0"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P09_Haesol_Airport_Taxiway/09_Ground_and_Environmental_Log.txt",
+          "bytes": 678,
+          "sha256": "7a5a7ddd34d935d051541374be79f6cbd347847b9b3dbd414dc83c9b67d139b6"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P09_Haesol_Airport_Taxiway/10_Archived_ITB_Analysis.csv",
+          "bytes": 553,
+          "sha256": "e9784d8a0f9708db66d7b3c369b9f625a2da33a197cacc873164210ad788b208"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P09_Haesol_Airport_Taxiway/13_Field_Measurements.csv",
+          "bytes": 1112,
+          "sha256": "0c4bd524f01d5a90c1694491227eea460d975c5d90bdc20bb44d90164f9dbd7a"
+        }
+      ]
+    },
+    {
+      "code": "P10",
+      "name": "P10_Mir_Hydropower_Headrace",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P10_Mir_Hydropower_Headrace/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39628,
+          "sha256": "67c286b8fcbafa16dedbbd082e75c0b486f71aebf103b44ca6542e9ae244139c"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P10_Mir_Hydropower_Headrace/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39454,
+          "sha256": "23790d4a089d0fdff44f84ef560e3e9960de2cd464831e2e33ffd0a36f6d1ff4"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P10_Mir_Hydropower_Headrace/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13876,
+          "sha256": "b9d6f2fcf9902d6b2320aa991609d1d9e46be72f982ac8f7da0cdb7eaf14332e"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P10_Mir_Hydropower_Headrace/04_Closeout_Review.pptx",
+          "bytes": 21640,
+          "sha256": "46f4f0ca442f0c986d074bb8b3761421c6b4ae59a3bca5e7a2c862d80b34d4b4"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P10_Mir_Hydropower_Headrace/06_Interface_Meeting.md",
+          "bytes": 1081,
+          "sha256": "b968ef194e328aa6fce2f50065c272e31465b3854330016a6b23fbf743f327e1"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P10_Mir_Hydropower_Headrace/07_Contract_Correspondence.eml",
+          "bytes": 964,
+          "sha256": "eed2c030c67a3d519278136e39e526f06e417e36d720b7dc18f4b6bf98824983"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P10_Mir_Hydropower_Headrace/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "7addec70d1f97a98d43c5dff96d0fcd3631dae6aac9f3336f95b2afe1a59e24a"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P10_Mir_Hydropower_Headrace/09_Ground_and_Environmental_Log.txt",
+          "bytes": 663,
+          "sha256": "b38417ab81718e6efb0d8811ea48ebb13fbde8592901b1138a510c87d29ff1bb"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P10_Mir_Hydropower_Headrace/10_Archived_ITB_Analysis.csv",
+          "bytes": 555,
+          "sha256": "c51cc62bc7f41b07e3d1b9e6367b5dfdfd678654ddc61c050ec4eefce1d689e6"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P10_Mir_Hydropower_Headrace/13_Field_Measurements.csv",
+          "bytes": 1108,
+          "sha256": "9490cc92c37ea9da128d0dc42efd4d97fb9017c297f6576af159571f013a5bd3"
+        }
+      ]
+    },
+    {
+      "code": "P11",
+      "name": "P11_Onyu_Flood_Storage_Tunnel",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P11_Onyu_Flood_Storage_Tunnel/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39632,
+          "sha256": "220854d42478f0ea3078ca4cfc23cd5092ae6fbb7b30735f0284959f1e98bb90"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P11_Onyu_Flood_Storage_Tunnel/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39714,
+          "sha256": "e50e0a0a8dd9ff13d8da9c0a2ddee0337ca317f72bb982f68f118d8c17757ea5"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P11_Onyu_Flood_Storage_Tunnel/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13868,
+          "sha256": "25e54b7af59f2611f21d9ad38c3d9d320d96c44c066be3ca4dae8e7b64468e2b"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P11_Onyu_Flood_Storage_Tunnel/04_Closeout_Review.pptx",
+          "bytes": 21640,
+          "sha256": "6aaf4ae22e66883ebf5211c2ad805530f60c45c9d1f34800a8f152ed53a8ff93"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P11_Onyu_Flood_Storage_Tunnel/06_Interface_Meeting.md",
+          "bytes": 1081,
+          "sha256": "6784f300bf162b967dd355935bc1f8fd5cae0d6a4807a2d3ed03d8ecc70d481f"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P11_Onyu_Flood_Storage_Tunnel/07_Contract_Correspondence.eml",
+          "bytes": 946,
+          "sha256": "1103a11be2dd5892ad3574acd09d4e3330b11f625ec85d7547069ef19cdaea49"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P11_Onyu_Flood_Storage_Tunnel/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "1c441fcb055aa209114df321e712d2a2cd2810a00a1c8a95f7b0d7666319fec1"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P11_Onyu_Flood_Storage_Tunnel/09_Ground_and_Environmental_Log.txt",
+          "bytes": 679,
+          "sha256": "349b639055f05afc8b5078f66a4ff38f77454ff095d5287edec642e6977106de"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P11_Onyu_Flood_Storage_Tunnel/10_Archived_ITB_Analysis.csv",
+          "bytes": 562,
+          "sha256": "9a9bf2d63e47f1e7d5c1a81ff7f71690b5d096dc330ec21379e0db855dc9fa00"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P11_Onyu_Flood_Storage_Tunnel/13_Field_Measurements.csv",
+          "bytes": 1100,
+          "sha256": "0cdce8d0d1863a311af23c20aff088d059b87808f9c0ddeb92f971d9d233ca8a"
+        }
+      ]
+    },
+    {
+      "code": "P12",
+      "name": "P12_Bion_Logistics_Basement",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P12_Bion_Logistics_Basement/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39633,
+          "sha256": "f7c3754846da567abfa7ab7ef1c3d48a556c1bd2fbf55965e1be4b8c078a2e0f"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P12_Bion_Logistics_Basement/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39934,
+          "sha256": "b1cdc424b255438f5fb4c2db6354cec7c93c793380a56b010aff27ee2013b071"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P12_Bion_Logistics_Basement/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13807,
+          "sha256": "93923463841d356f8c990510ed7dc80a920c8a2578327cf79d5dedd5a5c3f9a7"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P12_Bion_Logistics_Basement/04_Closeout_Review.pptx",
+          "bytes": 21653,
+          "sha256": "ac47dfaf054b654b866b385e76c737b2e523d48f12db6d84fd61a1468f1c4a1b"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P12_Bion_Logistics_Basement/06_Interface_Meeting.md",
+          "bytes": 1081,
+          "sha256": "a9c20ad9d0a56d3ba06e5e3359dc24f9b692e67f81ab41384a5104a12789116a"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P12_Bion_Logistics_Basement/07_Contract_Correspondence.eml",
+          "bytes": 980,
+          "sha256": "af5e299b8c1e8baa2611e7e07ce66feb911ade81021ab9397f69cf1fe837a63e"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P12_Bion_Logistics_Basement/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "59fe56f081abc1e8bb6798eba873de211b720be21c9c479edaee935c37873829"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P12_Bion_Logistics_Basement/09_Ground_and_Environmental_Log.txt",
+          "bytes": 673,
+          "sha256": "db7d8440660d9be5a3b0842be55ba35612c14c27a8954465086dcb763bca13df"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P12_Bion_Logistics_Basement/10_Archived_ITB_Analysis.csv",
+          "bytes": 554,
+          "sha256": "29d6abd5f03f9fa1307d5a275988cc84408d8a579ddd24d028e831556c173bdf"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P12_Bion_Logistics_Basement/13_Field_Measurements.csv",
+          "bytes": 1100,
+          "sha256": "f6e570bee8c7c1681ddb89c580a5cff3d5e77634a8f3157785dcf4349995e574"
+        }
+      ]
+    },
+    {
+      "code": "P13",
+      "name": "P13_Raon_Port_Access_Rail",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39590,
+          "sha256": "2c78799d94f807cfe2520271dfd955c02c5c0ff6c619b672b3e44cf26dc90ed9"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39783,
+          "sha256": "d35f679b3274b7af484bb40716df056ddac89644842c1c2816c6bb22d70f3449"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13859,
+          "sha256": "fc95592e4c08ed7a0cdac56761063cd8f36394f97ef42528d83f7ea42d9e9d30"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/04_Closeout_Review.pptx",
+          "bytes": 21635,
+          "sha256": "2b00857016726e98fccd77c89565a6b60a3b29ac9e4231ae757800f628cf2e69"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/06_Interface_Meeting.md",
+          "bytes": 1089,
+          "sha256": "a3286740f51d65b338654975299daf1898abbb7118412bbcf2baa3f3b7f00c3f"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/07_Contract_Correspondence.eml",
+          "bytes": 980,
+          "sha256": "b162ef520b1a36b559bc8e58471759b5cdf6cda00beba3b5c9d09ebff3c50a4e"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "e3672ce10eb97ae11bdf62aab93636ca0daf736f3b1dab4538c5a4f4daee59f3"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/09_Ground_and_Environmental_Log.txt",
+          "bytes": 661,
+          "sha256": "0b4986370bceb16e335679c167c182c63d7728baeff34dddea018d958fe48e88"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/10_Archived_ITB_Analysis.csv",
+          "bytes": 553,
+          "sha256": "bc80b498d7d47223cd9f600bdb80c4d648961d8bb3b945ab08643d4471fb906b"
+        },
+        {
+          "name": "11_Drainage_Plan_Rev02.pdf",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/11_Drainage_Plan_Rev02.pdf",
+          "bytes": 18751,
+          "sha256": "4a351f6e9121cb69980934fdc3e184897756161205f04b9a68f84f5b4a3ba13e"
+        },
+        {
+          "name": "11_Drainage_Plan_Rev03.pdf",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/11_Drainage_Plan_Rev03.pdf",
+          "bytes": 19251,
+          "sha256": "2ec7958bf93499c35ca10c0521f77a5b5021abc7d5fafb4bb77c2926162b16e5"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P13_Raon_Port_Access_Rail/13_Field_Measurements.csv",
+          "bytes": 1101,
+          "sha256": "a15e54407b72078a40db033b60f607fb63a2d2d60f734a111cac01b874e676ab"
+        }
+      ]
+    },
+    {
+      "code": "P14",
+      "name": "P14_Seon_Data_Campus_Utilities",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P14_Seon_Data_Campus_Utilities/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39626,
+          "sha256": "0e1e9ba80a6b4c3c98e76e65ccce84e1f7b34a3f796d494e28d4d485a078db97"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P14_Seon_Data_Campus_Utilities/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39426,
+          "sha256": "2299bfbfd9061badcf8d1c07a66de0822711b25da5b154777279cc31da77636e"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P14_Seon_Data_Campus_Utilities/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13839,
+          "sha256": "a2217fddcdec1d56285b4a3120580311079911477adba709dd6df412a5dd4d82"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P14_Seon_Data_Campus_Utilities/04_Closeout_Review.pptx",
+          "bytes": 21659,
+          "sha256": "46bd1593c9b2bb057e2e7ac0d3c7207f81621f8809c28c138887f1ca968356fb"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P14_Seon_Data_Campus_Utilities/06_Interface_Meeting.md",
+          "bytes": 1089,
+          "sha256": "5d10d3d339c2931eeeb65b2bbd203bb4d547e2da50c6410b2009437293dfbcc1"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P14_Seon_Data_Campus_Utilities/07_Contract_Correspondence.eml",
+          "bytes": 942,
+          "sha256": "169406a9b4c7f70b9e4ef5d0242db839185574f7d73eee9a120f55887bd9bb86"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P14_Seon_Data_Campus_Utilities/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "93ffec9290bb4f3bcdce89efde2b8fbbcb0d015858d0b5d353d76c5f1f62d15a"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P14_Seon_Data_Campus_Utilities/09_Ground_and_Environmental_Log.txt",
+          "bytes": 669,
+          "sha256": "22fb4e4c6f9bb21b2d52015cc991effd7e337b6f1c393e09260eb0230746e383"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P14_Seon_Data_Campus_Utilities/10_Archived_ITB_Analysis.csv",
+          "bytes": 556,
+          "sha256": "667621ab0a1ced4d9e69c17fe5cd28fb8c50f4ae90fc49ed65870c4051147eed"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P14_Seon_Data_Campus_Utilities/13_Field_Measurements.csv",
+          "bytes": 1088,
+          "sha256": "57cf3b523b5ba00bcec19d76b12fb8270e550877a4731bbdcc1afdc06e118674"
+        }
+      ]
+    },
+    {
+      "code": "P15",
+      "name": "P15_Hangeul_Coastal_Road",
+      "kind": "historical",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "01_PAST_PROJECTS/P15_Hangeul_Coastal_Road/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39580,
+          "sha256": "f533df8f8cd1ee1cab7ac16e92a02e0d9142c1b1f636356024fdd1472fb114dc"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "01_PAST_PROJECTS/P15_Hangeul_Coastal_Road/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39828,
+          "sha256": "bf79fd9920009afe96858c3df858d376e316eae1103e7e7fc873885ac4f19c91"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "01_PAST_PROJECTS/P15_Hangeul_Coastal_Road/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13843,
+          "sha256": "1b3178d31c0fca44e12786ff99bd7d331a9761d66c391baaf46663b3e5ad2537"
+        },
+        {
+          "name": "04_Closeout_Review.pptx",
+          "path": "01_PAST_PROJECTS/P15_Hangeul_Coastal_Road/04_Closeout_Review.pptx",
+          "bytes": 21613,
+          "sha256": "c3815eba72088a8c90b4c03c96deb9bd0a91c673435f2007ada32ba4a4c0974f"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "01_PAST_PROJECTS/P15_Hangeul_Coastal_Road/06_Interface_Meeting.md",
+          "bytes": 1046,
+          "sha256": "b069fbd325ca0a3f3b92a070877a4f22085a6b7c9a6f218da6845a54a3f8735a"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "01_PAST_PROJECTS/P15_Hangeul_Coastal_Road/07_Contract_Correspondence.eml",
+          "bytes": 930,
+          "sha256": "069c6af50dc6795c1d0cc7657395b5a027cf5daae8899af94654aa0cd7e3499d"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "01_PAST_PROJECTS/P15_Hangeul_Coastal_Road/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "48c72a6eac3869145e9b5d2f1d6235607d4899e18f3e33dfa8c55886c1137171"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "01_PAST_PROJECTS/P15_Hangeul_Coastal_Road/09_Ground_and_Environmental_Log.txt",
+          "bytes": 679,
+          "sha256": "bfb49c571c627762c85ce6437831f8c8b43051ded617c6eafa275a0de85d2e6a"
+        },
+        {
+          "name": "10_Archived_ITB_Analysis.csv",
+          "path": "01_PAST_PROJECTS/P15_Hangeul_Coastal_Road/10_Archived_ITB_Analysis.csv",
+          "bytes": 558,
+          "sha256": "0be1fc2baf25206151834cb3b443ea25673a1eedda9ba91a23ccae1bb11bf3d1"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "01_PAST_PROJECTS/P15_Hangeul_Coastal_Road/13_Field_Measurements.csv",
+          "bytes": 1088,
+          "sha256": "a85016b17cffc422e1b62ff9c2eea30fe8f9494c3f94f31cb03597a6828c5bd9"
+        }
+      ]
+    },
+    {
+      "code": "N01",
+      "name": "N01_Haeon_Blue_Line_Package_4",
+      "kind": "current",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "02_NEW_PROJECTS/N01_Haeon_Blue_Line_Package_4/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39534,
+          "sha256": "6fe14805a9685f63f083e69786e2dbacfd7f59ab1004e5335395acb8a53db60f"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "02_NEW_PROJECTS/N01_Haeon_Blue_Line_Package_4/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39849,
+          "sha256": "bda7dc1a7a3a9e8c9c794bfbb7ac9b04c7de84b37cb3d01512df89f7f70ac440"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "02_NEW_PROJECTS/N01_Haeon_Blue_Line_Package_4/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13654,
+          "sha256": "5855ab0cf39797d35300e4f0f5a2cb70d6b4e37c8a78f7a37d81a7b66eabfab6"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "02_NEW_PROJECTS/N01_Haeon_Blue_Line_Package_4/06_Interface_Meeting.md",
+          "bytes": 1080,
+          "sha256": "658ca440e46823aee673278aa222547f49f3c5ec6a9b1de0d540b283a47b8623"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "02_NEW_PROJECTS/N01_Haeon_Blue_Line_Package_4/07_Contract_Correspondence.eml",
+          "bytes": 809,
+          "sha256": "6525960fd6607581e2e23a8e0b1bbfb38e36f00f8eb401e7a9c9f92f383c24d3"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "02_NEW_PROJECTS/N01_Haeon_Blue_Line_Package_4/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "db79a9dbbb3d0b86e7b5c0ea4bd8599ba18cf7d1b854779937779acd2ed2f366"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "02_NEW_PROJECTS/N01_Haeon_Blue_Line_Package_4/09_Ground_and_Environmental_Log.txt",
+          "bytes": 678,
+          "sha256": "445fc1c31cd437dce6cef0bbe5eb6a0c7ebadf33679194e517fc1b481789b737"
+        },
+        {
+          "name": "11_Addendum_Rev01.pdf",
+          "path": "02_NEW_PROJECTS/N01_Haeon_Blue_Line_Package_4/11_Addendum_Rev01.pdf",
+          "bytes": 19126,
+          "sha256": "ace82d2b5e0b068baf6830a2d43a5d94a9273b7b1b05efa256bf1d1e61e065a6"
+        },
+        {
+          "name": "11_Addendum_Rev02.pdf",
+          "path": "02_NEW_PROJECTS/N01_Haeon_Blue_Line_Package_4/11_Addendum_Rev02.pdf",
+          "bytes": 20074,
+          "sha256": "27c49e78a817ffa90ab14e564a08baaaefcf7ee1f822bfa3a9e31985ff92fdf3"
+        },
+        {
+          "name": "12_Final_Notice_Copy.pdf",
+          "path": "02_NEW_PROJECTS/N01_Haeon_Blue_Line_Package_4/12_Final_Notice_Copy.pdf",
+          "bytes": 19126,
+          "sha256": "ace82d2b5e0b068baf6830a2d43a5d94a9273b7b1b05efa256bf1d1e61e065a6"
+        },
+        {
+          "name": "13_Field_Measurements.csv",
+          "path": "02_NEW_PROJECTS/N01_Haeon_Blue_Line_Package_4/13_Field_Measurements.csv",
+          "bytes": 1342,
+          "sha256": "2bc99ac9476e77a83f739ef85f41fbf98ed8b02e246473d18d8ebb53b0e8e9ec"
+        }
+      ]
+    },
+    {
+      "code": "N02",
+      "name": "N02_Dasol_East_Water_Treatment",
+      "kind": "current",
+      "files": [
+        {
+          "name": "01_Project_Brief_and_Lessons.docx",
+          "path": "02_NEW_PROJECTS/N02_Dasol_East_Water_Treatment/01_Project_Brief_and_Lessons.docx",
+          "bytes": 39508,
+          "sha256": "a060c3f9e88786d5184dd2e0be2b22c910a46cd41ef7406d5482da30e8d4a9d6"
+        },
+        {
+          "name": "02_ITB_and_Contract_Rev00.pdf",
+          "path": "02_NEW_PROJECTS/N02_Dasol_East_Water_Treatment/02_ITB_and_Contract_Rev00.pdf",
+          "bytes": 39662,
+          "sha256": "1f7089e95245980435aef9196f8e515d1782b43c180990f666d6435e0ffbd25e"
+        },
+        {
+          "name": "03_Commercial_Risk_Procurement.xlsx",
+          "path": "02_NEW_PROJECTS/N02_Dasol_East_Water_Treatment/03_Commercial_Risk_Procurement.xlsx",
+          "bytes": 13646,
+          "sha256": "017602130a4e6d0601ccaaa54fa6a8df8413c9d26dc034a6cfe78d486b9a1a62"
+        },
+        {
+          "name": "06_Interface_Meeting.md",
+          "path": "02_NEW_PROJECTS/N02_Dasol_East_Water_Treatment/06_Interface_Meeting.md",
+          "bytes": 1071,
+          "sha256": "48ff0c6a63ae33248559be2efbb254d642e7ca8e8b5aecb3c3b0f70523a89bfc"
+        },
+        {
+          "name": "07_Contract_Correspondence.eml",
+          "path": "02_NEW_PROJECTS/N02_Dasol_East_Water_Treatment/07_Contract_Correspondence.eml",
+          "bytes": 895,
+          "sha256": "a4c6db35527efa08f1587e55e49e229420fabfdaadd0aeed5fddbc0fcdc4c4c3"
+        },
+        {
+          "name": "08_Baseline_Schedule.csv",
+          "path": "02_NEW_PROJECTS/N02_Dasol_East_Water_Treatment/08_Baseline_Schedule.csv",
+          "bytes": 971,
+          "sha256": "57d1757b51128ac596ebacecbf7099c4d69390357402bcb9c9f005f2719ec2e9"
+        },
+        {
+          "name": "09_Ground_and_Environmental_Log.txt",
+          "path": "02_NEW_PROJECTS/N02_Dasol_East_Water_Treatment/09_Ground_and_Environmental_Log.txt",
+          "bytes": 676,
+          "sha256": "3256c87aa6b05aa2d275fd6174d25d405d0728ae5ff29ea9614c4d1fa0fcf6e5"
+        }
+      ]
+    }
+  ],
+  "note": "No upload, parsing, database or authentication mutation."
+}

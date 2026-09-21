@@ -1,0 +1,115 @@
+{
+  "product": "RE:Build Agent",
+  "at": "2026-09-22T07:43:35.958995+09:00",
+  "scope": "SUPPLIED_INPUT_DEMO_SETUP",
+  "product_complete": false,
+  "fixture_boundary": "TEST_STORAGE_INJECTED",
+  "pytest": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "163",
+    "time": "31.716",
+    "timestamp": "2026-09-22T07:38:54.659699+09:00",
+    "hostname": "GS-65537-DUDHKC"
+  },
+  "new_regressions": 23,
+  "data": {
+    "past_projects_available": 15,
+    "past_files_available": 155,
+    "past_selected": [
+      "P01",
+      "P06"
+    ],
+    "past_files_verified": 21,
+    "new_selected": [
+      "N01",
+      "N02"
+    ],
+    "new_files_verified": 18,
+    "office_files_verified": 6,
+    "new_projects_preloaded_in_demo_account": false
+  },
+  "actual_supabase": {
+    "status": "PENDING_SCHEMA",
+    "stage": "schema_preflight",
+    "auth_login_verified": false,
+    "db_rls_verified": false,
+    "storage_rls_verified": false,
+    "logout_verified": false,
+    "cleanup_complete": true
+  },
+  "actual_oauth": {
+    "environment": "local",
+    "provider": "codex-oauth",
+    "authentication": "NOT_LOGGED_IN",
+    "inference": "NOT_TESTED"
+  },
+  "independent_review": {
+    "code_reviewer": "APPROVE",
+    "architect": "CLEAR",
+    "scope": "BOUNDED_DEMO_SETUP_ONLY"
+  },
+  "original_integrity": {
+    "at": "2026-09-21T22:40:39.582020+00:00",
+    "scope": "ORIGINAL_BYTES_HASH_ONLY",
+    "files_checked": 398,
+    "modified_or_missing_count": 0,
+    "passed": true,
+    "source_contents_used": false
+  },
+  "native_goal": "blocked",
+  "omx": {
+    "in_progress": 1,
+    "pending": 4,
+    "complete": 0,
+    "strict_executed": false
+  },
+  "artifacts": [
+    {
+      "path": "ops/demo.py",
+      "sha256": "8adff4465ad10089e593e32125351f92657aea214c3855ac67ada4488f922f23"
+    },
+    {
+      "path": "ops/demo.ps1",
+      "sha256": "10b7f4f367c14309328cdc3725bf16590eccda52e97bfe076ecb2caf1fe2cb77"
+    },
+    {
+      "path": "ops/demo_live_verify.py",
+      "sha256": "84315227285afdd28c190877b3bc1585dcee3d97babc2b452760cbb8d83e1793"
+    },
+    {
+      "path": "ops/demo_live_server.py",
+      "sha256": "b8cb7f3703a28968e4491abfb09092ffb83b32c21dbdd4f76309811619222465"
+    },
+    {
+      "path": "tests/test_demo.py",
+      "sha256": "2d3ea32a9c6d5e5dc325f6855cb514f30feaeddc41642bce576d84f6760587b3"
+    },
+    {
+      "path": "tests/test_demo_live.py",
+      "sha256": "00ec036a116ae6a516d9cae54e1ff0d9875bbea5238da63c2f10ccf76052164c"
+    },
+    {
+      "path": "docs/LOCAL_DATA_DEMO.md",
+      "sha256": "8402232060d3e927f3382d1ce63db3678175ef14bf02c92098eff91664cbc6a0"
+    },
+    {
+      "path": "docs/DEMO_SETUP_REVIEW.md",
+      "sha256": "dd35fff2c28f11e0c645dabfae1afbf1ec64a56dff9a72cbaaaf6016239b6fa4"
+    },
+    {
+      "path": "ops/runtime/demo/pytest-local-data-20260922.xml",
+      "sha256": "0a9f95d235ed79d7cd3cea92d8163fbc552bd350a5f031e571d6683d50d71375"
+    },
+    {
+      "path": "ops/runtime/demo/inventory-20260921T223859905698Z.json",
+      "sha256": "f9ddb24bfc94b225050a145056a50520001158c6475f9ae615ea821374c8e2a8"
+    },
+    {
+      "path": "ops/runtime/demo/live-verification-20260921T223907451750Z.json",
+      "sha256": "da7c78b229cf58aeb09ea485143d848608530b2e6b8988d866593fd245d5399a"
+    }
+  ]
+}

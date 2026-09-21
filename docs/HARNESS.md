@@ -80,3 +80,8 @@ GOAL.md와 ops/GOAL_INPUT.txt의 자체 완결형 원문이 현재 실행 계약
 설치된 OMX0.21.5 strict 필드 계약을 소스에서 확인하고 docs/FINAL_VERIFICATION.md와 ops/verification/preauth-20260922/quality-gate.pending.json에 기록했다. 준비 JSON은 pending/REQUEST_CHANGES/BLOCK이며 final quality gate로 제출할 수 없다. 필드 검토와 준비 검사기 성공은 OMX strict 실행 성공이 아니다. 최종 독립 code-reviewer/architect 증거, 모든 불변 조건의 proof, 실제 검증 commands 및 cleaner 근거가 확보된 뒤 실제 --strict checkpoint를 수행한다.
 
 Windows tmux 팀 실행이나 자동 재시작을 새 완료 조건으로 추가하지 않았다. 설치 성공·기록 보존·현재 세션의 작업과 외부 worker/연속 무중단 실행 보장을 구별한다. 아침 재개 순서와 실제 서비스/fixture 경계는 최종 검증 문서에 있다.
+
+
+## 제공 INPUT 시연 도구 검증 — 2026-09-22T07:43:35.958995+09:00
+
+이번 사용자 지시의 bounded setup 작업을 검증·독립 검토했다. OMX CLI status를 실제 확인했으며 G001 in_progress/4pending/0complete, native goal blocked다. 목표·ledger·완료 상태를 변경하지 않았다. docs/LOCAL_DATA_DEMO.md의 Verify -WithAI가 실제 서비스까지 통과한 뒤 남은 제품 검증과 최종 strict 절차를 수행한다. 이번 scoped APPROVE/CLEAR와163개 로컬 시험은 최종 quality gate 대체물이 아니다.

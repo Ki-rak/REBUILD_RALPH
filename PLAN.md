@@ -276,3 +276,17 @@ Resume conditions: authorized authenticated Supabase SQL-management access for t
 - [ ] 최종 cleaner/회귀/독립 두 리뷰/OMX strict 및 최종 원시 기록 확인.
 
 자료: docs/FINAL_VERIFICATION.md 및 ops/verification/preauth-20260922/. 현재 native goal은 blocked, G001 in_progress/4pending/0complete 유지. 인증·제품 코드·OMX 목표/ledger·공개 푸시·배포는 변경하지 않았다.
+
+
+## 제공 data 시연 연결 준비 — 2026-09-22T07:43:35.958995+09:00
+
+최신 사용자 지시로 실제 INPUT 과거/신규 프로젝트를 쓰는 준비·검증 도구를 추가했다. 제품 완료나 실제 서비스 연결 성공을 선언하지 않는다.
+
+- [x] 전체 과거15프로젝트/155원본·신규N01 11/N02 7원본 inventory/hash. 기본 P01/P06 21원본만 승인 등록, 신규는 최초 업로드로 유지.
+- [x] 프로젝트 사용자 로그인→과거 등록→신규 실제 multipart→MD/JSON·양쪽 근거·정정서→편집/승인→XLSX2/PPTX1씩→실제 자식 프로세스 재시작→최초 저장 객체 확인 도구.
+- [x] 분리 시험 사용자, owner-prefix 실제 객체 정리/빈상태 확인, 데이터 누락·추출 실패 거부, 로컬 OAuth 환경 고정. scoped23/전체163PASS, 독립 code-reviewer APPROVE/architect CLEAR, 원본398hash 유지.
+- [ ] 실제 Supabase: 최신 Verify는 PENDING_SCHEMA에서 중단. 사용자 SQL Editor migration 적용 필요.
+- [ ] 공식 프로젝트 OAuth: NOT_LOGGED_IN/NOT_TESTED. Login 이후 Verify -WithAI로 실제 모델·DB·Storage·RLS·restart 검증.
+- [ ] 실제 브라우저/복구/남은 제품 조건, final cleaner·회귀·독립 두 리뷰·OMX strict. native goal blocked/G001 in_progress/4pending/0complete.
+
+실행 안내 docs/LOCAL_DATA_DEMO.md, 검토 docs/DEMO_SETUP_REVIEW.md, 근거 ops/runtime/demo/setup-verification-20260922.json. 이전 preauth evidence 묶음은 당시 원본으로 유지했다. 공개 푸시·배포는 하지 않았다.

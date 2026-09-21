@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T02:01:11.497519+09:00",
+  "updated_at_kst": "2026-09-22T07:43:35.958995+09:00",
   "phase": "DEVELOPMENT_BLOCKED_EXTERNAL_AUTHENTICATION",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -55,28 +55,29 @@
     "Absent Supabase rebuild-agent bucket created private via official Storage API and verified; no existing bucket modified",
     "AC25 profile edit/project selection and race repair: profile5/context9/errors3/browser6PASS; core mobile9PASS and XLSX reopen, all injected storage",
     "ITB/Risk lossless readable excerpts, source-role mapping and literal/formula preservation; actual renders and scoped independent CLEAR; product140/browser26/Office16PASS",
-    "User-requested pre-auth evidence preparation only: 36 product AC mappings, 94 hashed evidence files, 95-entry ZIP byte/reopen validation, 11 checker probes, explicit incomplete gate refusal; product/native goal remain blocked."
+    "User-requested pre-auth evidence preparation only: 36 product AC mappings, 94 hashed evidence files, 95-entry ZIP byte/reopen validation, 11 checker probes, explicit incomplete gate refusal; product/native goal remain blocked.",
+    "User-provided INPUT demo setup: inventory15past/2new, approved past-only seed, actual-input HTTP/Office/restart verifier and Windows launcher;163 Python tests PASS including23 new; scoped code/architecture APPROVE/CLEAR; original398hashes intact. Actual services still blocked."
   ],
   "in_progress": [],
   "next": [
-    "After user authentication and resume: apply/verify Supabase schema, actual two-user DB/Storage RLS and cleanup",
-    "Verify official dedicated Codex OAuth actual product inference without key fallback",
-    "Execute real fresh-upload/changed-input/restart persistence E2E for all three outputs",
-    "Final cleaner, regression and independent code-reviewer/architect reviews",
-    "Actual OMX strict completion checkpoint only with complete proof; preserve final raw session and local commits"
+    "User applies prepared Supabase SQL via authenticated SQL Editor; run ops/demo.ps1 -Action Check",
+    "Official project-local Codex OAuth Login; actual model inference remains untested",
+    "Run ops/demo.ps1 -Action Verify -WithAI with P01/P06 past21 and N01/N02 new18; verify actual RLS, source/output persistence and cleanup",
+    "Seed chosen past projects into demo account only; new N01/N02 enter by browser upload, then remaining actual UI/negative/recovery checks",
+    "Final cleaner/regression/independent reviews and OMX strict only after all required live evidence; preserve raw logs and local commits"
   ],
   "blocked_issues": [
     {
       "id": "SUPABASE_SCHEMA",
       "status": "PENDING_SCHEMA",
       "detail": "Fresh live schema preflight cannot proceed; no DB/Storage user RLS tests run. SQL management credentials absent; Supabase plugin DISABLED_BY_ADMIN/NOT_AVAILABLE. Earlier actual Auth and private bucket checks remain scoped evidence.",
-      "last_checked_at_kst": "2026-09-22T01:21:18.3329082+09:00"
+      "last_checked_at_kst": "2026-09-22T07:43:35.958995+09:00"
     },
     {
       "id": "LOCAL_OAUTH",
       "status": "NOT_LOGGED_IN",
       "detail": "Fresh official project CLI status: NOT_LOGGED_IN, inference NOT_TESTED. Three consecutive goal turns documented in external-blocker-audit.json.",
-      "last_checked_at_kst": "2026-09-22T01:21:18.3329082+09:00"
+      "last_checked_at_kst": "2026-09-22T07:43:35.958995+09:00"
     },
     {
       "id": "EVENT_DETAILS",
@@ -516,5 +517,30 @@
     "goal_resumed": false,
     "actual_auth_attempted": false,
     "omx_strict_executed": false
+  },
+  "local_data_demo_setup": {
+    "at": "2026-09-22T07:43:35.958995+09:00",
+    "status": "TOOLS_READY_EXTERNAL_AUTH_BLOCKED",
+    "guide": "docs/LOCAL_DATA_DEMO.md",
+    "evidence": "ops/runtime/demo/setup-verification-20260922.json",
+    "review": "docs/DEMO_SETUP_REVIEW.md",
+    "tests_passed": 163,
+    "actual_supabase": "PENDING_SCHEMA",
+    "actual_oauth": "NOT_LOGGED_IN",
+    "product_complete": false,
+    "goal_replaced_or_manually_resumed": false,
+    "raw_session_snapshots": {
+      "at_kst": "2026-09-22T07:41:40.749352+09:00",
+      "events": [
+        1782,
+        32,
+        6477
+      ],
+      "exact_copies": true,
+      "jsonl_parse": "PASS",
+      "segments_combined": false,
+      "latest_sha256": "ead4703fc1ae767422bef1ef3dc862a9391cc27a603403ca334b567fbd5924ee",
+      "scope": "ACTIVE_SESSION_SNAPSHOTS_NOT_FINAL"
+    }
   }
 }

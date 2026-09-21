@@ -1,0 +1,22 @@
+{
+  "product": "RE:Build Agent",
+  "boundary": "REAL_SUPABASE_USER_JWT",
+  "at": "2026-09-21T22:39:05.475080+00:00",
+  "status": "BLOCKED",
+  "checks": [],
+  "cleanup_complete": true,
+  "product_complete": false,
+  "ai_verified": false,
+  "run_id": "1cfe1de1a78a41bc9a1e81bf4080d8fa",
+  "preflight": {
+    "status": "PENDING_SCHEMA",
+    "stage": "schema_preflight",
+    "auth_login_verified": false,
+    "db_rls_verified": false,
+    "storage_rls_verified": false,
+    "logout_verified": false,
+    "cleanup_complete": true
+  },
+  "stage": "schema_and_rls_preflight",
+  "error_code": "SUPABASE_PREFLIGHT_NOT_PASSED"
+}
