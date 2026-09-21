@@ -32,3 +32,8 @@ data/REBUILD_EVALUATOR_v1/
 ops/private/
 server/ai/.codex/
 server/ai/coverage/
+
+# Transient verification caches and helper process outputs (raw session exports remain local).
+.pytest_cache/
+ops/runtime/*.pid
+ops/runtime/*.log

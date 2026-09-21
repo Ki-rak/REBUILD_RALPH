@@ -30,3 +30,7 @@ Supabase CLI 2.117.0은 버전만 확인했고 필수 설치에서 제외했다.
 ## v1.1 AI 추가 의존성
 
 공식 Codex TypeScript SDK/CLI를 server/ai/package.json과 lockfile에 고정 설치한다. 기존 OMX 0.21.5 개발 하네스와 별개다. 배포 OpenAI Responses API는 Node의 fetch로 호출하여 추가 라이브러리 의존성을 최소화한다. 추가 스킬 3개는 ops/preflight/skills-local-v11.json에 로컬 원본과 해시를 기록했다. 관리자 비활성 Supabase/OpenAI 플러그인은 설치 완료로 표시하지 않는다. 실제 설치·테스트 결과는 server/ai README와 STATE의 검증 기록이 기준이다.
+
+## 프로젝트 내부 브라우저 검증 의존성 (2026-09-21 21:55 KST)
+
+기존 사용자 스킬 설치에서 사용하던 Microsoft Playwright 1.62.1을 동일 버전으로 tools/web에 고정 설치했다. npm은 2개 패키지를 추가했고 audit 취약점 0개, playwright.chromium import를 확인했다. Apache-2.0 라이선스이며 package-lock.json에 정확한 버전을 보존한다. npm cache는 ops/cache/npm, 설치 시 ignore-scripts를 사용했고 사용자 공통 설정은 변경하지 않았다. 기존 브라우저 실행 바이너리 캐시는 재사용한다. 이후 브라우저 검증은 프로젝트 내부 require 경로를 사용한다.
