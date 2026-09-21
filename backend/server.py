@@ -31,6 +31,11 @@ from .templates import TemplateCatalog, TemplateError
 from .security import IntegrityError, APPROVAL_FIELDS, sign_document, verify_document, sign_approval, verify_approval, seal_intake, restore_intake
 
 PRODUCT = "RE:Build Agent"
+SLIDE_ERROR_MESSAGES = {
+    "SLIDE_CONTENT_TOO_LONG": "심의장표 본문의 분량이 한 장의 표시 한도를 넘었습니다. 핵심 내용·결정·검토 의견을 줄여 다시 저장하세요.",
+    "SLIDE_TITLE_TOO_LONG": "심의장표 제목의 분량이 표시 한도를 넘었습니다. 제목을 줄여 다시 저장하세요.",
+    "FIVE_SLIDE_SECTIONS_REQUIRED": "심의장표는 정해진 다섯 장 구성이 필요합니다.",
+}
 TEMPLATES = {
     "itb": ("ITB_Analysis_Template.xlsx", "ITB 분석표", True),
     "risk": ("Risk_Register_Template.xlsx", "Risk Register", True),
@@ -526,7 +531,10 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         try:
             info = await run_in_threadpool(template_catalog(ctx).register, tid, file.filename or "", data)
         except TemplateError as error:
-            fail(str(error), "제공 양식의 항목 구조를 유지한 유효한 파일을 선택하세요.", 422)
+            message = ("심의장표는 제공 양식과 같은 가로형 슬라이드 크기가 필요합니다. 원본 양식의 크기를 유지하세요."
+                       if str(error) == "SLIDE_TEMPLATE_SIZE_UNSUPPORTED"
+                       else "제공 양식의 항목 구조를 유지한 유효한 파일을 선택하세요.")
+            fail(str(error), message, 422)
         event(ctx, "template_version_registered", template_id=tid, template_sha256=info["sha256"])
         return info
 
@@ -567,7 +575,8 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
                 validate_slide_rows(body.rows)
             validate_refs(body.rows, cur + past)
         except ValueError as e:
-            fail(str(e), "유효하지 않은 원문 근거가 있습니다.", 422)
+            message = SLIDE_ERROR_MESSAGES.get(str(e), "유효하지 않은 원문 근거가 있습니다.")
+            fail(str(e), message, 422)
         info = template_for(ctx, draft["output_kind"], body.template_id or draft["template_id"], body.template_version or draft.get("template_version") or draft["template_sha256"])
         if draft["status"] == "approved":
             draft.setdefault("approval_history", []).append({"approved_at": draft.get("approved_at"),
@@ -589,7 +598,8 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
                 validate_slide_rows(draft["rows"])
             validate_refs(draft["rows"], cur + past)
         except ValueError as e:
-            fail(str(e), "원문 근거를 검증할 수 없습니다.", 409)
+            message = SLIDE_ERROR_MESSAGES.get(str(e), "원문 근거를 검증할 수 없습니다.")
+            fail(str(e), message, 409)
         if verify_originals:
             referenced = {r["document_id"] for row in draft["rows"] for field in ("source_refs", "current_refs", "historical_refs") for r in row.get(field, [])}
             for doc in cur + past:

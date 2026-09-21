@@ -23,3 +23,7 @@
 ## 현재 검증 상태
 
 수정 진행 중. 승인본에 긴 본문 편집을 시도한 신규 API 회귀는 최초 200을 반환해 실패했다. 수정 후에는 422로 거부하고 기존 승인·개정·본문이 유지되어야 한다. 기존 실패 이미지와 시험 기록은 이후 통과 기록으로 덮어쓰지 않는다.
+
+## Scoped repair checkpoint 2026-09-21T23:29:06.485405+09:00
+
+Python119 and independent targeted28 tests PASS. PL01/PL02/PL03 code defects closed in their reproduced scopes; excluded25 refs now all retained. Browser26/Office16/slide-limit9 artifacts are injected-storage tests. Root viewed actual repaired slides2/4: original overlap removed; all5 and near-limit render checks remain in progress. Primary contract condition prioritization is a separate open AC35/37 quality gap. Product remains incomplete.

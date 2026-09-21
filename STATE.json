@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-21T23:04:42.534195+09:00",
+  "updated_at_kst": "2026-09-21T23:29:06.485405+09:00",
   "phase": "DEVELOPMENT",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -55,9 +55,8 @@
     "Absent Supabase rebuild-agent bucket created private via official Storage API and verified; no existing bucket modified"
   ],
   "in_progress": [
-    "Repair rendered five-slide overflow and missing output metadata",
-    "Validate bounded excerpts/full speaker-note evidence and UI pre-approval detail",
-    "Final local regression/review checkpoint"
+    "Finalize rendered output evidence and checkpoint slide repairs",
+    "Complete acceptance gaps: Search scope, Provider profile edit/selection, core mobile flow, effective-condition display priority"
   ],
   "next": [
     "Re-render real INPUT and browser deck, verify no overflow and exact reviewed content retention",
@@ -74,9 +73,9 @@
     },
     {
       "id": "LOCAL_OAUTH",
-      "status": "NOT_LOGGED_IN",
-      "detail": "Fresh official CLI status: local/codex-oauth/NOT_LOGGED_IN/NOT_TESTED. Official interactive login required; no copying Desktop tokens and no API-key fallback.",
-      "last_checked_at_kst": "2026-09-21T22:32:41.554129+09:00"
+      "status": "AUTH_STATUS_UNAVAILABLE",
+      "detail": "Latest official CLI status unavailable; inference NOT_TESTED. Previous successful status probe NOT_LOGGED_IN. No successful project-local OAuth inference.",
+      "last_checked_at_kst": "2026-09-21T23:29:06.485405+09:00"
     },
     {
       "id": "EVENT_DETAILS",
@@ -111,11 +110,11 @@
     "tests": "Full Python108 PASS; AI31 PASS; frontend errors3/context4 PASS; browser26/Office16 and mixed-upload10 PASS with explicitly injected test storage.",
     "actual_services": {
       "openai_deployed": "ACTUAL_PRODUCT_DRAFT_USAGE_APPROVAL_EXPORT_WITH_TEST_STORAGE_PASS",
-      "codex_local": "NOT_LOGGED_IN",
+      "codex_local": "AUTH_STATUS_UNAVAILABLE_PREVIOUS_NOT_LOGGED_IN",
       "supabase": "REAL_PRODUCT_HTTP_AUTH_PASS_PRIVATE_BUCKET_CREATED_DB_SCHEMA_RLS_PENDING"
     },
     "complete": false,
-    "latest_regression": "SLIDE_REPAIR_IN_PROGRESS: full Python113PASS/1FAIL (new metadata export issue); historical baseline108PASS preserved. Do not treat current HEAD+WIP as all-green."
+    "latest_regression": "Python119 PASS after slide repairs; independent targeted28 PASS. Earlier browser26/Office16/slide limits9 PASS with injected storage. Final visual artifacts in progress."
   },
   "raw_logs": {
     "index": "ops/sessions/index.jsonl",
@@ -319,9 +318,10 @@
     "findings": 12
   },
   "output_review": {
-    "status": "BLOCK_READABILITY",
-    "report": "docs/OUTPUT_REVIEW.md",
-    "repair": "IN_PROGRESS"
+    "status": "SCOPED_CODE_REPAIRS_VERIFIED_RENDER_IN_PROGRESS",
+    "code_review": "PL01/PL02/PL03 scoped CLOSED, no full product approval",
+    "python_passed": 119,
+    "remaining": "Final renders and effective-condition excerpt priority"
   },
   "supabase_storage_configuration": {
     "bucket": "rebuild-agent",

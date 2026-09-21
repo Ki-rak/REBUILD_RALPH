@@ -127,3 +127,22 @@ def test_concurrent_upload_during_analysis_cannot_approve_stale_rows(flow, monke
     assert response.status_code == 409
     assert response.json()["detail"]["code"] == "INPUT_CHANGED"
     assert client.get(f"/api/projects/{pid}/drafts", headers=auth()).json() == []
+
+def test_oversized_slide_edit_is_rejected_before_changing_approved_revision(flow):
+    client, _, _ = flow
+    current = project(client)
+    upload(client, current, "Employer: Transit. Notice period: 17 calendar days.")
+    value = draft(client, current, "slides")
+    approved = client.post(f"/api/drafts/{value['id']}/approve",
+        json={"confirmed": True, "revision": value["revision"]}, headers=auth())
+    assert approved.status_code == 200
+    value["rows"][0]["current"] = "이 문장은 장표의 가독성을 확인하기 위한 긴 검토 내용입니다. " * 100
+    response = client.patch(f"/api/drafts/{value['id']}",
+        json={"rows": value["rows"], "revision": value["revision"]}, headers=auth())
+    assert response.status_code == 422
+    assert response.json()["detail"]["code"] == "SLIDE_CONTENT_TOO_LONG"
+    assert "분량" in response.json()["detail"]["message"]
+    persisted = client.get(f"/api/drafts/{value['id']}", headers=auth()).json()
+    assert persisted["status"] == "approved"
+    assert persisted["revision"] == value["revision"]
+    assert persisted["rows"][0]["current"] != value["rows"][0]["current"]

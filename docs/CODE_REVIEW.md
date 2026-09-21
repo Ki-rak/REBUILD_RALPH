@@ -85,3 +85,51 @@ Scope: ops/runtime/supabase_live_verify.py, tests/test_live_verifier.py and the 
 - No actual live verifier was invoked by this reviewer, and no .env values or headers were printed.
 
 The preflight change preserves the intended primary user-JWT isolation contract. Supabase and OAuth mandatory execution gaps remain explicit.
+## Presentation layout / notes review — additional findings
+
+2026-09-21 KST, /root/final_code_review. New layout changes in backend/drafts.py, backend/exports.py and root API/UI validation were inspected. This section does not duplicate the known in-flight255-character PPTX core-property failure or uploaded workbook-title preservation fix. Product source remains read-only in this lane.
+
+[HIGH] PL01 — Excluded and nested statistical evidence lost when building slide rows
+File: backend/drafts.py:145 (build_slide_rows source aggregation); backend/exports.py:407 (notes receive only the reduced slide row; line may shift).
+Confirmed evidence: actual allowed P01/N01 comparison contains25 excluded SourceRefs; all25 are absent from the generated slide rows' collected source_refs. The builder gathers source/current/historical refs and selected severity_evidence refs, but not excluded_refs, mitigation_refs or all nested sample risk_refs/severity_refs. _comparison_detail also omits original value_classes and statistical samples. Thus the notes cannot meet the new full evidence/detail preservation claim.
+Fix: preserve the complete comparison detail as reviewable plain text and all SourceRefs in validated top-level categorized fields, retaining the difference between applied/excluded/mitigation/statistical evidence. Do not introduce unchecked nested SourceRefs or silently present excluded documents as effective conditions.
+Status: reported directly to documents_impl and root; fix/retest pending.
+
+[HIGH] PL02 — Accepted custom template dimensions produce off-canvas output
+File: backend/templates.py:111 (slide template validation); backend/exports.py:512 (fixed-inch layout).
+Confirmed isolated API reproduction: retain the original five slides/placeholders but change template dimensions to7.5x10in; registration201, draft201, approval200, export200. Reopened output has25 text shapes outside the slide canvas. Template validation checks shape/text structure but exporter assumes13.333x7.5in.
+Fix: enforce supported dimensions explicitly at registration and export/resolution, including already registered versions, or derive shared geometry/validation from actual dimensions. Reject unsupported layouts with a specific visible error. Preserve uploaded original bytes.
+Status: reported directly to documents_impl and root; fix/retest pending.
+
+[MEDIUM] PL03 — Character-unit budget understates wide-Latin text and visible source labels
+File: backend/drafts.py:39 (_display_units) and backend/exports.py:374/_compact_ref (line numbers before in-flight edits).
+The validator accepts title W*80 and body seven lines of W*88. Actual generated PPTX title inner geometry851.04x66.96pt at28pt and body813.6x249.84pt at18pt were measured. The estimator counts2 title lines/7 body lines; installed Arial glyph metrics require3/14 lines (84/252pt). The actual provided theme is Calibri Light/Calibri; matching-theme measurements and real rendering are being checked before declaring a final visual verdict. The three visible source labels additionally emit unbounded filenames/locators despite a0.95in source box.
+Fix: ground the conservative budget in the selected font and real geometry, test wide Latin and CJK boundary cases, and use explicit bounded source labels while preserving the full source metadata in notes. Never silently cut edited title/body text.
+Status: actionable measured-fit concern reported to implementer/root; final theme/render proof pending. No hypothetical product failure is claimed beyond the concrete geometry discrepancy.
+
+Scoped recommendation remains REQUEST CHANGES for PL01/PL02 until fresh fixes are independently checked. No overall product or architecture approval is issued.
+## Presentation re-review — first ready revision
+
+Independent run: ops/python.ps1 -m pytest tests/test_slide_layout.py tests/test_templates.py tests/test_exports.py tests/test_review_regressions.py -q =>27PASS, two existing Starlette deprecation warnings. An earlier invocation named nonexistent tests/test_slide_api_limits.py, ran no tests, and was corrected; no false PASS recorded.
+
+- PL02 CLOSED in scoped registration/export paths: unsupported canvas now rejects registration with422 SLIDE_TEMPLATE_SIZE_UNSUPPORTED before object/record writes; original bytes remain unchanged. Direct exporter also rejects unsupported dimensions. Same-size custom metadata template remains accepted and byte-identical on original download.
+- Known in-flight255-character metadata/export failure resolved in the tested path: bounded core properties plus complete provenance in speaker notes; long UUID/template-hash regression passed. Uploaded workbook title preservation regression passed.
+- PL01 PARTIALLY FIXED, still HIGH/open: actual excluded/mitigation top-level refs are normalized and role labels retained. However severity_evidence.samples[*].risk_refs/severity_refs still are not traversed; full samples and value_classes still are not serialized into detail_text. Fresh synthetic export result: nested_ref_retained=false, nested_ref_quote_in_notes=false, sample_project_in_notes=false, value_class_in_notes=false. Reported directly to implementer and leader. The new test checks top-level excluded/mitigation refs but does not yet cover nested sample evidence.
+- PL03 PARTIALLY FIXED, still MEDIUM/open: W title/body is now rejected and72-character compact source labels preserve complete notes. Matching-theme source-label bound72CJK*9pt=648pt fits813.6pt width. But accepted H*88 on seven explicit body lines has622chars/estimated7lines. Actual supplied-theme Calibri18pt width of H*88 is990pt; available813.6pt requires14lines,252pt, exceeding249.84pt inner body height. The W-only special case did not repair the same width assumption for other wide glyphs. Reported directly to implementer and leader.
+
+Scoped verdict remains REQUEST CHANGES for unresolved PL01/PL03. Structural27PASS does not negate the independent counterexamples or establish rendered layout completion.
+## Presentation re-review — PL01 / PL03 scoped closure
+
+Reviewer /root/final_code_review; independent recheck of the previously reproduced defects only. Earlier failed probes and first-revision findings above remain part of the record.
+
+- PL01 CLOSED within the reported evidence-preservation scope. backend/drafts.py:37 now collects nested severity_evidence.samples risk_refs/severity_refs into the same validated top-level source_refs. The plain-text detail preserves sample project_id, severity, scale, sample classifications, statistical summaries, and role labels; backend/drafts.py:119 also preserves the production contract's top-level row.value_classes. No new unchecked nested SourceRef channel was added. Existing current_refs/historical_refs remain distinct, while excluded_refs and mitigation_refs retain their explicit role labels in full comparison detail.
+- Fresh exact synthetic export probe: nested_ref_retained=true, nested_ref_quote_in_notes=true, sample_project_in_notes=true, value_class_in_notes=true. The last condition uses a distinct SPECIAL_UNCONFIRMED_CLASS marker at row.value_classes, matching the previously failing location, rather than only sample.value_classes.
+- Fresh allowed P01/N01 comparison and slide conversion: excluded_count=25, excluded_missing=0, validate_refs succeeded for the collected references, and the excluded_refs role label remains present. The independently rerun real-data export regression verifies complete detail_text and every collected reference's filename/path, locator and quote in editable speaker notes. Excluded evidence is preserved as excluded evidence, not relabelled as an effective contract condition.
+- PL03 CLOSED for the reported wide-Latin/title/body and source-label counterexamples. backend/drafts.py:68 now counts all ASCII uppercase letters conservatively in addition to CJK and the previous wide-character cases. Exact W88x7 and H88x7 bodies reject with SLIDE_CONTENT_TOO_LONG. Matching supplied-theme font measurement using installed Calibri18pt gives H88=990pt against813.6pt available width; the revised estimator counts14 lines instead of7, preventing the252pt content from exceeding249.84pt inner body height. Calibri Light28pt gives W80=1980pt against851.04pt title width; the revised estimator counts3 lines and rejects it. Visible source labels remain bounded to72 characters; the documented72-CJK-at9pt bound648pt fits813.6pt, with full metadata retained in notes.
+- PL02 closure and the previously verified255-character core-metadata/custom-workbook-title fixes remain valid. No source template was changed by this review.
+- Independent diagnostic: ops/python.ps1 -m pytest tests/test_slide_layout.py tests/test_templates.py tests/test_exports.py tests/test_review_regressions.py -q =>28PASS, two existing Starlette deprecation warnings.
+- Recovery record: the first run in this pass produced1FAIL/27PASS because the newly added test asserted top-level value classifications without supplying them in its fixture. This was reported; the implementer added production-shaped fixture data without weakening the assertion. The repeated invocation above passed. The separate exact product probe already preserved the supplied classification marker. A read-only git diff attempt also returned a usage error and was not treated as validation; direct source inspection and executed diagnostics supplied the evidence.
+
+### Scoped verdict
+
+COMMENT. PL01, PL02 and PL03 are resolved for the reproduced defects and stated validation boundaries. This review does not certify arbitrary font/template layouts, replace the separate actual rendered-output check, or approve overall product completion. Actual Supabase DB/Storage/Auth/RLS execution and local OAuth inference remain separate mandatory gates. Product source and tests were not edited by this reviewer.

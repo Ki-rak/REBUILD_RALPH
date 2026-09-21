@@ -1,0 +1,45 @@
+{
+  "boundary": "TEST_STORAGE_INJECTED",
+  "scenario": "Slide detail disclosure and rejected edit preservation",
+  "started": "2026-09-21T14:15:04.961Z",
+  "checks": [
+    {
+      "name": "Five editable rows disclose bounded original excerpts and full notes",
+      "status": "PASS"
+    },
+    {
+      "name": "Expanded detail exposes actual original value before approval",
+      "status": "PASS"
+    },
+    {
+      "name": "Bounded valid slide draft approved",
+      "status": "PASS"
+    },
+    {
+      "name": "Oversized Korean content rejected with 422 and friendly length message",
+      "status": "PASS"
+    },
+    {
+      "name": "Rejected edit leaves server approved revision and all row contents unchanged",
+      "status": "PASS"
+    },
+    {
+      "name": "UI retains oversized unsaved input and blocks approval/export",
+      "status": "PASS"
+    },
+    {
+      "name": "Shortened edit saves a new revision and invalidates prior approval",
+      "status": "PASS"
+    },
+    {
+      "name": "Shortened revision reapproved successfully",
+      "status": "PASS"
+    },
+    {
+      "name": "No exports requested and no browser JavaScript errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "finished": "2026-09-21T14:15:58.156Z"
+}

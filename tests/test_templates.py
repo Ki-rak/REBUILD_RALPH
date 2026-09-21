@@ -86,3 +86,37 @@ def test_forged_template_version_metadata_is_rejected(flow):
     records[key]["payload"]["filename"] = "forged.xlsx"
     denied = client.get(f"/api/templates/itb/original?version={sha256(data).hexdigest()}", headers=auth())
     assert denied.status_code == 409
+
+def test_slide_template_rejects_changed_canvas_without_persisting(flow):
+    from pptx import Presentation
+    from pptx.util import Inches
+    client, records, files = flow
+    original = (TEMPLATES / "Review_Deck_Template.pptx").read_bytes()
+    deck = Presentation(BytesIO(original))
+    deck.slide_width, deck.slide_height = Inches(7.5), Inches(10)
+    candidate = BytesIO()
+    deck.save(candidate)
+    records_before, files_before = len(records), len(files)
+    response = client.post("/api/templates/slides/versions",
+        files={"file": ("portrait.pptx", candidate.getvalue(), "application/octet-stream")},
+        headers=auth())
+    assert response.status_code == 422
+    assert response.json()["detail"]["code"] == "SLIDE_TEMPLATE_SIZE_UNSUPPORTED"
+    assert "크기" in response.json()["detail"]["message"]
+    assert len(records) == records_before and len(files) == files_before
+    assert (TEMPLATES / "Review_Deck_Template.pptx").read_bytes() == original
+
+
+def test_slide_template_same_canvas_custom_metadata_remains_accepted(flow):
+    from pptx import Presentation
+    client, _, _ = flow
+    deck = Presentation(TEMPLATES / "Review_Deck_Template.pptx")
+    deck.core_properties.title = "Reusable committee template"
+    candidate = BytesIO()
+    deck.save(candidate)
+    response = client.post("/api/templates/slides/versions",
+        files={"file": ("committee-custom.pptx", candidate.getvalue(), "application/octet-stream")},
+        headers=auth())
+    assert response.status_code == 201
+    version = response.json()["version"]
+    assert client.get(f"/api/templates/slides/original?version={version}", headers=auth()).content == candidate.getvalue()

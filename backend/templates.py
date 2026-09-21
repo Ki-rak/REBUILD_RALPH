@@ -114,6 +114,9 @@ class TemplateCatalog:
                         after.close()
             elif tid == "slides":
                 deck = Presentation(BytesIO(data))
+                provided_deck = Presentation(BytesIO(original))
+                if (deck.slide_width, deck.slide_height) != (provided_deck.slide_width, provided_deck.slide_height):
+                    raise TemplateError("SLIDE_TEMPLATE_SIZE_UNSUPPORTED")
                 if len(deck.slides) != 5:
                     raise TemplateError("FIVE_SLIDE_TEMPLATE_REQUIRED")
                 for slide in deck.slides:
