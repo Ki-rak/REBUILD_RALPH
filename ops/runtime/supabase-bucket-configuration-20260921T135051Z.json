@@ -1,0 +1,12 @@
+{
+  "at": "2026-09-21T13:50:50.693399+00:00",
+  "scope": "PRIVATE_BUCKET_CONFIGURATION_ONLY",
+  "created": true,
+  "existing_bucket_modified": false,
+  "private_bucket_verified": true,
+  "db_rls_verified": false,
+  "user_storage_rls_verified": false,
+  "status": "CONFIGURED_PRIVATE_BUCKET",
+  "initial_http_status": 400,
+  "create_http_status": 200
+}

@@ -39,3 +39,7 @@
 2026-09-21 22:36 KST: 최신 로컬 제품 서버의 /api/auth/login, /me, /refresh, /logout을 실제 Supabase 시험 계정으로 실행했다. 로그인·본인 확인·세션 갱신·로그아웃·로그아웃 후 갱신 차단·잘못된 비밀번호 거부·인증 응답 no-store가 통과했고 시험 계정은 삭제했다.
 
 증거: ops/runtime/product-auth-live-20260921T133655Z.json. 재현 스크립트: ops/runtime/product_auth_live.py. 이는 실제 제품 HTTP 인증 성공이며 DB/Storage/RLS와 OAuth의 미완료 상태를 바꾸지 않는다.
+
+## 비공개 bucket 구성 2026-09-21T22:51:55.231286+09:00
+
+공식 Storage API로 rebuild-agent의 Bucket not found를 확인한 다음 public=false로 새 bucket을 생성하고 다시 조회해 확인했다. 기존 bucket이나 자료는 변경하지 않았다. 증거: ops\runtime\supabase-bucket-configuration-20260921T135051Z.json. DB 테이블과 사용자별 DB/Storage RLS는 여전히 SQL migration 적용과 실제 검증이 필요하다. 이 구성 성공을 사용자 업로드 성공으로 대신하지 않는다.
