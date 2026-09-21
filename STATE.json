@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-21T19:30:12.678356+09:00",
+  "updated_at_kst": "2026-09-21T19:55:42.579863+09:00",
   "phase": "PREPARATION",
   "scope_status": "GOAL_V11_READY_AI_COMPONENT_IN_PROGRESS",
   "active_native_goal_started_by_agent": false,
@@ -200,9 +200,13 @@
     "anonymous_api_read": "PASS",
     "remote_refs_observed": 0,
     "local_git_initialized": true,
-    "push_access_verified": false,
-    "code_published": false,
-    "branch": "feat/ai-auth-split-goal-v11"
+    "push_access_verified": true,
+    "code_published": true,
+    "branch": "main",
+    "upstream": "origin/main",
+    "default_branch": "main",
+    "last_verified_published_commit": "04b20d87bb1f757b9187ee2102b6b5f945c73947",
+    "published_scope": "Committed UI and goal/configuration documents; unfinished AI code excluded"
   },
   "completion": {
     "product": "INCOMPLETE_COMPONENT_IMPLEMENTATION",
