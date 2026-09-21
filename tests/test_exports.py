@@ -123,3 +123,31 @@ def test_server_comparison_rows_populate_all_review_deck_sections() -> None:
     assert "염수 조건" in slide_text[2]
     assert "처리 공정을 확인하세요." in slide_text[3]
     assert "펌프 설계량 미확정" in slide_text[4]
+
+def test_user_edited_review_fields_survive_all_output_formats() -> None:
+    row = _comparison_row()
+    row.update({
+        "decision": "ADAPT_AFTER_REVIEW",
+        "rationale": "Browser reviewer verified the uploaded notice period.",
+        "mitigation": "Preserve the reviewer mitigation exactly.",
+        "missing_information": ["Confirm the final permit owner."],
+    })
+
+    itb_bytes, _, _ = build_output({"kind": "itb", "rows": [row]}, TEMPLATES / "ITB_Analysis_Template.xlsx")
+    itb = load_workbook(io.BytesIO(itb_bytes))["ITB"]
+    assert "ADAPT_AFTER_REVIEW" in itb["F6"].value
+    assert "Browser reviewer verified the uploaded notice period." in itb["F6"].value
+    assert "Confirm the final permit owner." in itb["H6"].value
+
+    risk_bytes, _, _ = build_output({"kind": "risk", "rows": [row]}, TEMPLATES / "Risk_Register_Template.xlsx")
+    risk = load_workbook(io.BytesIO(risk_bytes)).active
+    assert "Browser reviewer verified the uploaded notice period." in risk["C6"].value
+    assert risk["G6"].value == "Preserve the reviewer mitigation exactly."
+    assert "Confirm the final permit owner." in risk["J6"].value
+
+    slide_bytes, _, _ = build_output({"kind": "slides", "rows": [row]}, TEMPLATES / "Review_Deck_Template.pptx")
+    deck = Presentation(io.BytesIO(slide_bytes))
+    text = "\n".join(shape.text for slide in deck.slides for shape in slide.shapes if hasattr(shape, "text_frame"))
+    assert "Browser reviewer verified the uploaded notice period." in text
+    assert "Preserve the reviewer mitigation exactly." in text
+    assert "Confirm the final permit owner." in text

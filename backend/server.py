@@ -25,6 +25,7 @@ from .auth import SupabaseAuth
 from .storage import SupabaseStore, NotFoundError
 from .extraction import extract_document
 from .exports import build_output
+from .drafts import build_slide_rows, validate_slide_rows
 from .security import IntegrityError, APPROVAL_FIELDS, sign_document, verify_document, sign_approval, verify_approval, seal_intake, restore_intake
 
 PRODUCT = "RE:Build Agent"
@@ -148,14 +149,15 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         if context_factory:
             yield context_factory(token)
             return
+        auth = store = None
         try:
-            settings.validate()
-            auth = SupabaseAuth(settings.supabase_url, settings.publishable_key)
-            user = to_dict(auth.get_user(token))
-        except Exception:
-            fail("SESSION_INVALID", "로그인 세션이 만료되었거나 인증 서버에 연결할 수 없습니다.", 401)
-        store = SupabaseStore(settings.supabase_url, settings.publishable_key, token)
-        try:
+            try:
+                settings.validate()
+                auth = SupabaseAuth(settings.supabase_url, settings.publishable_key)
+                user = to_dict(auth.get_user(token))
+            except Exception:
+                fail("SESSION_INVALID", "로그인 세션이 만료되었거나 인증 서버에 연결할 수 없습니다.", 401)
+            store = SupabaseStore(settings.supabase_url, settings.publishable_key, token)
             yield Context(user, store, auth, token)
         finally:
             if hasattr(store, "close"):
@@ -508,7 +510,7 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         result = analysis_result(ctx, pid, body)
         cur, past, _ = inputs(ctx, pid)
         draft = save(ctx, "draft", {"id": str(uuid4()), "project_id": pid, "output_kind": body.kind, "type": body.kind,
-            "title": info["name"], "revision": 1, "status": "draft", "created_at": now(), "rows": result["rows"],
+            "title": info["name"], "revision": 1, "status": "draft", "created_at": now(), "rows": build_slide_rows(result["rows"]) if body.kind == "slides" else result["rows"],
             "mode": result["mode"], "ai_used": result["ai_used"], "ai_insight": result.get("ai_insight"),
             "template_id": info["id"], "template_sha256": info["sha256"],
             "input_fingerprint": fingerprint(cur + past, info["sha256"]), "approval_history": [],
@@ -528,6 +530,8 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
             fail("VERSION_CONFLICT", "초안이 변경되었습니다. 새로고침 후 다시 검토하세요.", 409)
         cur, past, _ = inputs(ctx, draft["project_id"])
         try:
+            if draft["output_kind"] == "slides":
+                validate_slide_rows(body.rows)
             validate_refs(body.rows, cur + past)
         except ValueError as e:
             fail(str(e), "유효하지 않은 원문 근거가 있습니다.", 422)
@@ -548,6 +552,8 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         if draft["template_sha256"] != info["sha256"] or draft["input_fingerprint"] != fingerprint(cur + past, info["sha256"]):
             fail("DRAFT_STALE", "입력 또는 양식이 변경됐습니다. 초안을 갱신하고 재승인하세요.", 409)
         try:
+            if draft["output_kind"] == "slides":
+                validate_slide_rows(draft["rows"])
             validate_refs(draft["rows"], cur + past)
         except ValueError as e:
             fail(str(e), "원문 근거를 검증할 수 없습니다.", 409)

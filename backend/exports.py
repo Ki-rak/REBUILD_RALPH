@@ -9,7 +9,9 @@ from urllib.parse import parse_qs, urlparse
 
 from openpyxl import load_workbook
 from openpyxl.styles import Alignment, Font
+from openpyxl.workbook.properties import CalcProperties
 from pptx import Presentation
+from .drafts import SLIDE_IDS
 
 _XLSX_MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 _PPTX_MIME = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
@@ -100,6 +102,13 @@ def _collect_refs(value: Any) -> list[dict[str, Any]]:
     return list(unique.values())
 
 
+def _write_value(cell: Any, value: Any) -> None:
+    """Preserve source/user strings literally; only explicit generated formulas execute."""
+    cell.value = value
+    if isinstance(value, str):
+        cell.data_type = "s"
+
+
 def _add_sources_sheet(workbook: Any, draft: dict[str, Any]) -> dict[tuple[Any, ...], int]:
     if "Sources" in workbook.sheetnames:
         del workbook["Sources"]
@@ -113,7 +122,7 @@ def _add_sources_sheet(workbook: Any, draft: dict[str, Any]) -> dict[tuple[Any, 
         values = [ref.get("source_id"), ref.get("document_id"), _first(ref, "source_path", "filename"), ref.get("sha256"),
                   ref.get("revision"), ref.get("approval_status"), ref.get("locator_type"), ref.get("locator"), ref.get("quote"), "원문 열기"]
         for column, value in enumerate(values, 1):
-            sheet.cell(row, column, value)
+            _write_value(sheet.cell(row, column), value)
             sheet.cell(row, column).alignment = Alignment(vertical="top", wrap_text=True)
         url = _safe_url(ref.get("url"))
         if url:
@@ -191,6 +200,11 @@ def _build_itb(draft: dict[str, Any], template_path: Path) -> bytes:
         refs = _refs(item)
         current = _first(item, "current_condition", "new_condition", "condition", "current")
         decision = _first(item, "decision", "applicability", "judgement")
+        rationale = _text(item.get("rationale"))
+        judgement = "\n".join(part for part in (
+            f"적용 판단: {_text(decision)}" if decision not in (None, "") else None,
+            f"근거 설명: {rationale}" if rationale else None,
+        ) if part)
         review_item = {**item, "current_condition": current, "decision": decision}
         values = [
             _first(item, "item_id", "id", default=f"ITEM-{index - 5:02d}"),
@@ -198,12 +212,12 @@ def _build_itb(draft: dict[str, Any], template_path: Path) -> bytes:
             _text(current),
             _text(_first(item, "historical_case", "past_case", "history", "past")),
             _text(_first(item, "differences", "difference")),
-            _text(decision),
+            judgement or None,
             _render_refs(refs),
             _review(review_item, bool(refs), ("current_condition", "decision")),
         ]
         for column, value in enumerate(values, 1):
-            sheet.cell(index, column).value = value
+            _write_value(sheet.cell(index, column), value)
             sheet.cell(index, column).alignment = copy(sheet.cell(index, column).alignment)
             sheet.cell(index, column).alignment = Alignment(horizontal=sheet.cell(index, column).alignment.horizontal, vertical="top", wrap_text=True)
         _link_to_source(sheet.cell(index, 7), refs, source_rows)
@@ -232,7 +246,7 @@ def _build_itb(draft: dict[str, Any], template_path: Path) -> bytes:
         refs = _refs(fact)
         values = [_first(fact, "fact", "name", "label"), fact.get("value"), fact.get("unit"), _render_refs(refs), _review(fact, bool(refs), ("value",))]
         for column, value in enumerate(values, 1):
-            facts_sheet.cell(row, column, value)
+            _write_value(facts_sheet.cell(row, column), value)
             facts_sheet.cell(row, column).alignment = Alignment(vertical="top", wrap_text=True)
         _link_to_source(facts_sheet.cell(row, 4), refs, source_rows)
     if not facts:
@@ -268,7 +282,7 @@ def _build_risk(draft: dict[str, Any], template_path: Path) -> bytes:
             _first(item, "mitigation", "response", "action"), _first(item, "owner", "responsible"), _render_refs(refs), review or "REVIEWED",
         ]
         for column, value in enumerate(values, 1):
-            sheet.cell(index, column).value = value
+            _write_value(sheet.cell(index, column), value)
             sheet.cell(index, column).alignment = Alignment(vertical="top", wrap_text=True)
         _link_to_source(sheet.cell(index, 9), refs, source_rows)
         if score is None and probability not in (None, "") and intensity not in (None, ""):
@@ -276,12 +290,11 @@ def _build_risk(draft: dict[str, Any], template_path: Path) -> bytes:
     for row in range(6 + len(rows), 14):
         for column in range(1, 11):
             sheet.cell(row, column).value = None
-    try:
-        workbook.calculation.fullCalcOnLoad = True
-        workbook.calculation.forceFullCalc = True
-        workbook.calculation.calcMode = "auto"
-    except AttributeError:
-        pass
+    if workbook.calculation is None:
+        workbook.calculation = CalcProperties()
+    workbook.calculation.fullCalcOnLoad = True
+    workbook.calculation.forceFullCalc = True
+    workbook.calculation.calcMode = "auto"
     return _save_workbook(workbook)
 
 
@@ -329,7 +342,17 @@ def _build_slides(draft: dict[str, Any], template_path: Path) -> bytes:
         _items(draft, "risks", "risk_items"),
         _items(draft, "unknowns", "missing_information", "decisions"),
     )
-    if rows and not any(sections):
+    if [row.get("id") for row in rows] == list(SLIDE_IDS):
+        # The reviewed slide body is authoritative; do not regenerate it from topics.
+        sections = tuple([{
+            "text": "\n".join(filter(None, (
+                _text(row.get("current")), _text(row.get("decision")),
+                _text(row.get("rationale")), _text(row.get("missing_information")),
+            ))),
+            "source_refs": _refs(row),
+        }] for row in rows)
+    elif rows and not any(sections):
+        # Compatibility for the original topic-based draft representation.
         business = [{"text": f"{_first(row, 'title', 'id')}: {_text(row.get('current')) or _REVIEW}", "source_refs": row.get("current_refs") or row.get("source_refs") or []} for row in rows]
         itb = [{"text": _text(row.get("current")) or f"{_first(row, 'title', 'id')}: {_REVIEW}", "source_refs": row.get("current_refs") or row.get("source_refs") or []} for row in rows]
         applicability = [{"text": "\n".join(filter(None, (_text(row.get("title")), _text(row.get("differences")), _text(row.get("decision")), _text(row.get("rationale"))))), "source_refs": row.get("source_refs") or []} for row in rows]
