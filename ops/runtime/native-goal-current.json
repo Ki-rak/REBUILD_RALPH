@@ -3,10 +3,10 @@
     "threadId": "01a0c294-1149-70e2-8a8a-c9634b1f450f",
     "objective": "Read the Codex goal objective file at C:\\Users\\GS\\.codex\\attachments\\152fa17c-8642-4567-9611-5cf82ea37345\\goal-objective.md before continuing.",
     "status": "active",
-    "tokensUsed": 5962048,
-    "timeUsedSeconds": 15504,
+    "tokensUsed": 6440577,
+    "timeUsedSeconds": 18710,
     "createdAt": 1789988273,
-    "updatedAt": 1790003917
+    "updatedAt": 1790007123
   },
   "remainingTokens": null,
   "completionBudgetReport": null

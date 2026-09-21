@@ -1,0 +1,7 @@
+{
+  "kind": "annotate_ledger",
+  "targetGoalId": "G001-source-intake",
+  "evidence": "Local commit95736b5: lossless readable ITB/Risk XLSX with chunked detail and per-item SourceRef roles; real condition display precedes generic rationale. Fresh product140PASS/2existing warnings; owned8786 browser26/Office16PASS(TEST_STORAGE_INJECTED). Root viewed actual ITB/Risk and remaining PPTX/CJK boundary pages; independent initial4/probe + final3PASS, scoped CLEAR. Credential scan14files/0matches. Actual product server8780 restarted and health configuration verified. Raw native segments1782/32/5554 each exact-copy/hash/JSONL PASS, separate active snapshots. Mandatory live Supabase SQL/RLS/restart and dedicated official OAuth still pending.",
+  "rationale": "Record verified scoped work without claiming live integration, whole-product completion, story completion or final strict pass.",
+  "idempotencyKey": "output-layout-20260922-0113"
+}

@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T01:09:54.763632+09:00",
+  "updated_at_kst": "2026-09-22T01:14:15.6844186+09:00",
   "phase": "DEVELOPMENT",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -57,7 +57,7 @@
     "ITB/Risk lossless readable excerpts, source-role mapping and literal/formula preservation; actual renders and scoped independent CLEAR; product140/browser26/Office16PASS"
   ],
   "in_progress": [
-    "Record local commits, raw-session export and OMX evidence checkpoint without claiming product completion"
+    "Required live Supabase and local OAuth verification awaiting authenticated external access"
   ],
   "next": [
     "Apply prepared SQL with approved authenticated Supabase management access; verify actual two-user DB/Storage RLS and restart flow",
@@ -102,7 +102,17 @@
       ".omx/ultragoal/ledger.jsonl"
     ],
     "last_rechecked_kst": "2026-09-21T19:30:12.678356+09:00",
-    "active_native_goal": "Read the Codex goal objective file at C:\\Users\\GS\\.codex\\attachments\\152fa17c-8642-4567-9611-5cf82ea37345\\goal-objective.md before continuing."
+    "active_native_goal": "Read the Codex goal objective file at C:\\Users\\GS\\.codex\\attachments\\152fa17c-8642-4567-9611-5cf82ea37345\\goal-objective.md before continuing.",
+    "latest_checkpoint": {
+      "at": "2026-09-22T01:14:15.6844186+09:00",
+      "directive": "ops/runtime/omx-output-checkpoint.json",
+      "accepted": true,
+      "native_goal_status": "active",
+      "in_progress": 1,
+      "pending": 4,
+      "complete": 0,
+      "strict_completion_pass": false
+    }
   },
   "product_implementation": {
     "implemented": true,
@@ -123,16 +133,20 @@
     "format_scope": "Required main JSONL 1 and optional other-session JSONL ZIP 1; detailed schema/upload limits unverified",
     "main_session_qualified": false,
     "latest_export": {
-      "exported_at_kst": "2026-09-22T00:16:14.749009+09:00",
+      "exported_at_kst": "2026-09-22T01:12:35.622646+09:00",
       "segment_count": 3,
       "event_counts": [
         1782,
         32,
-        4576
+        5554
       ],
-      "latest_sha256": "948958d42d078488eca64a618f6754b7c10ba4c7cf8a06fa9e1f836b055aa8dd",
-      "user_goal_reference_seen": true,
-      "final_goal_result_assessed": false
+      "exact_copy_all": true,
+      "jsonl_parse_all": "PASS",
+      "redaction_count": 0,
+      "latest_sha256": "68a5b538e79eadcd5de176591bc8df23d039be6858742319060f6ace2516be89",
+      "summary": "ops/runtime/latest-export-summary.json",
+      "snapshot_only": true,
+      "final_result_assessed": false
     },
     "segment_discovery": "3 actual segments exported separately, exact complete-record copies and JSONL validation PASS",
     "latest_export_scope": "Active separate segments through 2026-09-21T15:15:59.253Z; not final goal result"
@@ -270,7 +284,8 @@
       "0344d74",
       "5bf3e7b",
       "af35dfb",
-      "b8e22e1"
+      "b8e22e1",
+      "95736b5"
     ]
   },
   "completion": {

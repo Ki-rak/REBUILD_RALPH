@@ -253,3 +253,5 @@ Current browser commands are maintained in tests/ui/browser_README.md. Default `
 - [ ] Final independent/OMX strict completion gate after required live evidence.
 
 No deployment/public push. Product remains incomplete; repeated local test success cannot replace missing external verification.
+
+Final local output checkpoint: commit95736b5, stage scan14files/0credential matches and whitespacePASS. Raw session segments1782/32/5554 exported separately with exact hashes and JSONL parsePASS; active snapshots, final-session eligibility not assessed. OMX annotation accepted, G001in_progress/4pending/0complete. Product remains incomplete pending authenticated live services and final strict gate.
