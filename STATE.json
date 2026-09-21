@@ -1,0 +1,242 @@
+{
+  "product": "RE:Build Agent",
+  "updated_at_kst": "2026-09-21T18:32:57.291823+09:00",
+  "phase": "PREPARATION",
+  "scope_status": "UI_REVISION_06_GOAL_REFRESH_DEFERRED",
+  "active_native_goal_started_by_agent": false,
+  "session": {
+    "id": "01a0c294-1149-70e2-8a8a-c9634b1f450f",
+    "order": 1,
+    "phase": "preparation"
+  },
+  "deadlines_kst": {
+    "goal_submission": "2026-09-21T17:00:00+09:00",
+    "hands_off_start": "2026-09-21T17:30:00+09:00",
+    "seal_release": "2026-09-22T10:00:00+09:00",
+    "final_submission": "2026-09-22T12:00:00+09:00"
+  },
+  "completed": [
+    "Original inventory and SHA-256 baseline: 398 files",
+    "Read handoffs, checklist, HTML prototype, source precedence and evaluation README",
+    "Read 40 actual P01/P06/N01/template/catalog files",
+    "Runtime inventory, SQLite/FTS5 and localhost HTTP smoke",
+    "Actual Codex session snapshot export and hash/JSONL validation",
+    "OMX 0.21.5 project install with 22 skills and Windows native runtime",
+    "OMX saved-plan reload and refusal of checkpoint without native goal",
+    "AGENTS/SPEC/PLAN/GOAL and evidence documentation drafts",
+    "Saved five pending OMX stories and matching GOAL_INPUT without activating native goal",
+    "Preparation verification: 15 PASS, 0 FAIL",
+    "Latest raw session export: 532 events, 6,592,365 bytes; exact SHA-256 match",
+    "User submission slide preserved and five deliverables plus separate evidence requirements integrated into SPEC AC17-22, GOAL and PLAN",
+    "OMX accepted submission steering for G004/G005; plan still pending. Preparation verification rerun: 15 PASS/0 FAIL.",
+    "Vercel deployment confirmed; organizer-issued LLM key pending. Official runtime/storage limits reviewed; SPEC/GOAL/PLAN and safe blank environment template updated.",
+    "OMX G001/G002/G004 accepted Vercel/persistence/organizer-key steering; all stories remain pending. Empty env template checked; preparation verification 15 PASS/0 FAIL.",
+    "Rechecked actual installed skills/plugins, OMX doctor and native goal. Confirmed Supabase/Vercel; specified Provider settings/basic Auth/SSO UI with corporate real connections deferred by user.",
+    "Approved project dependency install complete: Python 3.12 venv, 54 packages, 17 preparation dependency checks PASS; Supabase JS SDK/esbuild installed and import/native transform PASS. Vercel CLI not installed.",
+    "Accepted latest OMX steering for G001/G002/G004: Supabase project, Provider/basic Auth/SSO UI, deferred corporate connections, optional Vercel/GPT Sites. All 5 goals remain pending.",
+    "User fresh-upload demo requirement integrated into SPEC v0.6 AC29-30, GOAL, PLAN, submission checks and pending OMX stories. Product implementation/testing not started.",
+    "User supplied existing public GitHub repository, selected Vercel deployment URL after actual deploy, and retained Google Drive connection/publication step. Anonymous GitHub read verified; no push/deploy/Drive completion claimed.",
+    "Corrected completion criteria per user: actual product functionality/quality/repeated fresh-input use, separate from deployment/demo/event submission. ITB is initial milestone; remaining features tracked honestly.",
+    "Created local OpenAI .env without filling secrets; refreshed safe template. Git ignore verified in isolated scratch repo for .env variants and safe template; no model API call.",
+    "Resolved colleague UI questions and verified actual ITB/Risk/5-slide committee templates; SPEC/GOAL v0.9 and AC31-38 added.",
+    "Revised UI design 05 created separately; 10 browser checks PASS including project/file selection, main Re:Builder modes/context, library/real original access, data state examples, shared templates/five-slide layout and mobile navigation. Product API/storage/analysis not implemented.",
+    "Prepared self-contained /goal v1.0 and bound pending OMX objective exactly; no runtime started, all stories remain pending.",
+    "UI 06: 지식조회 rename, integrated name/upload, three output review workflows, evidence nodes and comparisons, historical inventory, seven actual template downloads, locally hosted Pretendard. 38 browser checks PASS; original input and goal/harness hashes unchanged."
+  ],
+  "in_progress": [
+    "UI 06 ready for user review; /goal revision intentionally deferred."
+  ],
+  "next": [
+    "Finish UI review; amend /goal only after the user requests its revision."
+  ],
+  "blocked_issues": [
+    {
+      "id": "API",
+      "status": "WAITING_FOR_EVENT_KEY",
+      "detail": "User confirmed OpenAI. Local .env input fields prepared; key receipt, allowed model/quota and actual API call remain unverified."
+    },
+    {
+      "id": "CLI_AUTH",
+      "status": "NOT_LOGGED_IN",
+      "detail": "External Codex CLI worker not validated. Current Desktop native goal path selected."
+    },
+    {
+      "id": "EVENT_DETAILS",
+      "status": "UNKNOWN",
+      "detail": "Hands-off exceptions/restart allowances and submission-form schema/size constraints remain unknown. Required JSONL/ZIP containers now confirmed."
+    },
+    {
+      "id": "PUBLICATION_ACCESS",
+      "status": "UNVERIFIED",
+      "detail": "GitHub target public and readable; push access/code publication unverified. Vercel selected, actual deployment pending. User owns Google Drive connection step. Supabase project access in this Codex session still unverified."
+    }
+  ],
+  "harness": {
+    "name": "Oh My Codex",
+    "version": "0.21.5",
+    "scope": "project",
+    "workflow": "ultragoal aggregate over current Codex native goal",
+    "continuous_execution_verified": false,
+    "external_worker_verified": false,
+    "native_identity": "PASS_AFTER_WINDOWS_TIMEOUT_PATCH",
+    "doctor": {
+      "passed": 17,
+      "warnings": 3,
+      "failed": 0
+    },
+    "artifacts": [
+      ".omx/ultragoal/brief.md",
+      ".omx/ultragoal/goals.json",
+      ".omx/ultragoal/ledger.jsonl"
+    ],
+    "last_rechecked_kst": "2026-09-21T16:27:00+09:00",
+    "active_native_goal": null
+  },
+  "product_implementation": {
+    "existing": "HTML design preview only",
+    "implemented": false,
+    "tests": "NOT_RUN_NO_PRODUCT_YET"
+  },
+  "raw_logs": {
+    "index": "ops/sessions/index.jsonl",
+    "original_preserved": true,
+    "official_format_confirmed": true,
+    "format_scope": "Required main JSONL 1 and optional other-session JSONL ZIP 1; detailed schema/upload limits unverified",
+    "main_session_qualified": false,
+    "latest_export": {
+      "exported_at_kst": "2026-09-21T16:49:21.848026+09:00",
+      "event_count": 955,
+      "export_path": "D:\\REBUILD_RALPH\\ops\\sessions\\01a0c294-1149-70e2-8a8a-c9634b1f450f\\20260921T164921848026+0900\\rollout.raw.jsonl",
+      "sha256": "e670a4c60140aec0063e55a2bbfe4e3a99ad0e757ae942fbaf3fc103067b3814",
+      "exact_copy": true
+    }
+  },
+  "evaluator": {
+    "holdout_read": false,
+    "ground_truth_used_as_input": false,
+    "physical_isolation": false
+  },
+  "preparation_verification": "ops/preflight/preparation-verification.json",
+  "submission": {
+    "manifest": "ops/submission-manifest.json",
+    "requirements_confirmed": true,
+    "mandatory_deliverables": 5,
+    "mandatory_evidence_items": 2,
+    "ready": false,
+    "google_drive_connection_owner": "user",
+    "google_drive_status": "WAITING_FOR_USER_CONNECTION_AND_VIDEO_PUBLICATION"
+  },
+  "deployment": {
+    "provider": "Vercel",
+    "decision_source": "latest_user_submission_destinations",
+    "project_linked": false,
+    "deployment_verified": false,
+    "persistent_database_provider": "Supabase PostgreSQL",
+    "object_storage_provider": "Supabase Storage (implementation default)",
+    "supabase_confirmed": true,
+    "allowed_providers": [
+      "Vercel"
+    ],
+    "supabase_project_ref": "wsziosnttnxefgfbgpeq",
+    "supabase_project_reported_by_user": true,
+    "supabase_connection_reported_by_user": true,
+    "supabase_project_access_verified": false
+  },
+  "llm": {
+    "credential_source": "event_organizers",
+    "status": "WAITING_FOR_EVENT_KEY",
+    "provider": "OpenAI",
+    "model": null,
+    "endpoint": "https://api.openai.com/v1",
+    "quota": null,
+    "key_received": false,
+    "actual_call_verified": false,
+    "provider_settings_ui_required": true,
+    "corporate_connection": "DEFERRED_BY_USER",
+    "credential_env": "OPENAI_API_KEY",
+    "model_env": "OPENAI_MODEL",
+    "base_url_env": "OPENAI_BASE_URL",
+    "local_env_file": ".env",
+    "env_template": ".env.example"
+  },
+  "auth": {
+    "implementation_default": "Supabase Auth",
+    "basic_login_required": true,
+    "connected": false,
+    "sso_settings_ui_required": true,
+    "corporate_sso_connection": "DEFERRED_BY_USER",
+    "corporate_provider": null
+  },
+  "capabilities": {
+    "inventory": "ops/preflight/capability-inventory.json",
+    "report": "docs/CAPABILITIES.md",
+    "additional_required_skills": [],
+    "product_packages": "INSTALLED_VERIFIED",
+    "proposal": "docs/DEPENDENCIES.md",
+    "vercel_cli": "DEFERRED_BY_USER",
+    "python_packages_installed": 54,
+    "dependency_verification": "ops/preflight/dependency-verification.json",
+    "node_verification": "ops/preflight/node-dependency-verification.json"
+  },
+  "demo_acceptance": {
+    "required": "FRESH_UPLOAD_TO_EXISTING_KNOWLEDGE_TO_APPROVED_OUTPUT",
+    "new_input_absent_before_upload": true,
+    "checks": [
+      "AC29",
+      "AC30"
+    ],
+    "implementation_status": "NOT_IMPLEMENTED",
+    "verification_status": "NOT_RUN",
+    "precomputed_only_demo_allowed": false
+  },
+  "repository": {
+    "url": "https://github.com/Ki-rak/REBUILD_RALPH",
+    "clone_url": "https://github.com/Ki-rak/REBUILD_RALPH.git",
+    "public_verified": true,
+    "anonymous_api_read": "PASS",
+    "remote_refs_observed": 0,
+    "local_git_initialized": false,
+    "push_access_verified": false,
+    "code_published": false
+  },
+  "completion": {
+    "product": "NOT_IMPLEMENTED",
+    "product_criteria": [
+      "AC01-16",
+      "AC23-30",
+      "Confirmed feature implementation/verification status; ITB is first milestone, not whole-product completion",
+      "AC31-38: UX and ITB/Risk/committee deck/evidence graph functions"
+    ],
+    "event_submission": "PENDING_SEPARATE_FROM_PRODUCT",
+    "deployment_or_demo_defines_product_done": false
+  },
+  "ui_revision": {
+    "version": 6,
+    "path": "docs/ui-review/index.html",
+    "assistant_name": "지식조회",
+    "scope": "UI_PREVIEW_ONLY",
+    "goal_update_requested_later": true,
+    "browser_checks_passed": 38,
+    "preview_url": "http://127.0.0.1:8771/",
+    "verified_goal_unchanged": true
+  },
+  "goal_prompt": {
+    "path": "ops/GOAL_INPUT.txt",
+    "characters_without_command": 3990,
+    "sha256": "a30ecb5343531d2db5acd5c8659116e21c91c764f7f69088c230a634cd98ff05",
+    "entered": false,
+    "native_goal_started": false
+  },
+  "current_authorization": {
+    "necessary_project_dependencies": "approved",
+    "task_commits": "required",
+    "supabase_actual_integration": "required",
+    "deployment": "deferred_until_separate_user_request"
+  },
+  "preparation_config_drift": {
+    "status": "DETECTED_NOT_MODIFIED_BY_THIS_UI_TASK",
+    "path": "C:/Users/GS/.codex/config.toml",
+    "evidence": "ops/preflight/preparation-verification.json",
+    "note": "Prior baseline differs. Do not reset or update baseline without investigating user/app changes; UI tests passed independently."
+  }
+}

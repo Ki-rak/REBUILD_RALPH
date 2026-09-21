@@ -1,0 +1,25 @@
+{
+  "backup": "ops\\checkpoints\\20260921T180538-before-ui-v6",
+  "inventory": {
+    "pastCount": 155,
+    "newCount": 18,
+    "types": {
+      "DOCX": 16,
+      "PDF": 17,
+      "XLSX": 15,
+      "PPTX": 15,
+      "MD": 15,
+      "EML": 15,
+      "CSV": 45,
+      "TXT": 17
+    },
+    "checkedAt": "2026-09-21T18:05:39.123385+09:00"
+  },
+  "font": {
+    "package": "pretendard",
+    "version": "1.3.9",
+    "license": "OFL-1.1",
+    "upstream": "https://github.com/orioncactus/pretendard"
+  },
+  "goal_modified": false
+}

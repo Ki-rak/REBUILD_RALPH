@@ -1,0 +1,12 @@
+{
+  "name": "rebuild-agent-web-tools",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@supabase/supabase-js": "2.116.0",
+    "pretendard": "1.3.9"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

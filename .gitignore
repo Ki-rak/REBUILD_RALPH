@@ -1,0 +1,28 @@
+.omx/
+.omx-state-locks/
+.omx-state-locks.identity.json
+.codex/*
+!.codex/agents/
+!.codex/agents/**
+!.codex/skills/
+!.codex/skills/**
+.codex/skills/.system/**
+!.codex/prompts/
+!.codex/prompts/**
+
+# RE:Build Agent credentials and generated local artifacts
+# OpenAI/Supabase secrets: ignore .env and all variants; keep only the empty template.
+.env*
+!.env.example
+.vercel/
+.venv/
+**/__pycache__/
+**/node_modules/
+tools/omx/native-cache/
+ops/cache/
+ops/sessions/
+ops/exports/
+ops/checkpoints/
+
+# Evaluator material is never part of product or public source.
+data/REBUILD_EVALUATOR_v1/
