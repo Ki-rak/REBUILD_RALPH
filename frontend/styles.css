@@ -6,3 +6,5 @@
 @media(max-width:420px){.stats{grid-template-columns:1fr}.card{padding:17px}.modal-body,.modal-head,.modal-foot{padding:17px}.modal-foot{flex-direction:column-reverse}.modal-foot .btn{width:100%}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 .auth-shell{overflow:hidden}.auth-card{width:calc(100vw - 48px);max-width:460px;min-width:0;overflow:hidden}.auth-card p,.auth-card h1{overflow-wrap:anywhere}
+
+#draft-form > .small{overflow-wrap:anywhere}

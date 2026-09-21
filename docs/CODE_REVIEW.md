@@ -133,3 +133,14 @@ Reviewer /root/final_code_review; independent recheck of the previously reproduc
 ### Scoped verdict
 
 COMMENT. PL01, PL02 and PL03 are resolved for the reproduced defects and stated validation boundaries. This review does not certify arbitrary font/template layouts, replace the separate actual rendered-output check, or approve overall product completion. Actual Supabase DB/Storage/Auth/RLS execution and local OAuth inference remain separate mandatory gates. Product source and tests were not edited by this reviewer.
+## Provider profile / asynchronous context review — scoped closure
+
+Independent /root/acceptance_architecture reproduced two defects during AC25 implementation: provider selection changed during comparison/model execution could persist obsolete AI output (HIGH), and delayed settings response A could overwrite already-rendered B state (MEDIUM). Backend now compares project version/profile selection before model invocation, after response and before draft save; mismatch returns409 PROVIDER_CONFIGURATION_CHANGED without a draft. An already-started call is not represented as cancelled. Frontend gates both DOM and shared-state updates on the same request generation/page context.
+
+Exact independent probes verified zero model calls/no draft when selection changed before invocation and discard after one controlled in-flight call. Settings A/B probe retains B after late A. Profile tests5, independent profile/boundary8, frontend context9/errors3 PASS. Actual browser6 verifies edit identity/version, persisted project selection, honest unconnected profile refusal, default reset, and no corporate endpoint requests/errors. Latest proof: ops/runtime/browser-provider-profiles-2026-09-21T15-07-45-436Z.json. TEST_STORAGE_INJECTED; no actual corporate connection or overall live-service pass.
+
+## Condition-role and browser ownership review — scoped closure
+
+Independent /root/acceptance_architecture found unrated/text-scale risk records promoted to primary conditions (MEDIUM), and runner port mismatches allowing a different pre-existing fixture to be tested (MEDIUM). The former now uses risk-table structure independently from numeric severity eligibility. Two regressions first failed, then passed. Independent targeted31PASS.
+
+The browser runner now passes one loopback URL and unique run ID; all six scenarios validate200, TEST_STORAGE_INJECTED and the exact run ID before browser mutations. Independent controlled boundary6PASS; root boundary4PASS. Root actual nondefault8784 run verified matching run IDs: Provider6 and mobile9PASS. All source/archive records remain intact. These findings are CLOSED within their reproduced scope; Supabase schema/RLS/persistence, local OAuth and final output review remain mandatory.

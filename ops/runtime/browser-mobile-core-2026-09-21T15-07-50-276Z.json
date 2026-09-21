@@ -1,0 +1,118 @@
+{
+  "boundary": "TEST_STORAGE_INJECTED",
+  "scenario": "390px mobile fresh upload source review approval and download",
+  "started": "2026-09-21T15:07:50.276Z",
+  "checks": [
+    {
+      "name": "Project upload dialog fits mobile document width",
+      "status": "PASS",
+      "detail": {
+        "viewport": 390,
+        "document": 390,
+        "overflow": []
+      }
+    },
+    {
+      "name": "Uploaded project fits mobile document width",
+      "status": "PASS",
+      "detail": {
+        "viewport": 390,
+        "document": 390,
+        "overflow": []
+      }
+    },
+    {
+      "name": "Draft review fits mobile document width",
+      "status": "PASS",
+      "detail": {
+        "viewport": 390,
+        "document": 390,
+        "overflow": [
+          {
+            "tag": "FORM",
+            "class": "",
+            "text": "결과물 양식 버전ITB_Analysis_Template.xlsx · provided · bf8667da76c96a70e2e94067dec5450f1a33abff709315c7031149d22b7ebdd2선택된 SHA-256: bf8667da76c96a70e2e94067",
+            "right": 358,
+            "width": 326,
+            "scroll": 340
+          }
+        ]
+      }
+    },
+    {
+      "name": "Original source opens from draft evidence on mobile",
+      "status": "PASS"
+    },
+    {
+      "name": "Mobile edit saves a real revision and prevents unsaved approval",
+      "status": "PASS"
+    },
+    {
+      "name": "Approval dialog fits mobile document width",
+      "status": "PASS",
+      "detail": {
+        "viewport": 390,
+        "document": 390,
+        "overflow": [
+          {
+            "tag": "FORM",
+            "class": "",
+            "text": "결과물 양식 버전ITB_Analysis_Template.xlsx · provided · bf8667da76c96a70e2e94067dec5450f1a33abff709315c7031149d22b7ebdd2선택된 SHA-256: bf8667da76c96a70e2e94067",
+            "right": 358,
+            "width": 326,
+            "scroll": 340
+          }
+        ]
+      }
+    },
+    {
+      "name": "Mobile approved XLSX download",
+      "status": "PASS",
+      "detail": "ops/runtime/browser-mobile-result-d61434fd-a15f-4c01-820f-e18e4e061b03.xlsx"
+    },
+    {
+      "name": "Approved result fits mobile document width",
+      "status": "PASS",
+      "detail": {
+        "viewport": 390,
+        "document": 390,
+        "overflow": [
+          {
+            "tag": "FORM",
+            "class": "",
+            "text": "결과물 양식 버전ITB_Analysis_Template.xlsx · provided · bf8667da76c96a70e2e94067dec5450f1a33abff709315c7031149d22b7ebdd2선택된 SHA-256: bf8667da76c96a70e2e94067",
+            "right": 358,
+            "width": 326,
+            "scroll": 340
+          }
+        ]
+      }
+    },
+    {
+      "name": "No browser JavaScript errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "fixture": {
+    "url": "http://127.0.0.1:8784",
+    "run_id": "191559d7898f4e96ad301c3ff30fccf5",
+    "boundary_verified": true
+  },
+  "lastLayout": {
+    "stage": "Approved result",
+    "viewport": 390,
+    "document": 390,
+    "overflow": [
+      {
+        "tag": "FORM",
+        "class": "",
+        "text": "결과물 양식 버전ITB_Analysis_Template.xlsx · provided · bf8667da76c96a70e2e94067dec5450f1a33abff709315c7031149d22b7ebdd2선택된 SHA-256: bf8667da76c96a70e2e94067",
+        "right": 358,
+        "width": 326,
+        "scroll": 340
+      }
+    ]
+  },
+  "finished": "2026-09-21T15:07:54.280Z"
+}

@@ -34,3 +34,9 @@ Supabase PostgreSQL·Storage·Auth는 실제 연결과 사용자 소유권/RLS, 
 실제 명령과 테스트/상태 결과는 `server/ai/README.md`, `STATE.json`, `ops/activity.jsonl`을 따른다. adapter 모의 테스트, CLI 설치/로그인 상태, 실제 모델 호출, 제품 E2E는 네 가지 별도 증거다. 두 인증 경로는 배포하지 않고도 adapter에서 검증할 수 있으며 공개 배포 성공을 제품 완료 조건으로 섞지 않는다.
 
 공식 근거: [Codex SDK](https://learn.chatgpt.com/docs/codex-sdk), [Authentication](https://learn.chatgpt.com/docs/auth), [Configuration](https://learn.chatgpt.com/docs/config-file/config-reference), [Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create), [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).
+
+## 프로젝트별 구성 편집과 선택
+
+설정에서 저장한 사내 LLM/SSO 프로필은 같은 ID로 편집하며 버전을 확인한다. SSO는 AI Provider로 선택할 수 없다. 프로젝트에 사내 LLM 프로필을 선택하면 미연결 구성으로 표시하고 AI 요청은 PROFILE_NOT_CONNECTED로 거부한다. 사용자가 환경 기본 구성으로 되돌리면 local/demo=공식 OAuth, deployed=OpenAI 서버 key 경로를 적용한다. 프로필 URL은 메타데이터로만 저장하며 임의 사내 주소로 호출하지 않는다.
+
+Provider 선택이 분석 중 변경되면409 PROVIDER_CONFIGURATION_CHANGED로 결과 저장을 막는다. Search/규칙 비교는 계속 가능하다. 실제 기업 연결은 이번 범위 밖이며 화면 설정 성공을 모델 호출 성공으로 표현하지 않는다.

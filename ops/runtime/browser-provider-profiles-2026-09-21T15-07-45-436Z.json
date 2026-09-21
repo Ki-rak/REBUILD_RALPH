@@ -1,0 +1,38 @@
+{
+  "boundary": "TEST_STORAGE_INJECTED",
+  "scenario": "Editable deferred profiles and project provider selection",
+  "started": "2026-09-21T15:07:45.436Z",
+  "checks": [
+    {
+      "name": "New metadata-only LLM profile saved",
+      "status": "PASS"
+    },
+    {
+      "name": "Edit updates the same profile ID and advances version",
+      "status": "PASS"
+    },
+    {
+      "name": "Project selection persists after page reload",
+      "status": "PASS"
+    },
+    {
+      "name": "Selected unconnected profile overrides global connected status and fails honestly",
+      "status": "PASS"
+    },
+    {
+      "name": "Clearing saved selection restores explicit environment default and persists",
+      "status": "PASS"
+    },
+    {
+      "name": "No corporate endpoint requests or browser errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "fixture": {
+    "url": "http://127.0.0.1:8784",
+    "run_id": "191559d7898f4e96ad301c3ff30fccf5",
+    "boundary_verified": true
+  },
+  "finished": "2026-09-21T15:07:49.291Z"
+}

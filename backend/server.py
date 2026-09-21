@@ -116,6 +116,13 @@ class Profile(StrictModel):
     endpoint: str = Field(default="", max_length=500)
     model: str = Field(default="", max_length=120)
 
+class ProfileEdit(Profile):
+    version: int = Field(ge=1)
+class ProjectProviderSelection(StrictModel):
+    profile_id: str | None = Field(default=None, max_length=100)
+    version: int = Field(ge=1)
+
+
 def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
     settings = settings or Settings.from_environment()
     app = FastAPI(title=PRODUCT, docs_url=None, redoc_url=None)
@@ -460,7 +467,20 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         return {"items": search_documents(docs, q[:4000]), "mode": "search", "ai_used": False,
                 "limitations": "키워드 원문 일치 검색입니다. 의미 유사도나 적용 확률을 표시하지 않습니다."}
 
+    def provider_selection(ctx, pid):
+        selected_project = get(ctx, pid, "project")
+        return {"project_version": selected_project["version"], "profile_id": selected_project.get("provider_profile_id")}
+
+    def verify_provider_selection(ctx, pid, snapshot):
+        if snapshot != provider_selection(ctx, pid):
+            fail("PROVIDER_CONFIGURATION_CHANGED", "분석 중 프로젝트의 AI 구성이 변경됐습니다. 현재 설정을 확인하고 다시 실행하세요.", 409)
+
     def analysis_result(ctx, pid, body):
+        selected_project = get(ctx, pid, "project")
+        selection = {"project_version": selected_project["version"], "profile_id": selected_project.get("provider_profile_id")}
+        if body.mode == "ai" and selected_project.get("provider_profile_id"):
+            get_profile(ctx, selected_project["provider_profile_id"])
+            fail("PROFILE_NOT_CONNECTED", "선택한 사내 구성은 아직 연결되지 않았습니다. 설정에서 기본 OpenAI로 변경하거나 규칙 비교를 사용하세요.", 503)
         cur, past, _ = inputs(ctx, pid)
         result = compare(cur, past)
         result["input_fingerprint"] = fingerprint(cur + past)
@@ -484,10 +504,13 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
                     evidence.append(candidate)
             if not evidence:
                 fail("EVIDENCE_REQUIRED", "AI 검토에 사용할 원문 근거가 없습니다.", 422)
+            verify_provider_selection(ctx, pid, selection)
             try:
                 answer = ai_bridge("analyze", {"question": question, "evidence": evidence})
             except AIError as error:
                 fail(error.code, "AI 연결 또는 호출에 실패했습니다. 규칙 비교로 자동 전환하지 않습니다.", 503)
+            verify_provider_selection(ctx, pid, selection)
+            result["provider_selection"] = selection
             for index, claim in enumerate(answer.get("claims", [])):
                 refs = [ref_map[sid] for sid in claim["source_ids"] if sid in ref_map]
                 result["rows"].append({"id": f"ai-{index+1}", "title": "AI 적용 검토", "current": "", "past": "",
@@ -550,8 +573,12 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         cur, past, _ = inputs(ctx, pid)
         if result["input_fingerprint"] != fingerprint(cur + past):
             fail("INPUT_CHANGED", "분석 중 입력 자료가 변경됐습니다. 최신 자료로 다시 생성하세요.", 409)
+        draft_rows = build_slide_rows(result["rows"]) if body.kind == "slides" else result["rows"]
+        if body.mode == "ai":
+            verify_provider_selection(ctx, pid, result["provider_selection"])
         draft = save(ctx, "draft", {"id": str(uuid4()), "project_id": pid, "output_kind": body.kind, "type": body.kind,
-            "title": info["name"], "revision": 1, "status": "draft", "created_at": now(), "rows": build_slide_rows(result["rows"]) if body.kind == "slides" else result["rows"],
+            "title": info["name"], "revision": 1, "status": "draft", "created_at": now(), "rows": draft_rows,
+            "provider_selection": result.get("provider_selection"),
             "mode": result["mode"], "ai_used": result["ai_used"], "ai_insight": result.get("ai_insight"),
             "template_id": info["id"], "template_version": info["sha256"], "template_sha256": info["sha256"],
             "input_fingerprint": fingerprint(cur + past, info["sha256"]), "approval_history": [],
@@ -737,13 +764,59 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
                 "result": {"connected": False, "inference": "FAILED", "error_code": e.code}})
             fail(e.code, "실제 연결 시험에 실패했습니다. 설정과 인증 상태를 확인하세요.", 503)
 
-    @app.post("/api/settings/profiles")
-    def save_profile(body: Profile, ctx=Depends(context)):
-        # Display/configuration only: cannot turn a corporate endpoint into an active adapter.
+    def get_profile(ctx, profile_id):
+        profile = get(ctx, profile_id, "setting")
+        if profile.get("type") not in {"corporate_llm", "sso", "provider"} or profile.get("setting_type"):
+            fail("NOT_FOUND", "접근 가능한 연결 프로필이 없습니다.", 404)
+        return profile
+
+    def validate_profile(body):
         if body.endpoint and (not body.endpoint.startswith("https://") or re.search(r"(?i)token=|key=|password=|@", body.endpoint)):
             fail("UNSAFE_PROFILE_ENDPOINT", "인증정보 없는 HTTPS 주소만 입력하세요.")
+
+    @app.get("/api/settings/profiles")
+    def profiles(ctx=Depends(context)):
+        return [profile for profile in list_entities(ctx, "setting")
+                if profile.get("type") in {"corporate_llm", "sso", "provider"} and not profile.get("setting_type")]
+
+    @app.post("/api/settings/profiles")
+    def save_profile(body: Profile, ctx=Depends(context)):
+        validate_profile(body)
         return save(ctx, "setting", {"id": str(uuid4()), **body.model_dump(), "status": "NOT_CONFIGURED",
                                     "created_at": now(), "active": False})
+
+    @app.patch("/api/settings/profiles/{profile_id}")
+    def edit_profile(profile_id: str, body: ProfileEdit, ctx=Depends(context)):
+        previous = get_profile(ctx, profile_id)
+        if previous["version"] != body.version:
+            fail("VERSION_CONFLICT", "다른 변경이 있습니다. 프로필을 다시 열어 수정하세요.", 409)
+        if previous["type"] != body.type:
+            fail("PROFILE_TYPE_MISMATCH", "연결 유형은 변경할 수 없습니다. 다른 유형은 새 프로필로 등록하세요.", 422)
+        validate_profile(body)
+        changed = {**previous, **body.model_dump(exclude={"version"}), "status": "NOT_CONFIGURED", "active": False}
+        return save(ctx, "setting", changed, expected_version=body.version)
+
+    @app.get("/api/projects/{pid}/provider")
+    def project_provider(pid: str, ctx=Depends(context)):
+        project = get(ctx, pid, "project")
+        selected = get_profile(ctx, project["provider_profile_id"]) if project.get("provider_profile_id") else None
+        return {"project_id": pid, "project_version": project["version"], "selected_profile": selected,
+                "runtime_policy": "ENVIRONMENT_BOUND_OPENAI", "default_provider": provider_configuration(),
+                "active": False if selected else None,
+                "status": "NOT_CONFIGURED" if selected else "ENVIRONMENT_DEFAULT"}
+
+    @app.put("/api/projects/{pid}/provider-profile")
+    def select_project_provider(pid: str, body: ProjectProviderSelection, ctx=Depends(context)):
+        project = get(ctx, pid, "project")
+        if project["version"] != body.version:
+            fail("VERSION_CONFLICT", "프로젝트 설정이 바뀌었습니다. 새로고침 후 다시 선택하세요.", 409)
+        if body.profile_id:
+            selected = get_profile(ctx, body.profile_id)
+            if selected["type"] not in {"corporate_llm", "provider"}:
+                fail("LLM_PROFILE_REQUIRED", "AI에는 LLM 구성 프로필만 선택할 수 있습니다.", 422)
+        updated = save(ctx, "project", {**project, "provider_profile_id": body.profile_id}, expected_version=body.version)
+        event(ctx, "project_provider_configuration_selected", pid, profile_id=body.profile_id, connected=False)
+        return {**updated, "kind": updated.get("project_kind", "current")}
 
     frontend = ROOT / "frontend"
     if frontend.is_dir():

@@ -27,7 +27,7 @@ function harness() {
   const modal = {innerHTML:'', querySelector(){return null}};
   const toast = {textContent:'', hidden:true};
   const resultRegion = {innerHTML:''};
-  const nodes = {'#app':app,'#modal-root':modal,'#toast':toast,'#query-results':resultRegion};
+  const nodes = {'#project-provider-profile':{value:'profile-new'},'#app':app,'#modal-root':modal,'#toast':toast,'#query-results':resultRegion};
   const document = {
     querySelector(selector){return nodes[selector] || null},
     addEventListener(type, handler){listeners[type]=handler},
@@ -51,7 +51,7 @@ function harness() {
   context.globalThis = context;
   const source = fs.readFileSync(path.join(__dirname,'../../frontend/app.js'),'utf8')
     .replace(/initialize\(\);\s*$/,'')
-    + '\nglobalThis.__test={state,runKnowledgeQuery:typeof runKnowledgeQuery==="function"?runKnowledgeQuery:null,setKnowledgeScope:typeof setKnowledgeScope==="function"?setKnowledgeScope:null,setKnowledgeProject:typeof setKnowledgeProject==="function"?setKnowledgeProject:null,setKnowledgeMode:typeof setKnowledgeMode==="function"?setKnowledgeMode:null};';
+    + '\nglobalThis.__test={state,renderSettings,projectAIConnection:typeof projectAIConnection==="function"?projectAIConnection:null,runKnowledgeQuery:typeof runKnowledgeQuery==="function"?runKnowledgeQuery:null,setKnowledgeScope:typeof setKnowledgeScope==="function"?setKnowledgeScope:null,setKnowledgeProject:typeof setKnowledgeProject==="function"?setKnowledgeProject:null,setKnowledgeMode:typeof setKnowledgeMode==="function"?setKnowledgeMode:null};';
   vm.createContext(context);
   vm.runInContext(source,context,{filename:'frontend/app.js'});
   return {context,listeners,resultRegion};
@@ -172,12 +172,57 @@ async function testScopePersistsAcrossModesAndBindsFreshResult() {
   assert.equal(test.state.searchScope,'historical','unsupported scope must be ignored');
 }
 
+function contextConnectionTest(){
+ const {context}=harness(),fn=context.__test.projectAIConnection;
+ assert.equal(typeof fn,'function');
+ const online={connected:true,inference:'SUCCEEDED'};
+ assert.equal(fn(online,{selected_profile:{name:'Deferred corporate'},status:'NOT_CONFIGURED'}).connected,false);
+ assert.match(fn(online,{selected_profile:{name:'Deferred corporate'},status:'NOT_CONFIGURED'}).message,/Deferred corporate/);
+ assert.equal(fn(online,{selected_profile:null}).connected,true);
+ assert.equal(fn(online,null).connected,false,'project selection must be verified before showing connected');
+ return true;
+}
+async function testLateSettingsResponseCannotOverwriteNewTarget(){
+ const {context}=harness(),test=context.__test,oldSelection=deferred(),oldRequested=deferred();
+ test.state.page='settings';test.state.renderGeneration=1;test.state.settingsProjectId='a';
+ context.fetch=async url=>{
+  if(url==='/api/provider/status')return jsonResponse({});
+  if(url==='/api/config')return jsonResponse({});
+  if(url==='/api/settings/profiles')return jsonResponse([{id:test.state.settingsProjectId,name:test.state.settingsProjectId}]);
+  if(url==='/api/projects')return jsonResponse([{id:'a',name:'A'},{id:'b',name:'B'}]);
+  if(url==='/api/projects/a/provider'){oldRequested.resolve();return oldSelection.promise}
+  if(url==='/api/projects/b/provider')return jsonResponse({project_version:1});
+  throw Error(url);
+ };
+ const old=test.renderSettings(1);await oldRequested.promise;
+ test.state.renderGeneration=2;test.state.settingsProjectId='b';
+ await test.renderSettings(2);
+ assert.equal(test.state.settingsProfiles[0].id,'b');
+ oldSelection.resolve(jsonResponse({project_version:1}));await old;
+ assert.equal(test.state.settingsProjectId,'b');
+ assert.equal(test.state.settingsProfiles[0].id,'b');
+}
+async function testProviderSaveInvalidatesSameProjectPendingQuery(){
+ const {context,listeners,resultRegion}=harness(),test=context.__test,answer=deferred();
+ test.state.project={id:'p1'};test.state.mode='ai';
+ context.fetch=async url=>url.endsWith('/analyze')?answer.promise:jsonResponse({});
+ const pending=test.runKnowledgeQuery('Notice',resultRegion);
+ await listeners.submit({target:{id:'project-provider-form',dataset:{projectId:'p1',version:'1'},matches(){return false}},submitter:{},preventDefault(){}});
+ answer.resolve(jsonResponse({results:[{title:'stale old provider answer'}]}));await pending;
+ assert.equal(test.state.result,null);
+ assert.equal(test.state.resultContext,null);
+ assert.doesNotMatch(resultRegion.innerHTML,/stale old provider answer/);
+}
+
 (async()=>{
   await testProjectSwitchRejectsStaleResponse();
   await testModeSwitchPreservesQuestionAndRejectsStaleResponse();
   await testNewerQueryWinsWhenOlderPromiseResolvesLast();
   testUnsubmittedQuestionSurvivesModeChange();
+  assert.equal(contextConnectionTest(),true);
   await testScopeSwitchRejectsStaleResponse();
   await testScopePersistsAcrossModesAndBindsFreshResult();
-  console.log('frontend context isolation: 6 passed');
+  await testLateSettingsResponseCannotOverwriteNewTarget();
+  await testProviderSaveInvalidatesSameProjectPendingQuery();
+  console.log('frontend context isolation: 9 passed');
 })().catch(error=>{console.error(error);process.exitCode=1});

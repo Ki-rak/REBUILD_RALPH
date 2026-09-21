@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T00:10:18.759667+09:00",
+  "updated_at_kst": "2026-09-22T00:12:19.770346+09:00",
   "phase": "DEVELOPMENT",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -52,7 +52,8 @@
     "Actual Supabase isolated login/refresh/logout-revocation PASS and all probe users cleaned",
     "Actual deployed product draft AI usage305/1263/1568 preserved through synthetic approval and editable output",
     "Current product server restarted at http://127.0.0.1:8780/; health is configuration evidence only",
-    "Absent Supabase rebuild-agent bucket created private via official Storage API and verified; no existing bucket modified"
+    "Absent Supabase rebuild-agent bucket created private via official Storage API and verified; no existing bucket modified",
+    "AC25 profile edit/project selection and race repair: profile5/context9/errors3/browser6PASS; core mobile9PASS and XLSX reopen, all injected storage"
   ],
   "in_progress": [
     "Complete XLSX long-content visual repair and fresh output verification",
@@ -263,7 +264,11 @@
       "69afbd7",
       "211ad3b",
       "2d9d6d7",
-      "5cf9809"
+      "5cf9809",
+      "8109130",
+      "838b901",
+      "e7f8cca",
+      "74cef85"
     ]
   },
   "completion": {
