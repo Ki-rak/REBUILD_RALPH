@@ -334,3 +334,19 @@ def test_unrated_or_text_risk_rows_are_reference_context_not_contract_terms(like
     assert '지하수 유입과 방류허가' in discharge['reference_context']
     assert discharge['severity'] is None
     validate_refs([discharge], [review])
+@pytest.mark.parametrize('text,expected_kind', [
+    ('Discharge permit: 553 m3/day; design capacity remains unknown.', 'current_mixed_requires_review'),
+    ('Discharge permit: 553 m3/day.', 'current_allowance'),
+    ('Groundwater design capacity remains unknown.', 'current_design_or_unknown'),
+])
+def test_mixed_allowance_and_design_do_not_relabel_permitted_value(text, expected_kind):
+    source = doc('mixed-source', text, status='APPROVED')
+    result = compare([source], [])
+    relevant = next(item for item in result['rows'] if item['id'] in {'discharge', 'groundwater'})
+    kinds = {entry['kind'] for entry in relevant['value_classes']['current']}
+    assert expected_kind in kinds
+    if expected_kind == 'current_mixed_requires_review':
+        assert relevant['decision'] == 'REVIEW_REQUIRED'
+        assert '허용 조건·설계/미확정 혼재' in relevant['differences'][0]
+        assert '553 m3/day' in relevant['current']
+    validate_refs(result['rows'], [source])

@@ -388,6 +388,8 @@ def _display(facts, limit=12):
 def _value_kind(fact, current):
     text = fact["text"]
     if current:
+        if ALLOWANCE.search(text) and (DESIGN.search(text) or UNKNOWN.search(text)):
+            return "current_mixed_requires_review"
         if DESIGN.search(text) or UNKNOWN.search(text):
             return "current_design_or_unknown"
         if ALLOWANCE.search(text):
@@ -404,6 +406,7 @@ def _value_classes(facts, current):
 
 def _labeled(facts, current, limit=3):
     labels = {
+        "current_mixed_requires_review": "허용 조건·설계/미확정 혼재 — 검토 필요",
         "current_design_or_unknown": "신규 설계값/미확정",
         "current_allowance": "신규 허용량/계약 조건",
         "current_condition": "신규 조건",
@@ -554,6 +557,8 @@ def compare(current_documents, historical_documents):
             missing.append("유효한 신규 조건이 없습니다. 미승인 문서를 계약 조건으로 적용하지 않습니다.")
         if any(fact["status"] == "UNKNOWN" for fact in selected):
             missing.append("원문 승인 상태가 미확인입니다. 계약적 효력은 검토가 필요합니다.")
+        if any(_value_kind(fact, True) == "current_mixed_requires_review" for fact in selected):
+            missing.append("같은 근거에 허용 조건과 설계/미확정 값이 함께 있어 각각의 수치·단위·대상을 구분해야 합니다.")
         if any(UNKNOWN.search(fact["text"]) for fact in selected):
             missing.append("원문에 미확정 값이 있습니다. 0 또는 과거 수치로 대체하지 않습니다.")
         if not past:
