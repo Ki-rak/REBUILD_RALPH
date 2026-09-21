@@ -1,23 +1,35 @@
 # RE:Build Agent browser verification
 
-All results are **TEST_STORAGE_INJECTED**. This uses the production frontend, API, parser, comparison, approval and export code with an explicitly injected in-memory test store and synthetic auth. It does not prove Supabase Auth/DB/Storage/RLS or real AI connectivity.
+All browser results are **TEST_STORAGE_INJECTED**: the production frontend, API, parsers, comparisons, approval and exports run with an explicit in-memory test store and synthetic authentication. They do not prove actual Supabase DB/Storage/RLS, restart persistence or AI connectivity. Never expose this fixture externally.
 
-Start `& ./ops/python.ps1 tests/ui/browser_server.py` on 127.0.0.1:8782 in a hidden helper process. Restart the helper before each complete run so its test storage is empty. It generates the synthetic DOCX fixture itself. It disables local environment file loading before importing the product API.
+## Owned fixture runner
 
-Run `node tests/ui/browser_flow.cjs`, then `& ./ops/python.ps1 tests/ui/browser_workbook.py`. The browser runner currently uses the existing Playwright 1.62.1 installation in `tools/web/node_modules`; adjust that import for a different installation. Playwright is Apache-2.0 licensed. The parent installed and pinned this dependency locally during the expanded verification.
+From the project root in PowerShell:
 
-Artifacts: `ops/runtime/browser-report.json`, `browser-workbook-report.json`, downloaded `browser-result.xlsx`, and `browser-mobile.png`. Earlier failing evidence is preserved in `browser-report-before-fixes.json` and `browser-workbook-before-fixes.json`.
+    .\.venv\Scripts\python.exe -X utf8 tests/ui/run_browser.py browser_flow.cjs
+    .\.venv\Scripts\python.exe -X utf8 tests/ui/browser_workbook.py
+    .\.venv\Scripts\python.exe -X utf8 tests/ui/run_browser.py browser_search_scope.cjs
+    .\.venv\Scripts\python.exe -X utf8 tests/ui/run_browser.py browser_slide_limits.cjs
+    .\.venv\Scripts\python.exe -X utf8 tests/ui/run_browser.py browser_mixed_upload.cjs
+    .\.venv\Scripts\python.exe -X utf8 tests/ui/run_browser.py browser_provider_profiles.cjs browser_mobile_core.cjs
+    node tests/ui/fixture_boundary.cjs
 
-The test signs in as a synthetic user, seeds historical text through the real API, proves the new DOCX hash was absent, uploads through the browser, verifies actual extracted values, edits/approves/downloads an ITB workbook, checks both comparison panels and direct source route, verifies management/seven templates/settings, checks failure/retry/logout, and measures settings-page document overflow at 390px. Workbook verification checks uploaded/historical values, filenames, edited reviewer rationale and source links.
+The runner starts a loopback uvicorn thread, passes BROWSER_TEST_URL and a fresh BROWSER_TEST_RUN_ID to each child, and stops its own fixture in finally. Every browser scenario validates the server's TEST_STORAGE_INJECTED boundary and matching run ID before browser actions. Running a script directly without this context fails. Use --port 8784 when another port is occupied; scripts always use the supplied URL. No test targets an arbitrary existing product server.
 
-Mobile validation covers settings and error recovery only; it is not exhaustive mobile QA. The test store is process-local and intentionally ephemeral. Do not expose the fixture server externally.
+Flow/search_scope/slide_limits each require empty storage: run them in separate runner invocations. Provider and mobile can share a runner. Each child is bounded to180 seconds and startup to30 seconds. The project uses its pinned Playwright installation in tools/web/node_modules (Apache-2.0); no browser dependency is installed by this runner. pytest.ini confines default Python collection to tests and excludes source/evaluator/dependency/operations folders.
 
-Expanded verification also creates, edits, approves and downloads `browser-risk.xlsx` and `browser-committee.pptx`. The Office proof verifies the reviewed mitigation/decision and exactly five actual PPTX slides. Browser reports are copied to timestamped JSON files on every completed run; failing assertions remain recorded and make the process fail. Server readiness is checked via a bounded successful `/api/config` probe before creating test records.
+## Coverage and evidence
 
+- Flow: synthetic invalid/valid login; empty account; historical and fresh current uploads through UI; original hash absence; source extraction; source route/graph; edit/approve/reopen/reapprove; ITB/Risk/five-slide editable output; immutable custom template registration/selection; management/seven templates/settings; error/retry/logout.
+- Office: reopen generated XLSX/PPTX and verify uploaded/past values, exact reviewer edits, titles, five slides, source links and selected template metadata.
+- Search: all/current/historical selection, request scope, mode/query persistence and correct result membership.
+- Provider: edit the same profile/version; select per project; retain through reload; refuse unconnected corporate config without outbound corporate requests; explicit reset to environment default.
+- Mobile390px: project/upload dialog, source original, draft edit/revision/approval, actual XLSX download and document overflow measurements. Wide draft tables retain their internal horizontal scrolling.
+- Mixed upload: valid TXT and corrupt DOCX in one batch, exact original byte preservation, isolated conversion failure, honest retry failure and remaining valid draft input.
+- Slide limits: details before approval; oversized edit422 with friendly error; unchanged approved server record; unsaved UI text preserved; shorten/save/invalidate/reapprove. This scenario makes no export request.
 
-The expanded browser run now starts from an empty project list and creates historical source data through the UI, with no API seed shortcut. It covers persisted approved-draft reopening after reload, unsaved-edit approval/export guards, approval invalidation on save and reapproval, matching default Risk/committee templates, five editable committee rows, graph comparison/document identity, and template version upload/download/select/export/reopen. API reads are used for independent output verification only. The Office checks also verify edited committee titles/bodies and uploaded-template metadata preservation.
+Timestamped JSON reports and downloaded files are in ops/runtime. Every completed scenario records failures and exits nonzero when assertions fail. Earlier failure reports/screenshots remain preserved. Owned-fixture metadata appears in newer reports; older reports predate that guard. Main flow writes browser-report.json and timestamped copies, Office writes browser-workbook-report.json and timestamped copies. These are active development evidence, not a substitute for the mandatory real-service checks.
 
+## Windows startup recovery
 
-AR10 mixed-upload proof: run `node tests/ui/browser_mixed_upload.cjs` against the isolated fixture. One actual UI batch contains a fresh valid TXT and a corrupt supported DOCX. Assertions require valid extraction and preserved original records, explicit ERROR/FAILED conversion status, honest failed retry, surviving valid draft input, and no removed failure/processing KPI. The source UI check verifies successful original requests and visible TXT content; separate authenticated original API checks require exact uploaded bytes for both files before/after retry. Chromium's CDP attachment response body was empty despite the visible source and byte-identical API response, so those observation paths are recorded separately. Earlier diagnostic failures remain in timestamped browser-mixed-upload reports. `ops/python.ps1` uses the configured base interpreter and project packages, avoiding the hanging virtual-environment redirector.
-
-Slide-limit UI proof: run `node tests/ui/browser_slide_limits.cjs` with a fresh isolated fixture. It verifies five editable rows, bounded-excerpt/notes disclosure, expanded original detail before approval, a 422 `SLIDE_CONTENT_TOO_LONG` rejection with a friendly Korean length message, unchanged approved server content after rejection, preserved unsaved UI text, and successful shortening/save/invalidation/reapproval. It explicitly asserts zero export requests; downloaded PPTX validation remains a separate workflow.
+Some detached Python launches stalled before interpreter entry. The owned in-process fixture driver avoids that background-process path. ops/python.ps1 is an alternative launcher using the configured base interpreter and project site-packages, but its availability does not prove the target program started. Inspect actual exit/output; stop only processes whose exact command identifies the owned test. Never terminate unrelated Python or product services.

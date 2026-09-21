@@ -38,5 +38,6 @@ async def synthetic_login(request,call_next):
         return JSONResponse({'detail':{'code':'LOGIN_FAILED','message':'Synthetic test credentials rejected'}},401)
     response=await call_next(request)
     response.headers['X-Test-Boundary']='TEST_STORAGE_INJECTED'
+    response.headers['X-Test-Run-ID']=getattr(app.state, 'browser_run_id', 'unowned')
     return response
 if __name__=='__main__': uvicorn.run(app,host='127.0.0.1',port=8782,access_log=False)

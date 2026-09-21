@@ -47,10 +47,10 @@ supabase/migrations/20260921210000_rebuild_agent_storage.sql은 추가 테이블
     npm --prefix server/ai test
     node tests/ui/frontend_errors.cjs
     node tests/ui/frontend_context.cjs
-    node tests/ui/browser_flow.cjs
+    .\.venv\Scripts\python.exe -X utf8 tests/ui/run_browser.py browser_flow.cjs
     .\ops\python.ps1 tests/ui/browser_workbook.py
 
-브라우저 시험은 해당 README대로 격리 서버를 시작한 후 실행한다. 실제 OpenAI 증거, 모의 DB 시험, 실제 Supabase 검증을 혼합하지 않는다. STATE.json, docs/ARCHITECTURE_REVIEW.md, ops/activity.jsonl에 미완료 연결과 리뷰 결함을 유지한다.
+브라우저 시험은 tests/ui/browser_README.md의 소유 fixture 실행기로 시작하고 종료한다. 실행기가 URL/실행 ID를 전달하고 브라우저는 해당 ID를 검증한다. 실제 OpenAI 증거, 모의 DB 시험, 실제 Supabase 검증을 혼합하지 않는다. STATE.json, docs/ARCHITECTURE_REVIEW.md, ops/activity.jsonl에 미완료 연결과 리뷰 결함을 유지한다.
 ## Windows 런타임 복구와 연결 한계
 
 이 환경에서 .venv/Scripts/python.exe 리다이렉터가 Python 코드 실행 전에 간헐적으로 대기했다. ops/python.ps1은 .venv/pyvenv.cfg에 기록된 실제 Python 실행 파일을 사용하고, 프로세스 범위 PYTHONPATH로 이 프로젝트의 site-packages만 지정한다. 사용자 공통 환경은 복원하며, 명령의 종료 코드를 그대로 반환한다. 이 경로로 전체 Python 108개 검증이 통과했다.

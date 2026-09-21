@@ -1,11 +1,11 @@
 const {chromium,request}=require('../../tools/web/node_modules/playwright'); const {expect}=require('../../tools/web/node_modules/playwright/test');
 const fs=require('fs'),path=require('path'),crypto=require('crypto');
-const base='http://127.0.0.1:8782',out=path.resolve('ops/runtime');
+const {base,verifyFixture}=require('./fixture_target.cjs');const out=path.resolve('ops/runtime');
 const report={boundary:'TEST_STORAGE_INJECTED',started:new Date().toISOString(),checks:[],errors:[]};
 const check=(name,detail)=>report.checks.push({name,status:'PASS',detail});
 (async()=>{
  const api=await request.newContext({baseURL:base,extraHTTPHeaders:{Authorization:'Bearer browser-alice'}});
- await expect.poll(async()=>{try{return(await api.get('/api/config')).status()}catch{return 0}},{timeout:60000,message:'isolated browser fixture readiness'}).toBe(200);
+ await verifyFixture(api,report);
  expect(await(await api.get('/api/projects')).json()).toEqual([]);
  const browser=await chromium.launch({headless:true});const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>report.errors.push(e.message));
  try {

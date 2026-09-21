@@ -2,12 +2,12 @@
 const {chromium,request}=require('../../tools/web/node_modules/playwright');
 const {expect}=require('../../tools/web/node_modules/playwright/test');
 const fs=require('fs'),path=require('path'),crypto=require('crypto');
-const base=process.env.SCOPE_TEST_URL||'http://127.0.0.1:8783';
+const {base,verifyFixture}=require('./fixture_target.cjs');
 const report={boundary:'TEST_STORAGE_INJECTED',scenario:'Search scope isolation and mode persistence',started:new Date().toISOString(),checks:[],errors:[]};
 const check=name=>report.checks.push({name,status:'PASS'});
 (async()=>{
  const api=await request.newContext({baseURL:base,extraHTTPHeaders:{Authorization:'Bearer browser-alice'}});
- await expect.poll(async()=>{try{return(await api.get('/api/config')).status()}catch{return 0}},{timeout:60000}).toBe(200);
+ await verifyFixture(api,report);
  expect(await(await api.get('/api/projects')).json()).toEqual([]);
  const browser=await chromium.launch({headless:true}),page=await browser.newPage();
  page.on('pageerror',e=>report.errors.push(e.message));
