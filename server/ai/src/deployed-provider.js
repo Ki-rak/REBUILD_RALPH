@@ -1,3 +1,4 @@
+import { responseMetadata } from "./response-metadata.js";
 import {
   ContractError,
   OUTPUT_SCHEMA,
@@ -96,7 +97,18 @@ export function createDeployedProvider({
         } catch {
           throw new ProviderError("INVALID_OPENAI_RESPONSE");
         }
-        return validateProviderAnswer(parseJson(responseText(payload)), allowedIds);
+        const answer = validateProviderAnswer(parseJson(responseText(payload)), allowedIds);
+        return {
+          ...answer,
+          ...responseMetadata({
+            provider: "openai-responses",
+            authMode: "OPENAI_API_KEY",
+            requestedModel: model,
+            reportedModel: payload.model,
+            usage: payload.usage,
+            cachedInputTokens: payload.usage?.input_tokens_details?.cached_tokens,
+          }),
+        };
       } catch (error) {
         if (error instanceof ProviderError || error instanceof ContractError) throw error;
         if (signal.aborted) throw new ProviderError("OPENAI_REQUEST_TIMEOUT");

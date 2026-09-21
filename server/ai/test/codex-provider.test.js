@@ -47,6 +47,7 @@ test("Codex provider uses an empty temp cwd and disables tools, web, network, an
   const answer = await provider.analyze(request);
 
   assert.equal(answer.status, "ANSWERED");
+  assert.deepEqual(answer.usage, { input_tokens: null, output_tokens: null, total_tokens: null, cached_input_tokens: null });
   assert.equal(clientOptions.env.OPENAI_API_KEY, undefined);
   assert.equal(clientOptions.config.forced_login_method, "chatgpt");
   assert.equal(clientOptions.config.features.shell_tool, false);
@@ -109,4 +110,44 @@ test("Codex provider refuses inference when official login is not ready", async 
   });
 
   await assert.rejects(() => provider.analyze(request), (error) => error.code === "CODEX_LOGIN_REQUIRED");
+});
+
+test("Codex usage comes from official turn completion and does not invent a reported model or total", async () => {
+  class UsageCodex {
+    startThread() {
+      return { runStreamed: async () => ({ events: (async function* () {
+        yield { type: "item.completed", item: { type: "agent_message", text: JSON.stringify({
+          status: "ANSWERED", answer: "A.", claims: [{ text: "A.", source_ids: ["SRC-1"] }],
+        }) } };
+        yield { type: "turn.completed", usage: { input_tokens: 20, cached_input_tokens: 12, output_tokens: 7, cache_write_input_tokens: 0, reasoning_output_tokens: 3 } };
+      })() }) };
+    }
+  }
+  const provider = createCodexProvider({
+    CodexClass: UsageCodex, codexHome: path.join(os.tmpdir(), "rebuild-codex-home-test"),
+    parentEnv: { PATH: "safe" }, model: "gpt-oauth-test", statusChecker: async () => "LOGGED_IN",
+  });
+  const result = await provider.analyze(request);
+  assert.deepEqual(result.usage, { input_tokens: 20, output_tokens: 7, total_tokens: null, cached_input_tokens: 12 });
+  assert.deepEqual(result.execution, {
+    provider: "codex-oauth", auth_mode: "CHATGPT_OAUTH", state: "SUCCEEDED", source: "MODEL_CALL",
+    cache_hit: false, model: null, requested_model: "gpt-oauth-test",
+  });
+});
+
+test("Codex final text without official turn completion is not reported as a successful call", async () => {
+  class TruncatedCodex {
+    startThread() {
+      return { runStreamed: async () => ({ events: (async function* () {
+        yield { type: "item.completed", item: { type: "agent_message", text: JSON.stringify({
+          status: "ANSWERED", answer: "A.", claims: [{ text: "A.", source_ids: ["SRC-1"] }],
+        }) } };
+      })() }) };
+    }
+  }
+  const provider = createCodexProvider({
+    CodexClass: TruncatedCodex, codexHome: path.join(os.tmpdir(), "rebuild-codex-home-test"),
+    parentEnv: { PATH: "safe" }, statusChecker: async () => "LOGGED_IN",
+  });
+  await assert.rejects(() => provider.analyze(request), (error) => error.code === "CODEX_TURN_INCOMPLETE");
 });

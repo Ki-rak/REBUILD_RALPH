@@ -113,3 +113,59 @@ test("deployed provider rejects citations not present in the request", async () 
 
   await assert.rejects(() => provider.analyze(request), (error) => error.code === "UNKNOWN_SOURCE_ID");
 });
+
+test("deployed usage metadata preserves official counts without treating prompt caching as a result cache", async () => {
+  const provider = createDeployedProvider({
+    apiKey: "server-secret", model: "gpt-5-mini", baseUrl: "https://api.openai.com/v1",
+    fetchImpl: async () => new Response(JSON.stringify({
+      model: "gpt-5-mini-2025-08-07",
+      usage: { input_tokens: 120, output_tokens: 30, total_tokens: 150, input_tokens_details: { cached_tokens: 64 }, secret: "must-not-leak" },
+      output_text: JSON.stringify({ status: "ANSWERED", answer: "A.", claims: [{ text: "A.", source_ids: ["SRC-1"] }] }),
+    }), { status: 200 }),
+  });
+  const result = await provider.analyze(request);
+  assert.deepEqual(result.usage, { input_tokens: 120, output_tokens: 30, total_tokens: 150, cached_input_tokens: 64 });
+  assert.deepEqual(result.execution, {
+    provider: "openai-responses", auth_mode: "OPENAI_API_KEY", state: "SUCCEEDED",
+    source: "MODEL_CALL", cache_hit: false, model: "gpt-5-mini-2025-08-07", requested_model: "gpt-5-mini",
+  });
+  assert.ok(!JSON.stringify(result).includes("must-not-leak"));
+  assert.ok(!JSON.stringify(result).includes("server-secret"));
+});
+
+test("deployed absent or invalid usage remains null and never becomes a fabricated zero", async () => {
+  for (const usage of [undefined, { input_tokens: -1, output_tokens: "12", total_tokens: 1.5, input_tokens_details: { cached_tokens: Number.MAX_SAFE_INTEGER + 1 } }]) {
+    const provider = createDeployedProvider({
+      apiKey: "server-secret", model: "gpt-5-mini", baseUrl: "https://api.openai.com/v1",
+      fetchImpl: async () => new Response(JSON.stringify({
+        usage,
+        output_text: JSON.stringify({ status: "ANSWERED", answer: "A.", claims: [{ text: "A.", source_ids: ["SRC-1"] }] }),
+      }), { status: 200 }),
+    });
+    const result = await provider.analyze(request);
+    assert.deepEqual(result.usage, { input_tokens: null, output_tokens: null, total_tokens: null, cached_input_tokens: null });
+    assert.equal(result.execution.model, null);
+    assert.equal(result.execution.requested_model, "gpt-5-mini");
+  }
+});
+
+test("deployed measured zero token counts are preserved", async () => {
+  const provider = createDeployedProvider({
+    apiKey: "server-secret", model: "gpt-5-mini", baseUrl: "https://api.openai.com/v1",
+    fetchImpl: async () => new Response(JSON.stringify({
+      usage: { input_tokens: 0, output_tokens: 0, total_tokens: 0, input_tokens_details: { cached_tokens: 0 } },
+      output_text: JSON.stringify({ status: "REVIEW_REQUIRED", answer: "Insufficient evidence.", claims: [] }),
+    }), { status: 200 }),
+  });
+  assert.deepEqual((await provider.analyze(request)).usage, { input_tokens: 0, output_tokens: 0, total_tokens: 0, cached_input_tokens: 0 });
+});
+
+test("model generated metadata cannot replace trusted adapter metadata", async () => {
+  const provider = createDeployedProvider({
+    apiKey: "server-secret", model: "gpt-5-mini", baseUrl: "https://api.openai.com/v1",
+    fetchImpl: async () => new Response(JSON.stringify({
+      output_text: JSON.stringify({ status: "ANSWERED", answer: "A.", claims: [{ text: "A.", source_ids: ["SRC-1"] }], usage: { input_tokens: 0 } }),
+    }), { status: 200 }),
+  });
+  await assert.rejects(() => provider.analyze(request), (error) => error.code === "INVALID_PROVIDER_OUTPUT");
+});

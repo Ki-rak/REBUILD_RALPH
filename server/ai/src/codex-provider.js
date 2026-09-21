@@ -1,3 +1,4 @@
+import { responseMetadata } from "./response-metadata.js";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -85,6 +86,8 @@ export function createCodexProvider({
         controller.abort();
       }, timeoutMs);
       let finalResponse;
+      let usage;
+      let completed = false;
       try {
         const thread = client.startThread({
           model,
@@ -103,6 +106,10 @@ export function createCodexProvider({
         });
         for await (const event of events) {
           const item = event.item;
+          if (event.type === "turn.completed") {
+            usage = event.usage;
+            completed = true;
+          }
           if (item && FORBIDDEN_ITEM_TYPES.has(item.type)) {
             controller.abort();
             throw new ProviderError("TOOL_EVENT_REJECTED");
@@ -115,7 +122,19 @@ export function createCodexProvider({
           }
         }
         if (!finalResponse) throw new ProviderError("EMPTY_CODEX_RESPONSE");
-        return validateProviderAnswer(parseJson(finalResponse), allowedIds);
+        if (!completed) throw new ProviderError("CODEX_TURN_INCOMPLETE");
+        const answer = validateProviderAnswer(parseJson(finalResponse), allowedIds);
+        return {
+          ...answer,
+          ...responseMetadata({
+            provider: "codex-oauth",
+            authMode: "CHATGPT_OAUTH",
+            requestedModel: model,
+            reportedModel: null,
+            usage,
+            cachedInputTokens: usage?.cached_input_tokens,
+          }),
+        };
       } catch (error) {
         if (timedOut) throw new ProviderError("CODEX_TIMEOUT");
         if (error instanceof ProviderError || error instanceof ContractError) throw error;
