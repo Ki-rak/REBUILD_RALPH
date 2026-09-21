@@ -1,14 +1,19 @@
 from copy import deepcopy
 from hashlib import sha256
 from pathlib import Path
+import io
 import pytest
+from openpyxl import Workbook
 from backend.extraction import extract_document
 from backend.analysis import compare, fingerprint, knowledge_graph, validate_refs
 
-def doc(did, text, revision="Rev00", status="APPROVED", filename="contract.txt", project="new"):
-    return {"id":did, "project_id":project, "filename":filename, "sha256":sha256(text.encode()).hexdigest(),
-            "revision":revision, "approval_status":status,
-            "blocks":[{"id":"b1","text":text,"locator":"line 1","locator_type":"line"}]}
+def doc(did, text, revision="Rev00", status="APPROVED", filename="contract.txt", project="new", family="contract-main"):
+    result = {"id":did, "project_id":project, "filename":filename, "sha256":sha256(text.encode()).hexdigest(),
+              "revision":revision, "approval_status":status,
+              "blocks":[{"id":"b1","text":text,"locator":"line 1","locator_type":"line"}]}
+    if family is not None:
+        result["metadata"] = {"contract_family": family}
+    return result
 
 def row(result, key):
     return next(r for r in result["rows"] if r["id"] == key)
@@ -177,3 +182,81 @@ def test_source_ref_document_metadata_cannot_be_forged():
         forged[0]["source_refs"][0][field] = value
         with pytest.raises(ValueError, match="SOURCE_METADATA_MISMATCH"):
             validate_refs(forged, [current])
+
+def test_amendment_never_replaces_same_clause_in_another_project_or_family():
+    current = [doc("new", "Notice within 11 calendar days.")]
+    past_a = doc("past-a", "Clause 20.1 Notice within 23 calendar days.", project="past-a", family="contract-a")
+    past_b = doc("past-b", "Clause 20.1 Notice within 17 calendar days.", revision="Rev01",
+                 filename="approved_addendum.txt", project="past-b", family="contract-b")
+    notice = row(compare(current, [past_a, past_b]), "notice")
+    assert "23 calendar days" in notice["past"]
+    assert "17 calendar days" in notice["past"]
+    assert {ref["project_id"] for ref in notice["historical_refs"]} == {"past-a", "past-b"}
+
+
+def test_unclear_contract_family_preserves_both_versions_and_requires_review():
+    base = doc("base", "Clause 20.1 Notice within 23 calendar days.", project="same", family=None)
+    amendment = doc("amend", "Clause 20.1 Notice within 17 calendar days.", revision="Rev01",
+                    filename="approved_addendum.txt", project="same", family=None)
+    notice = row(compare([base, amendment], []), "notice")
+    assert "23 calendar days" in notice["current"] and "17 calendar days" in notice["current"]
+    assert notice["decision"] == "REVIEW_REQUIRED"
+    assert any("계약군" in reason for reason in notice["missing_information"])
+
+
+def test_identical_risk_workbook_sha_is_one_case_even_with_three_project_aliases():
+    current = [doc("new", "Discharge permit: 450 m3/day.")]
+    original = risk_sheet("shared", "p1", 4)
+    aliases = []
+    for index, project in enumerate(("p1", "p2", "p3"), 1):
+        alias = deepcopy(original)
+        alias["id"] = f"alias-{index}"
+        alias["project_id"] = project
+        aliases.append(alias)
+    discharge = row(compare(current, aliases), "discharge")
+    assert discharge["severity"] is None
+    assert discharge["severity_evidence"]["unique_case_count"] == 1
+    assert discharge["severity_evidence"]["project_count"] == 1
+    assert "3" in discharge["severity_evidence"]["reason"]
+
+
+def test_xlsx_row_context_keeps_label_value_and_both_cell_sources():
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "Terms"
+    sheet["A2"] = "Notice period"
+    sheet["B2"] = "19 calendar days"
+    output = io.BytesIO()
+    workbook.save(output)
+    document = extract_document(output.getvalue(), "terms.xlsx", "xlsx-doc", "new")
+    document["approval_status"] = "APPROVED"
+    result = compare([document], [])
+    notice = row(result, "notice")
+    assert "Notice period" in notice["current"]
+    assert "19 calendar days" in notice["current"]
+    assert {ref["locator"] for ref in notice["current_refs"]} >= {"Terms!A2", "Terms!B2"}
+    validate_refs(result["rows"], [document])
+
+def test_explicit_amendment_target_does_not_replace_second_contract_in_same_project():
+    base_one = doc("base-1", "N77-ITB-001 Clause 20.1 Notice within 28 calendar days.", project="shared", family=None)
+    base_two = doc("base-2", "N77-ITB-002 Clause 20.1 Notice within 35 calendar days.", project="shared", family=None)
+    amendment = doc("add-1", "N77-ADD-001 APPROVED amendment to N77-ITB-001. Clause 20.1 Notice within 14 calendar days.",
+                    revision="Rev01", filename="addendum.txt", project="shared", family=None)
+    notice = row(compare([base_one, base_two, amendment], []), "notice")
+    assert "14 calendar days" in notice["current"]
+    assert "28 calendar days" not in notice["current"]
+    assert "35 calendar days" in notice["current"]
+    assert not any("대상 계약" in reason for reason in notice["missing_information"])
+
+
+def test_amendment_without_target_preserves_all_when_project_has_multiple_contracts():
+    base_one = doc("base-1", "N77-ITB-001 Clause 20.1 Notice within 28 calendar days.", project="shared", family=None)
+    base_two = doc("base-2", "N77-ITB-002 Clause 20.1 Notice within 35 calendar days.", project="shared", family=None)
+    amendment = doc("add-1", "N77-ADD-001 APPROVED amendment. Clause 20.1 Notice within 14 calendar days.",
+                    revision="Rev01", filename="addendum.txt", project="shared", family=None)
+    notice = row(compare([base_one, base_two, amendment], []), "notice")
+    assert "28 calendar days" in notice["current"]
+    assert "35 calendar days" in notice["current"]
+    assert "14 calendar days" in notice["current"]
+    assert notice["decision"] == "REVIEW_REQUIRED"
+    assert any("대상 계약" in reason for reason in notice["missing_information"])

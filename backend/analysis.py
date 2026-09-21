@@ -37,6 +37,7 @@ ANY_CLAUSE = re.compile(rf"\b(?P<key>{CLAUSE_TOKEN})\b", re.I)
 HEADER_STATUS = re.compile(r"\|\s*(APPROVED|FOR\s+(?:BID\s+)?REVIEW|DRAFT|ISSUED(?:\s+FOR\s+CONSTRUCTION)?|FINAL|SIGNED|승인)\s*\|", re.I)
 CELL_LOCATOR = re.compile(r"^(?P<sheet>.+)!(?P<column>[A-Z]+)(?P<row>\d+)$")
 SCALE = re.compile(r"(?P<low>\d+(?:\.\d+)?)\s*(?:~|-|–|—|to)\s*(?P<high>\d+(?:\.\d+)?)", re.I)
+CONTRACT_CODE = re.compile(r"\b([A-Z][A-Z0-9]*\d+-(?:ITB|CTR|CONTRACT)[-_]\d+)\b", re.I)
 OBSERVATION = re.compile(r"관측|실적|실제|측정|증가|중단|발견|observed|measured|actual", re.I)
 DESIGN = re.compile(r"설계|산정|용량|미확정|확정값 없음|tbd|design|capacity|not determined", re.I)
 ALLOWANCE = re.compile(r"허용|허가|상한|제한|permit|allow|limit", re.I)
@@ -154,15 +155,98 @@ def _lesson_context(document):
     return context
 
 
+def _is_amendment(document):
+    filename = document.get("filename", "")
+    header = " ".join(block.get("text", "") for block in document.get("blocks", [])[:2])[:700]
+    return bool(AMENDMENT.search(filename) or re.search(r"\b[A-Z][A-Z0-9]*\d+-(?:ADD|AMEND|CORR)[-_]\d+\b|정정서", header, re.I))
+
+
+def _normalize_contract_id(value):
+    return re.sub(r"\s+", "", str(value)).upper() if value else None
+
+
+def _contract_identity(document, amendment=False):
+    metadata = document.get("metadata", {})
+    explicit = (metadata.get("contract_id") or metadata.get("contract_identity")
+                or metadata.get("contract_family") or document.get("contract_id")
+                or document.get("contract_family"))
+    if explicit:
+        return _normalize_contract_id(explicit), True
+    # An amendment's mention of a contract number is a target, not the
+    # amendment document's own identity.
+    if amendment:
+        return None, False
+    header = " ".join(block.get("text", "") for block in document.get("blocks", [])[:4])[:2500]
+    identities = {_normalize_contract_id(match.group(1)) for match in CONTRACT_CODE.finditer(header)}
+    if len(identities) == 1:
+        return identities.pop(), True
+    return None, False
+
+
+def _amendment_target(document, amendment=False):
+    if not amendment:
+        return None
+    metadata = document.get("metadata", {})
+    explicit = (metadata.get("amends_contract_id") or metadata.get("amendment_target")
+                or document.get("amends_contract_id") or document.get("amendment_target"))
+    if explicit:
+        return _normalize_contract_id(explicit)
+    # A single full contract identifier in the amendment body is an explicit
+    # target. Multiple identifiers are ambiguous and must not be guessed.
+    text = " ".join(block.get("text", "") for block in document.get("blocks", []))
+    targets = {_normalize_contract_id(match.group(1)) for match in CONTRACT_CODE.finditer(text)}
+    return targets.pop() if len(targets) == 1 else None
+
+
+def _column_number(label):
+    number = 0
+    for character in label:
+        number = number * 26 + ord(character.upper()) - 64
+    return number
+
+
+def _xlsx_context_facts(document, status, amendment, informal, contract_id, contract_id_known, amendment_target):
+    sheets, blocks = _workbook_rows(document)
+    facts = []
+    for sheet, rows in sheets.items():
+        for row_number, cells in sorted(rows.items()):
+            ordered = sorted(((column, value) for column, value in cells.items() if value not in (None, "")), key=lambda item: _column_number(item[0]))
+            if not ordered:
+                continue
+            text = " | ".join(str(value) for _, value in ordered)
+            if amendment and UNCHANGED.search(text):
+                continue
+            matched = {key for key, _, pattern in PATTERNS if pattern.search(text)}
+            if not matched:
+                continue
+            refs = [source_ref(document, blocks[(sheet, column, row_number)]) for column, _ in ordered]
+            clause, explicit_change = _clause_info(text)
+            for key in matched:
+                facts.append((key, {"doc": document, "ref": refs[0], "refs": refs, "text": text,
+                    "status": status, "amendment": amendment,
+                    "explicit_change": explicit_change or bool(amendment and clause), "clause": clause,
+                    "informal": informal, "role": None, "contract_id": contract_id,
+                    "contract_id_known": contract_id_known, "amendment_target": amendment_target}))
+    return facts
+
+
 def _facts(documents):
     result = {key: [] for key, _, _ in PATTERNS}
     for doc in documents:
         heading = " ".join(b.get("text", "") for b in doc.get("blocks", [])[:3])[:1800]
-        amendment = bool(AMENDMENT.search(doc.get("filename", "") + " " + heading))
+        amendment = _is_amendment(doc)
         lesson = _lesson_context(doc)
         status = _doc_status(doc)
         informal = bool(INFORMAL.search(doc.get("filename", "")))
+        contract_id, contract_id_known = _contract_identity(doc, amendment)
+        amendment_target = _amendment_target(doc, amendment)
+        if amendment_target:
+            contract_id, contract_id_known = amendment_target, True
+        for key, fact in _xlsx_context_facts(doc, status, amendment, informal, contract_id, contract_id_known, amendment_target):
+            result[key].append(fact)
         for block in doc.get("blocks", []):
+            if block.get("locator_type") in {"xlsx_cell", "xlsx_sheet"}:
+                continue
             block_context = lesson.get(block.get("id"), {})
             active_clause = None
             clause_topics = set()
@@ -184,7 +268,9 @@ def _facts(documents):
                 for key in matched:
                     result[key].append({"doc": doc, "ref": source_ref(doc, block, line), "text": line,
                         "status": status, "amendment": amendment, "explicit_change": explicit_change,
-                        "clause": clause, "informal": informal, "role": block_context.get("role")})
+                        "clause": clause, "informal": informal, "role": block_context.get("role"),
+                        "contract_id": contract_id, "contract_id_known": contract_id_known,
+                        "amendment_target": amendment_target})
     return result
 
 
@@ -193,13 +279,51 @@ def _effective(facts):
     excluded = [fact for fact in facts if fact["status"] == "UNAPPROVED"]
     amendments = [fact for fact in eligible if fact["amendment"] and fact["explicit_change"]
                   and fact["status"] == "APPROVED" and not fact["informal"] and fact["clause"]]
+    ambiguous_target = False
     for change in sorted(amendments, key=lambda fact: _revision_number(fact["doc"])):
-        eligible = [fact for fact in eligible if fact is change or fact["clause"] != change["clause"]
-                    or fact["informal"] or _revision_number(fact["doc"]) >= _revision_number(change["doc"])]
+        candidates = [fact for fact in eligible
+                      if fact is not change and fact["clause"] == change["clause"] and not fact["informal"]
+                      and fact["doc"].get("project_id") == change["doc"].get("project_id")
+                      and _revision_number(fact["doc"]) < _revision_number(change["doc"])]
+        target = change.get("amendment_target")
+        if not target:
+            known_targets = {fact.get("contract_id") for fact in candidates if fact.get("contract_id_known")}
+            unknown_documents = {fact["doc"]["id"] for fact in candidates if not fact.get("contract_id_known")}
+            if len(known_targets) == 1 and not unknown_documents:
+                target = next(iter(known_targets))
+                change["contract_id"] = target
+                change["contract_id_known"] = True
+            else:
+                ambiguous_target = True
+        retained = []
+        for fact in eligible:
+            if fact is change or fact["clause"] != change["clause"] or fact["informal"]:
+                retained.append(fact)
+                continue
+            if fact["doc"].get("project_id") != change["doc"].get("project_id"):
+                retained.append(fact)
+                continue
+            if not target:
+                retained.append(fact)
+                continue
+            if not fact.get("contract_id_known"):
+                ambiguous_target = True
+                retained.append(fact)
+                continue
+            if fact.get("contract_id") != target:
+                retained.append(fact)
+                continue
+            if _revision_number(fact["doc"]) >= _revision_number(change["doc"]):
+                retained.append(fact)
+        eligible = retained
     unique = {}
     for fact in eligible:
         unique.setdefault((fact["doc"]["sha256"], fact["ref"]["locator"], fact["text"], fact.get("role")), fact)
-    return list(unique.values()), excluded
+    return list(unique.values()), excluded, ambiguous_target
+
+
+def _fact_refs(fact):
+    return fact.get("refs") or [fact["ref"]]
 
 
 def _display(facts, limit=12):
@@ -220,7 +344,7 @@ def _value_kind(fact, current):
 
 
 def _value_classes(facts, current):
-    return [{"kind": _value_kind(fact, current), "text": fact["text"], "source_ref": fact["ref"]} for fact in facts]
+    return [{"kind": _value_kind(fact, current), "text": fact["text"], "source_ref": fact["ref"], "source_refs": _fact_refs(fact)} for fact in facts]
 
 
 def _labeled(facts, current, limit=3):
@@ -297,6 +421,7 @@ def _risk_records(document):
                 continue
             records.append({"project_id": document["project_id"], "document": document, "description": description,
                 "likelihood": likelihood, "severity": severity, "scale": scale,
+                "case_key": (document.get("sha256"), f"{sheet}!{columns['description']}{number}", f"{sheet}!{columns['severity']}{number}"),
                 "description_ref": source_ref(document, blocks[(sheet, columns["description"], number)]),
                 "likelihood_ref": source_ref(document, blocks[(sheet, columns["likelihood"], number)]),
                 "severity_ref": source_ref(document, blocks[(sheet, columns["severity"], number)])})
@@ -304,7 +429,7 @@ def _risk_records(document):
 
 
 def _severity_evidence(documents, key, pattern):
-    base = {"sample_count": 0, "project_count": 0, "distribution": {}, "scale": None,
+    base = {"sample_count": 0, "project_count": 0, "unique_case_count": 0, "distribution": {}, "scale": None,
             "source_refs": [], "samples": [], "reason": ""}
     if key == "risk":
         base["reason"] = "서로 다른 위험 유형을 하나의 강도 표본으로 합치지 않습니다."
@@ -314,6 +439,11 @@ def _severity_evidence(documents, key, pattern):
         if _doc_status(document) != "APPROVED":
             continue
         records.extend(record for record in _risk_records(document) if pattern.search(record["description"]))
+    unique_cases = {}
+    for record in records:
+        unique_cases.setdefault(record["case_key"], record)
+    records = list(unique_cases.values())
+    base["unique_case_count"] = len(records)
     grouped = defaultdict(list)
     for record in records:
         grouped[record["project_id"]].append(record)
@@ -360,8 +490,8 @@ def compare(current_documents, historical_documents):
     current, historical = _facts(current_documents), _facts(historical_documents)
     rows = []
     for key, title, pattern in PATTERNS:
-        selected, excluded = _effective(current[key])
-        past, _ = _effective(historical[key])
+        selected, excluded, current_target_ambiguity = _effective(current[key])
+        past, _, historical_target_ambiguity = _effective(historical[key])
         if not selected and not excluded:
             continue
         missing = []
@@ -375,15 +505,18 @@ def compare(current_documents, historical_documents):
             missing.append("비교 가능한 과거 근거가 등록되지 않았습니다.")
         if excluded:
             missing.append("미승인/검토용 자료는 유효 조건에서 제외했습니다. 제외 근거를 확인하세요.")
+        if current_target_ambiguity or historical_target_ambiguity:
+            missing.append("정정서의 대상 계약·계약군을 하나로 확인할 수 없어 같은 조항의 모든 버전을 보존했습니다.")
         if key in {"groundwater", "discharge"}:
             missing.append("허용 방류량·신규 설계량·과거 관측량을 구별하여 설계 담당자가 확인해야 합니다.")
         values = {tuple(re.findall(r"\d+(?:[,.]\d+)*\s*(?:calendar days|days|일|m3/day|m3/h|mg/L|개월|months|%)", fact["text"], re.I)) for fact in selected}
         values.discard(())
         if len(values) > 1:
             missing.append("같은 항목에 서로 다른 수치가 있습니다. 조항·적용 범위 확인이 필요합니다.")
-        cur_refs, old_refs = [fact["ref"] for fact in selected[:12]], [fact["ref"] for fact in past[:12]]
+        cur_refs = [ref for fact in selected for ref in _fact_refs(fact)][:24]
+        old_refs = [ref for fact in past for ref in _fact_refs(fact)][:24]
         mitigation_facts = [fact for fact in past if fact.get("role") == "mitigation"]
-        mitigation_refs = [fact["ref"] for fact in mitigation_facts[:6]]
+        mitigation_refs = [ref for fact in mitigation_facts for ref in _fact_refs(fact)][:12]
         mitigation = _display(mitigation_facts, 6) or "근거가 있는 과거 대응을 확인한 뒤 담당자가 대응방안을 작성하세요."
         severity, severity_evidence = _severity_evidence(historical_documents, key, pattern)
         rows.append({"id": key, "title": title, "current": _display(selected), "past": _display(past),
@@ -392,7 +525,7 @@ def compare(current_documents, historical_documents):
             "decision": "REVIEW_REQUIRED" if missing else "REFERENCE",
             "rationale": "원문의 동일 검토 항목을 연결했습니다. 신규 계약 허용량·설계값·과거 관측값과 적용 조건을 별도로 표시하며 재사용 적합성을 자동 확정하지 않습니다.",
             "missing_information": missing, "current_refs": cur_refs, "historical_refs": old_refs,
-            "excluded_refs": [fact["ref"] for fact in excluded[:8]], "source_refs": cur_refs + old_refs,
+            "excluded_refs": [ref for fact in excluded for ref in _fact_refs(fact)][:16], "source_refs": cur_refs + old_refs,
             "value_classes": {"current": _value_classes(selected, True), "historical": _value_classes(past, False)},
             "severity": severity, "severity_evidence": severity_evidence,
             "mitigation": mitigation, "mitigation_refs": mitigation_refs,
