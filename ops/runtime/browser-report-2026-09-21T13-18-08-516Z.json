@@ -1,0 +1,119 @@
+{
+  "boundary": "TEST_STORAGE_INJECTED",
+  "started": "2026-09-21T13:18:08.516Z",
+  "checks": [
+    {
+      "name": "Synthetic invalid login error",
+      "status": "PASS"
+    },
+    {
+      "name": "Zero-state historical project and source created through UI",
+      "status": "PASS"
+    },
+    {
+      "name": "New DOCX hash absent before upload",
+      "status": "PASS",
+      "detail": "8c252bd85c03e67c9784d5b982dac80f159cfa8d4706ca24c0b8c3c5320df2e6"
+    },
+    {
+      "name": "Real DOCX upload parser and hash",
+      "status": "PASS"
+    },
+    {
+      "name": "Actual comparison and unapproved export disabled",
+      "status": "PASS"
+    },
+    {
+      "name": "Unsaved draft edits block approval and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Approved draft persisted and reopened after refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "Approved edit saved as new revision invalidates approval",
+      "status": "PASS"
+    },
+    {
+      "name": "Edited draft reapproved before actual export",
+      "status": "PASS"
+    },
+    {
+      "name": "Draft edit approve actual XLSX download",
+      "status": "PASS"
+    },
+    {
+      "name": "risk default matching template",
+      "status": "PASS"
+    },
+    {
+      "name": "Risk Register actual draft edit approval download",
+      "status": "PASS",
+      "detail": "browser-risk.xlsx"
+    },
+    {
+      "name": "slides default matching template",
+      "status": "PASS"
+    },
+    {
+      "name": "Committee five editable slide rows",
+      "status": "PASS"
+    },
+    {
+      "name": "심의장표 actual draft edit approval download",
+      "status": "PASS",
+      "detail": "browser-committee.pptx"
+    },
+    {
+      "name": "Both historical and current source panels",
+      "status": "PASS"
+    },
+    {
+      "name": "Graph knowledge IDs map to actual comparison and source edges",
+      "status": "PASS"
+    },
+    {
+      "name": "Direct source hash route evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "Management actual data",
+      "status": "PASS"
+    },
+    {
+      "name": "Seven actual templates",
+      "status": "PASS"
+    },
+    {
+      "name": "Uploaded template version listed and downloaded byte-identical",
+      "status": "PASS"
+    },
+    {
+      "name": "Uploaded template version selected approved exported and reopened",
+      "status": "PASS"
+    },
+    {
+      "name": "Provider failure does not claim success",
+      "status": "PASS"
+    },
+    {
+      "name": "Mobile no horizontal document overflow",
+      "status": "PASS",
+      "detail": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "Service error retry recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "Logout",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "finished": "2026-09-21T13:18:22.368Z"
+}

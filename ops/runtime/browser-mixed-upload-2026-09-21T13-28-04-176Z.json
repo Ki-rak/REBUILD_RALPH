@@ -1,0 +1,52 @@
+{
+  "boundary": "TEST_STORAGE_INJECTED",
+  "scenario": "AR10 mixed valid and corrupt supported upload",
+  "started": "2026-09-21T13:28:04.176Z",
+  "checks": [
+    {
+      "name": "Single mixed batch preserved both original records",
+      "status": "PASS"
+    },
+    {
+      "name": "Valid item extracted and visible despite neighboring corruption",
+      "status": "PASS",
+      "detail": "EXTRACTED"
+    },
+    {
+      "name": "Corrupt supported DOCX has explicit per-document failed conversion state",
+      "status": "PASS",
+      "detail": "ERROR"
+    },
+    {
+      "name": "Original UI actions succeed and valid text source is visibly readable",
+      "status": "PASS"
+    },
+    {
+      "name": "Authenticated original download API preserves exact bytes for both files",
+      "status": "PASS"
+    },
+    {
+      "name": "Retry reports continued corruption honestly without fake READY",
+      "status": "PASS",
+      "detail": "ERROR"
+    },
+    {
+      "name": "Retry retains corrupt original and does not lose successful document",
+      "status": "PASS"
+    },
+    {
+      "name": "Successful file remains usable in actual draft after failed conversion retry",
+      "status": "PASS"
+    },
+    {
+      "name": "No removed failure or processing KPI introduced",
+      "status": "PASS"
+    },
+    {
+      "name": "No browser JavaScript errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "finished": "2026-09-21T13:28:07.920Z"
+}
