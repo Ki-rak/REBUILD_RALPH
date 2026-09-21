@@ -10,6 +10,7 @@ from uuid import uuid4
 import json
 import mimetypes
 import re
+from tempfile import TemporaryDirectory
 
 from fastapi import FastAPI, Depends, File, Header, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse, Response
@@ -26,6 +27,7 @@ from .storage import SupabaseStore, NotFoundError
 from .extraction import extract_document
 from .exports import build_output
 from .drafts import build_slide_rows, validate_slide_rows
+from .templates import TemplateCatalog, TemplateError
 from .security import IntegrityError, APPROVAL_FIELDS, sign_document, verify_document, sign_approval, verify_approval, seal_intake, restore_intake
 
 PRODUCT = "RE:Build Agent"
@@ -93,9 +95,11 @@ class Analyze(StrictModel):
 class DraftRequest(Analyze):
     kind: Literal["itb", "risk", "slides"]
     template_id: str | None = None
+    template_version: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
 class DraftEdit(StrictModel):
     rows: list[dict] = Field(max_length=100)
     template_id: str | None = None
+    template_version: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     revision: int | None = None
 class Approval(StrictModel):
     confirmed: bool
@@ -218,11 +222,21 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
                 "source_path": "data/REBUILD_INPUT_v1/REBUILD_INPUT_v1/03_OUTPUT_TEMPLATES/" + filename,
                 "size": len(data)}
 
-    def template_for(kind, tid):
+    def template_catalog(ctx):
+        provided = {tid: (template_info(tid), TEMPLATE_ROOT / spec[0]) for tid, spec in TEMPLATES.items()}
+        return TemplateCatalog(ctx.store, ctx.user["id"], settings.approval_signing_key, provided)
+
+    def resolve_template(ctx, tid, version=None, persist=False):
+        try:
+            return template_catalog(ctx).resolve(tid, version, persist)
+        except TemplateError as error:
+            fail(str(error), "선택한 양식 버전을 확인할 수 없습니다.", 404 if str(error).endswith("NOT_FOUND") else 409)
+
+    def template_for(ctx, kind, tid, version=None):
         tid = tid or kind
         if tid != kind:
             fail("TEMPLATE_TYPE_MISMATCH", "출력 종류에 맞는 표준 양식을 선택하세요.")
-        return template_info(tid)
+        return resolve_template(ctx, tid, version, persist=True)[0]
 
     def original_bytes(ctx, document):
         try:
@@ -478,7 +492,9 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
                     "historical_refs": [ref for ref in refs if ref["project_id"] != pid],
                     "severity": None, "mitigation": "", "method": "AI_INFERENCE"})
             result.update(mode="ai", ai_used=True, ai_insight=answer, answer=answer.get("answer"), provider=provider_configuration())
-        event(ctx, "analysis_completed", pid, mode=body.mode, input_fingerprint=result["input_fingerprint"])
+        event(ctx, "analysis_completed", pid, mode=body.mode, input_fingerprint=result["input_fingerprint"],
+              execution=result.get("ai_insight", {}).get("execution"),
+              usage=result.get("ai_insight", {}).get("usage"))
         return result
 
     @app.post("/api/projects/{pid}/analyze")
@@ -492,12 +508,27 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
 
     @app.get("/api/templates")
     def templates(ctx=Depends(context)):
-        return [template_info(tid) for tid in TEMPLATES]
+        catalog = template_catalog(ctx)
+        return [{**template_info(tid), "kind": tid, "versions": catalog.versions(tid)} for tid in TEMPLATES]
 
     @app.get("/api/templates/{tid}/original")
-    def template_download(tid: str, ctx=Depends(context)):
-        info = template_info(tid)
-        return file_response((TEMPLATE_ROOT / info["filename"]).read_bytes(), info["filename"])
+    def template_download(tid: str, version: str | None = None, ctx=Depends(context)):
+        info, data = resolve_template(ctx, tid, version)
+        return file_response(data, info["filename"])
+
+    @app.post("/api/templates/{tid}/versions", status_code=201)
+    async def register_template(tid: str, file: UploadFile = File(...), ctx=Depends(context)):
+        template_info(tid)
+        data = await file.read(settings.upload_limit + 1)
+        await file.close()
+        if not data or len(data) > settings.upload_limit:
+            fail("TEMPLATE_SIZE_INVALID", "양식 파일 크기를 확인하세요.", 413)
+        try:
+            info = await run_in_threadpool(template_catalog(ctx).register, tid, file.filename or "", data)
+        except TemplateError as error:
+            fail(str(error), "제공 양식의 항목 구조를 유지한 유효한 파일을 선택하세요.", 422)
+        event(ctx, "template_version_registered", template_id=tid, template_sha256=info["sha256"])
+        return info
 
     @app.get("/api/projects/{pid}/drafts")
     def drafts(pid: str, ctx=Depends(context)):
@@ -506,13 +537,13 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
 
     @app.post("/api/projects/{pid}/drafts", status_code=201)
     def create_draft(pid: str, body: DraftRequest, ctx=Depends(context)):
-        info = template_for(body.kind, body.template_id)
+        info = template_for(ctx, body.kind, body.template_id, body.template_version)
         result = analysis_result(ctx, pid, body)
         cur, past, _ = inputs(ctx, pid)
         draft = save(ctx, "draft", {"id": str(uuid4()), "project_id": pid, "output_kind": body.kind, "type": body.kind,
             "title": info["name"], "revision": 1, "status": "draft", "created_at": now(), "rows": build_slide_rows(result["rows"]) if body.kind == "slides" else result["rows"],
             "mode": result["mode"], "ai_used": result["ai_used"], "ai_insight": result.get("ai_insight"),
-            "template_id": info["id"], "template_sha256": info["sha256"],
+            "template_id": info["id"], "template_version": info["sha256"], "template_sha256": info["sha256"],
             "input_fingerprint": fingerprint(cur + past, info["sha256"]), "approval_history": [],
             "product": PRODUCT}, pid)
         event(ctx, "draft_created", pid, draft_id=draft["id"], revision=1)
@@ -535,19 +566,19 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
             validate_refs(body.rows, cur + past)
         except ValueError as e:
             fail(str(e), "유효하지 않은 원문 근거가 있습니다.", 422)
-        info = template_for(draft["output_kind"], body.template_id or draft["template_id"])
+        info = template_for(ctx, draft["output_kind"], body.template_id or draft["template_id"], body.template_version or draft.get("template_version") or draft["template_sha256"])
         if draft["status"] == "approved":
             draft.setdefault("approval_history", []).append({"approved_at": draft.get("approved_at"),
                 "revision": draft["revision"], "invalidated_at": now(), "reason": "초안 또는 양식 변경"})
         draft.update(rows=body.rows, revision=draft["revision"] + 1, status="draft", approved_at=None, reviewer=None,
-                     template_id=info["id"], template_sha256=info["sha256"],
+                     template_id=info["id"], template_version=info["sha256"], template_sha256=info["sha256"],
                      input_fingerprint=fingerprint(cur + past, info["sha256"]))
         saved = save(ctx, "draft", draft, draft["project_id"], draft["version"])
         event(ctx, "draft_edited", draft["project_id"], draft_id=did, revision=saved["revision"])
         return {**saved, "kind": saved["output_kind"]}
 
     def verify_draft(ctx, draft, verify_originals=False):
-        info = template_info(draft["template_id"])
+        info, _ = resolve_template(ctx, draft["template_id"], draft.get("template_version") or draft["template_sha256"])
         cur, past, _ = inputs(ctx, draft["project_id"])
         if draft["template_sha256"] != info["sha256"] or draft["input_fingerprint"] != fingerprint(cur + past, info["sha256"]):
             fail("DRAFT_STALE", "입력 또는 양식이 변경됐습니다. 초안을 갱신하고 재승인하세요.", 409)
@@ -605,7 +636,11 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
             for field in ("source_refs", "current_refs", "historical_refs", "excluded_refs"):
                 for ref in row.get(field, []):
                     ref["url"] = str(request.base_url).rstrip("/") + "/#source=" + quote(ref["document_id"], safe="")
-        output, mime, extension = build_output(export_copy, TEMPLATE_ROOT / info["filename"])
+        _, template_bytes = resolve_template(ctx, draft["template_id"], draft.get("template_version") or draft["template_sha256"])
+        with TemporaryDirectory(prefix="rebuild-template-") as temporary:
+            template_path = Path(temporary) / info["filename"]
+            template_path.write_bytes(template_bytes)
+            output, mime, extension = build_output(export_copy, template_path)
         # Recheck after generation to close edits that happen while an exporter runs.
         current = get(ctx, did, "draft")
         if current["version"] != draft["version"] or current["status"] != "approved":

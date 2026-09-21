@@ -6,7 +6,7 @@ import json
 DOCUMENT_FIELDS = ("id", "project_id", "filename", "sha256", "storage_path", "revision",
                    "approval_status", "extraction_status", "blocks", "markdown", "metadata", "parser_version", "intake", "intake_signature")
 APPROVAL_FIELDS = ("id", "project_id", "output_kind", "type", "revision", "rows", "input_fingerprint",
-                   "template_id", "template_sha256", "approved_at", "reviewer", "approval_id", "mode", "ai_used", "ai_insight", "approved_entity_version")
+                   "template_id", "template_version", "template_sha256", "approved_at", "reviewer", "approval_id", "mode", "ai_used", "ai_insight", "approved_entity_version")
 
 class IntegrityError(ValueError):
     pass

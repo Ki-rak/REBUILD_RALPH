@@ -55,6 +55,7 @@ def test_five_slide_draft_edits_render_on_corresponding_slide_and_invalidate(flo
     expected = ["overview", "itb", "applicability", "risks", "decisions"]
     assert [row["id"] for row in value["rows"]] == expected
     for index, row in enumerate(value["rows"]):
+        row["title"] = f"Reviewed heading {index+1}"
         row["current"] = f"Reviewed content for slide {index+1}"
         row["rationale"] = f"Review rationale {index+1}"
     changed = client.patch(f"/api/drafts/{value['id']}",
@@ -70,6 +71,7 @@ def test_five_slide_draft_edits_render_on_corresponding_slide_and_invalidate(flo
     assert len(deck.slides) == 5
     for index, slide in enumerate(deck.slides):
         text = "\n".join(shape.text for shape in slide.shapes if hasattr(shape, "text"))
+        assert f"Reviewed heading {index+1}" in text
         assert f"Reviewed content for slide {index+1}" in text
         assert f"Review rationale {index+1}" in text
     value["rows"][0]["current"] = "Second review"

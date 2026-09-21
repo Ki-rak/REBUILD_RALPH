@@ -60,8 +60,8 @@ begin
         raise exception 'source hash is immutable' using errcode = '23514';
     end if;
 
-    if old.kind = 'approval' and new.payload is distinct from old.payload then
-        raise exception 'approval snapshot is immutable' using errcode = '23514';
+    if old.kind in ('approval', 'template') and new.payload is distinct from old.payload then
+        raise exception 'approval snapshot and template version are immutable' using errcode = '23514';
     end if;
 
     if nullif(old.payload ->> 'approval_fingerprint', '') is not null

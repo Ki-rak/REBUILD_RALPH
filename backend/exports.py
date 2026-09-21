@@ -380,11 +380,13 @@ def _build_slides(draft: dict[str, Any], template_path: Path) -> bytes:
             text_shapes[1].text = body
         if not source_set and len(text_shapes) > 2:
             _set_ppt_sources(text_shapes[2], items)
-        if slide_number == 1 and draft.get("title"):
-            for shape in text_shapes:
-                if getattr(shape, "is_placeholder", False) and getattr(shape.placeholder_format, "type", None) == 1:
-                    shape.text = str(draft["title"])
-                    break
+        canonical = [row.get("id") for row in rows] == list(SLIDE_IDS)
+        title = rows[slide_number - 1].get("title") if canonical else draft.get("title") if slide_number == 1 else None
+        if title and text_shapes:
+            title_shape = next((shape for shape in text_shapes
+                                if getattr(shape, "is_placeholder", False)
+                                and getattr(shape.placeholder_format, "type", None) == 1), text_shapes[0])
+            title_shape.text = str(title)
     output = io.BytesIO()
     deck.save(output)
     return output.getvalue()
