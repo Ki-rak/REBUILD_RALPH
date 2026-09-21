@@ -1,0 +1,13 @@
+{
+  "at": "2026-09-21T13:05:28.361350+00:00",
+  "scope": "REAL_ISOLATED_AUTH_STORAGE_NOT_DB",
+  "auth_login": true,
+  "auth_refresh": true,
+  "storage_write_read": false,
+  "storage_other_user_denied": false,
+  "logout_refresh_revoked": true,
+  "db_verified": false,
+  "cleanup_complete": true,
+  "storage_status": "NOT_READY",
+  "status": "PARTIAL_COMPONENT_CHECK"
+}

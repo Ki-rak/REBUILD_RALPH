@@ -57,3 +57,11 @@ OMX 프로젝트 스킬 22개: ai-slop-cleaner, analyze, ask, autopilot, autores
 - Supabase·OpenAI Developers·Superpowers 플러그인 카탈로그는 DISABLED_BY_ADMIN/NOT_AVAILABLE, 미설치다. 사용자 연결 주장과 이 세션에서의 호출 가능성을 구별한다. 정책 우회 없이 공식 SDK와 로컬 스킬을 사용한다.
 - server/ai에는 공식 Codex SDK/CLI를 프로젝트에 버전 고정 설치한다. 상세 버전/구동/제한은 해당 package-lock.json과 README, 검증 보고서에 남긴다. 기존 Python 54개 패키지, Supabase JS, esbuild, Pretendard는 재사용한다.
 - OMX는 개발 하네스이며 제품의 OAuth inference용 CLI와 별개다. 설치된 CLI가 로그인되었다거나 밤샘 실행이 검증됐다는 의미가 아니다.
+
+## Actual development update 2026-09-21T22:32:41.554129+09:00
+
+Earlier preparation tables are historical. Current native goal is active; OMX G001 is in progress and no story/native completion is claimed. OMX0.21.5 is project-local and npm dependency inspection passes. Official Codex SDK/CLI0.155.1 and Playwright1.62.1 are pinned project dependencies. Python108/AI31 and actual browser checks pass in their documented scopes.
+
+Git main publication87ed14a was completed only after user approval. Subsequent product commits stay local on goal/product-implementation. Actual OpenAI server-key product call passed; local official OAuth remains NOT_LOGGED_IN. Actual isolated Supabase Auth login/refresh/logout-revocation passed; DB schema/private storage/RLS/persistence remain pending. No callable Supabase management tool was found in this session. Existing application keys do not substitute for SQL-management credentials.
+
+Windows Python redirector stalls were recovered with ops/python.ps1 using the configured base runtime and project site-packages. Original runtime and user-wide settings remain unchanged. Remaining auth/management prerequisites are recorded in STATE.json; installation alone is not a successful service connection.

@@ -1,0 +1,8 @@
+{
+  "scope": "PRIVILEGED_EXISTENCE_ONLY_NO_USER_ROWS",
+  "table_http_status": 404,
+  "table_exists": false,
+  "bucket_http_status": 400,
+  "bucket_exists": false,
+  "rls_verified": false
+}

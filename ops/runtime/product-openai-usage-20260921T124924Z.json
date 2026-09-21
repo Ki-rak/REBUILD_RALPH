@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-21T12:49:12.187154+00:00",
+  "scope": "ACTUAL_OPENAI_DRAFT_USAGE_APPROVAL_EXPORT_WITH_TEST_STORAGE",
+  "storage": "TEST_STORAGE_INJECTED",
+  "reviewer": "SYNTHETIC_TEST_APPROVAL",
+  "supabase_verified": false,
+  "oauth_verified": false,
+  "passed": true,
+  "http_status": 201,
+  "usage": {
+    "input_tokens": 305,
+    "output_tokens": 1263,
+    "total_tokens": 1568,
+    "cached_input_tokens": 0
+  },
+  "execution": {
+    "provider": "openai-responses",
+    "auth_mode": "OPENAI_API_KEY",
+    "state": "SUCCEEDED",
+    "source": "MODEL_CALL",
+    "cache_hit": false,
+    "model": "gpt-5-mini-2025-08-07",
+    "requested_model": "gpt-5-mini"
+  },
+  "cited_claims": 1,
+  "stored_usage_verified": true,
+  "export_reopened": true
+}

@@ -1,13 +1,13 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-21T19:55:42.579863+09:00",
-  "phase": "PREPARATION",
-  "scope_status": "GOAL_V11_READY_AI_COMPONENT_IN_PROGRESS",
+  "updated_at_kst": "2026-09-21T23:04:42.534195+09:00",
+  "phase": "DEVELOPMENT",
+  "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
   "session": {
     "id": "01a0c294-1149-70e2-8a8a-c9634b1f450f",
     "order": 1,
-    "phase": "preparation"
+    "phase": "development"
   },
   "deadlines_kst": {
     "goal_submission": "2026-09-21T17:00:00+09:00",
@@ -42,35 +42,46 @@
     "Revised UI design 05 created separately; 10 browser checks PASS including project/file selection, main Re:Builder modes/context, library/real original access, data state examples, shared templates/five-slide layout and mobile navigation. Product API/storage/analysis not implemented.",
     "Prepared self-contained /goal v1.0 and bound pending OMX objective exactly; no runtime started, all stories remain pending.",
     "UI 06: 지식조회 rename, integrated name/upload, three output review workflows, evidence nodes and comparisons, historical inventory, seven actual template downloads, locally hosted Pretendard. 38 browser checks PASS; original input and goal/harness hashes unchanged.",
-    "GOAL v1.1 updated for UI06 and dual AI auth; independent prompt review, exact pending OMX binding and <4000-char checks passed. Three skills copied project-local."
+    "GOAL v1.1 updated for UI06 and dual AI auth; independent prompt review, exact pending OMX binding and <4000-char checks passed. Three skills copied project-local.",
+    "Official AI adapters: 25 tests and actual deployed call/citations PASS (abcbf58)",
+    "Source extraction/comparison/editable outputs: 27 tests with actual P01/N01 (ddd5041)",
+    "Independent review drove integrity/retry/validation/pagination fixes; not final approval",
+    "Post-review Python108, AI31, frontend dynamic7 PASS",
+    "Fresh empty-account browser26 and Office16 PASS with TEST_STORAGE_INJECTED",
+    "Mixed valid/corrupt upload browser10 PASS, exact originals retained, corrupt retry stays ERROR",
+    "Actual Supabase isolated login/refresh/logout-revocation PASS and all probe users cleaned",
+    "Actual deployed product draft AI usage305/1263/1568 preserved through synthetic approval and editable output",
+    "Current product server restarted at http://127.0.0.1:8780/; health is configuration evidence only",
+    "Absent Supabase rebuild-agent bucket created private via official Storage API and verified; no existing bucket modified"
   ],
   "in_progress": [
-    "Implement and validate isolated local Codex OAuth/deployed API-key server adapter; no native goal started"
+    "Repair rendered five-slide overflow and missing output metadata",
+    "Validate bounded excerpts/full speaker-note evidence and UI pre-approval detail",
+    "Final local regression/review checkpoint"
   ],
   "next": [
-    "Actual project CLI OAuth login and inference after component validation",
-    "User actual /goal input starts full product workflow; actual Supabase/full-product integration remains required"
+    "Re-render real INPUT and browser deck, verify no overflow and exact reviewed content retention",
+    "Apply prepared Supabase migration through an authenticated management connection, then actual two-user DB/Storage/RLS and restart persistence verification",
+    "Official project-local Codex OAuth login, then actual product inference/citation verification",
+    "Resolve remaining concrete quality findings and submit real independent evidence to OMX strict gate only when mandatory live checks pass"
   ],
   "blocked_issues": [
     {
-      "id": "API",
-      "status": "WAITING_FOR_EVENT_KEY",
-      "detail": "User confirmed OpenAI. Local .env input fields prepared; key receipt, allowed model/quota and actual API call remain unverified."
+      "id": "SUPABASE_SCHEMA",
+      "status": "PENDING_SCHEMA",
+      "detail": "Actual product HTTP Auth login/me/refresh/logout/wrong-password checks PASS; users cleaned. Private rebuild-agent bucket created via approved Storage API and verified (no existing bucket modified). rb_entities table still absent; SQL migration and DB/Storage user RLS/persistence need authenticated management connection.",
+      "last_checked_at_kst": "2026-09-21T22:32:41.554129+09:00"
     },
     {
-      "id": "CLI_AUTH",
+      "id": "LOCAL_OAUTH",
       "status": "NOT_LOGGED_IN",
-      "detail": "External Codex CLI worker not validated. Current Desktop native goal path selected."
+      "detail": "Fresh official CLI status: local/codex-oauth/NOT_LOGGED_IN/NOT_TESTED. Official interactive login required; no copying Desktop tokens and no API-key fallback.",
+      "last_checked_at_kst": "2026-09-21T22:32:41.554129+09:00"
     },
     {
       "id": "EVENT_DETAILS",
       "status": "UNKNOWN",
-      "detail": "Hands-off exceptions/restart allowances and submission-form schema/size constraints remain unknown. Required JSONL/ZIP containers now confirmed."
-    },
-    {
-      "id": "PUBLICATION_ACCESS",
-      "status": "UNVERIFIED",
-      "detail": "GitHub target public and readable; push access/code publication unverified. Vercel selected, actual deployment pending. User owns Google Drive connection step. Supabase project access in this Codex session still unverified."
+      "detail": "Hands-off intervention exceptions/restart rules remain unconfirmed."
     }
   ],
   "harness": {
@@ -92,12 +103,19 @@
       ".omx/ultragoal/ledger.jsonl"
     ],
     "last_rechecked_kst": "2026-09-21T19:30:12.678356+09:00",
-    "active_native_goal": null
+    "active_native_goal": "Read the Codex goal objective file at C:\\Users\\GS\\.codex\\attachments\\152fa17c-8642-4567-9611-5cf82ea37345\\goal-objective.md before continuing."
   },
   "product_implementation": {
-    "existing": "UI06 preview plus AI provider component in progress; whole product not implemented",
-    "implemented": false,
-    "tests": "Component tests in progress; full product E2E not run"
+    "implemented": true,
+    "existing": "FastAPI API, parsers, source comparison, signed intake/evidence/approval, Office outputs, Supabase adapter/SQL, UI06 frontend",
+    "tests": "Full Python108 PASS; AI31 PASS; frontend errors3/context4 PASS; browser26/Office16 and mixed-upload10 PASS with explicitly injected test storage.",
+    "actual_services": {
+      "openai_deployed": "ACTUAL_PRODUCT_DRAFT_USAGE_APPROVAL_EXPORT_WITH_TEST_STORAGE_PASS",
+      "codex_local": "NOT_LOGGED_IN",
+      "supabase": "REAL_PRODUCT_HTTP_AUTH_PASS_PRIVATE_BUCKET_CREATED_DB_SCHEMA_RLS_PENDING"
+    },
+    "complete": false,
+    "latest_regression": "SLIDE_REPAIR_IN_PROGRESS: full Python113PASS/1FAIL (new metadata export issue); historical baseline108PASS preserved. Do not treat current HEAD+WIP as all-green."
   },
   "raw_logs": {
     "index": "ops/sessions/index.jsonl",
@@ -106,12 +124,19 @@
     "format_scope": "Required main JSONL 1 and optional other-session JSONL ZIP 1; detailed schema/upload limits unverified",
     "main_session_qualified": false,
     "latest_export": {
-      "exported_at_kst": "2026-09-21T16:49:21.848026+09:00",
-      "event_count": 955,
-      "export_path": "D:\\REBUILD_RALPH\\ops\\sessions\\01a0c294-1149-70e2-8a8a-c9634b1f450f\\20260921T164921848026+0900\\rollout.raw.jsonl",
-      "sha256": "e670a4c60140aec0063e55a2bbfe4e3a99ad0e757ae942fbaf3fc103067b3814",
-      "exact_copy": true
-    }
+      "exported_at_kst": "2026-09-21T22:27:59.500850+09:00",
+      "segment_count": 3,
+      "event_counts": [
+        1782,
+        32,
+        2751
+      ],
+      "latest_sha256": "4a3b38cb50e570d3af862665f3100f99c71a17ff4d1727d76ee7a3c4f77f8ddc",
+      "user_goal_reference_seen": true,
+      "final_goal_result_assessed": false
+    },
+    "segment_discovery": "3 actual segments exported separately, exact complete-record copies and JSONL validation PASS",
+    "latest_export_scope": "Active snapshot through 2026-09-21T13:27:45.335Z; not final goal result"
   },
   "evaluator": {
     "holdout_read": false,
@@ -146,13 +171,13 @@
   },
   "llm": {
     "credential_source": "event_organizers",
-    "status": "ADAPTER_IMPLEMENTATION_IN_PROGRESS",
+    "status": "DEPLOYED_REAL_CALL_PASS_LOCAL_OAUTH_PENDING",
     "provider": "OpenAI",
-    "model": null,
+    "model": "gpt-5-mini",
     "endpoint": "https://api.openai.com/v1",
     "quota": null,
-    "key_received": false,
-    "actual_call_verified": false,
+    "key_received": true,
+    "actual_call_verified": true,
     "provider_settings_ui_required": true,
     "corporate_connection": "DEFERRED_BY_USER",
     "credential_env": "OPENAI_API_KEY",
@@ -161,15 +186,31 @@
     "local_env_file": ".env",
     "env_template": ".env.example",
     "local_auth": "Codex official ChatGPT OAuth",
-    "deployed_auth": "OpenAI server API key"
+    "deployed_auth": "OpenAI server API key",
+    "product_e2e_verified": false,
+    "actual_call_scope": "Actual deployed product draft call, stored official usage, synthetic approval and XLSX reopen; TEST_STORAGE_INJECTED, not Supabase/OAuth E2E.",
+    "actual_usage": {
+      "input_tokens": 305,
+      "output_tokens": 1263,
+      "total_tokens": 1568,
+      "cached_input_tokens": 0
+    },
+    "actual_call_evidence": "ops/runtime/product-openai-usage-20260921T124924Z.json"
   },
   "auth": {
     "implementation_default": "Supabase Auth",
     "basic_login_required": true,
-    "connected": false,
+    "connected": true,
     "sso_settings_ui_required": true,
     "corporate_sso_connection": "DEFERRED_BY_USER",
-    "corporate_provider": null
+    "corporate_provider": null,
+    "verification_scope": "REAL_PRODUCT_HTTP_AUTH_WITH_REAL_SUPABASE",
+    "login": true,
+    "refresh": true,
+    "logout_refresh_revoked": true,
+    "probe_cleanup_complete": true,
+    "product_http_verified": true,
+    "evidence": "ops/runtime/product-auth-live-20260921T133655Z.json"
   },
   "capabilities": {
     "inventory": "ops/preflight/capability-inventory.json",
@@ -189,8 +230,8 @@
       "AC29",
       "AC30"
     ],
-    "implementation_status": "NOT_IMPLEMENTED",
-    "verification_status": "NOT_RUN",
+    "implementation_status": "LOCAL_FLOW_IMPLEMENTED_LIVE_INTEGRATION_PENDING",
+    "verification_status": "INJECTED_STORAGE_FRESH_BROWSER_26_OFFICE_16_MIXED_10_PASS_REAL_SUPABASE_PENDING",
     "precomputed_only_demo_allowed": false
   },
   "repository": {
@@ -202,14 +243,31 @@
     "local_git_initialized": true,
     "push_access_verified": true,
     "code_published": true,
-    "branch": "main",
-    "upstream": "origin/main",
+    "branch": "goal/product-implementation",
+    "upstream": null,
     "default_branch": "main",
-    "last_verified_published_commit": "04b20d87bb1f757b9187ee2102b6b5f945c73947",
-    "published_scope": "Committed UI and goal/configuration documents; unfinished AI code excluded"
+    "last_verified_published_commit": "87ed14a467637e209156e0b48cd69f4f1915adbc",
+    "published_scope": "Committed UI and goal/configuration documents; unfinished AI code excluded",
+    "local_implementation_commits": [
+      "abcbf58",
+      "ddd5041",
+      "0724f65",
+      "818ab03",
+      "aec81c3",
+      "15d92a7",
+      "e3991e7",
+      "cbf0663",
+      "9ba897f",
+      "6908065",
+      "d1c8484",
+      "69afbd7",
+      "211ad3b",
+      "2d9d6d7",
+      "5cf9809"
+    ]
   },
   "completion": {
-    "product": "INCOMPLETE_COMPONENT_IMPLEMENTATION",
+    "product": "INCOMPLETE_RENDERED_OUTPUT_DEFECT_AND_MANDATORY_LIVE_CONNECTIONS",
     "product_criteria": [
       "AC01-16",
       "AC23-30",
@@ -235,9 +293,12 @@
     "path": "ops/GOAL_INPUT.txt",
     "characters_without_command": 3922,
     "sha256": "42b52155828edb83c05b0002ae1d38178b5712e6340efc7fc7ca06c3000efcf9",
-    "entered": false,
-    "native_goal_started": false,
-    "version": "1.1"
+    "entered": true,
+    "native_goal_started": true,
+    "version": "1.1",
+    "actual_objective_file": "C:\\Users\\GS\\.codex\\attachments\\152fa17c-8642-4567-9611-5cf82ea37345\\goal-objective.md",
+    "actual_goal_sha256": "6abd3d24c3cb6b561f7bf7aebd6a7bf6e9033f1ac4e09e0735edd5e3c767f297",
+    "actual_created_at": 1789988273
   },
   "current_authorization": {
     "necessary_project_dependencies": "approved",
@@ -250,5 +311,24 @@
     "path": "C:/Users/GS/.codex/config.toml",
     "evidence": "ops/preflight/preparation-verification.json",
     "note": "Prior baseline differs. Do not reset or update baseline without investigating user/app changes; UI tests passed independently."
+  },
+  "architecture_review": {
+    "report": "docs/ARCHITECTURE_REVIEW.md",
+    "initial_verdict": "BLOCK",
+    "re_review": "SCOPED_FIXES_VERIFIED_FINAL_ARCHITECTURE_GATE_PENDING",
+    "findings": 12
+  },
+  "output_review": {
+    "status": "BLOCK_READABILITY",
+    "report": "docs/OUTPUT_REVIEW.md",
+    "repair": "IN_PROGRESS"
+  },
+  "supabase_storage_configuration": {
+    "bucket": "rebuild-agent",
+    "private": true,
+    "created": true,
+    "verified": true,
+    "user_rls_verified": false,
+    "evidence": "ops\\runtime\\supabase-bucket-configuration-20260921T135051Z.json"
   }
 }

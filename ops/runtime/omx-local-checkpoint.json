@@ -1,0 +1,7 @@
+{
+  "kind": "annotate_ledger",
+  "targetGoalId": "G001-source-intake",
+  "evidence": "Verified local commits 9ba897f,6908065,d1c8484,69afbd7,211ad3b. Full Python108/AI31/frontend7 PASS; fresh browser26/Office16 and mixed-corrupt upload10 PASS explicitly TEST_STORAGE_INJECTED. Independent CR01/CR02 and AR01–12 scoped fixes verified. Actual isolated Supabase Auth login/refresh/logout-revocation PASS, users cleaned; actual DB/Storage preflight PENDING_SCHEMA. Official local OAuth NOT_LOGGED_IN. Actual deployed product usage305/1263/1568 stored through synthetic approval/XLSX export. Raw snapshots1782/32/2751 events exported separately. Presentation layout verification underway.",
+  "rationale": "Record evidence and remaining external prerequisites, without marking native goal/story complete or passing final strict gate.",
+  "idempotencyKey": "local-product-checkpoint-20260921-2236"
+}

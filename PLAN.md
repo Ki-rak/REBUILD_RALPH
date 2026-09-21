@@ -186,3 +186,46 @@ UI 06 검증 완료: 브라우저 38개 PASS / page error 0, 실제 양식 7개 
 - [ ] 사용자가 실제 /goal 입력하면 현재 시각/남은 시간에 맞춰 순서 조정. 이후 하네스 루프를 기능 완료까지 수행하되 마감만으로 완료 판정을 바꾸지 않음.
 
 검증 명령: `npm --prefix server/ai test`, `npm --prefix server/ai run status` (로그인 상태만), `npm --prefix server/ai run smoke` (실제 호출 시험; 존재/사용법은 server/ai README 확인). 전체 제품 E2E는 구현 후 실제 명령을 추가한다. 준비 검증 `python -X utf8 ops/verify_preparation.py`는 전체 제품 검증이 아니다. 기존 global config baseline 불일치는 해결 전까지 실패로 유지한다.
+
+
+## 실제 goal 개발 체크포인트 (2026-09-21 21:00 이후)
+- [x] 실제 goal 첨부 원문 보존 및 OMX G001 실행 시작. native objective 일치.
+- [x] 공식 AI adapter 인증 분리·오류/시간제한·근거 검증 (abcbf58). 배포용 실제 Responses 최소 호출 성공.
+- [x] 원문 추출·조항별 정정 비교·세 형식 Office 출력 기초 (ddd5041).
+- [x] 신규 업로드→원본/MD/JSON→근거→초안→수정/승인→실제 XLSX의 주입 저장소 통합시험.
+- [x] 서버 전용 키로 인입/추출/승인 서명, 승인 DB버전 귀속, 원자 승인 RPC 준비.
+- [ ] 독립 코드 리뷰 수정 재검토, 실제 브라우저 출력 재검증.
+- [ ] Supabase migration 실제 적용, 두 사용자 DB/Storage RLS·지속성 검증. REST404는 미통과.
+- [ ] 공식 로컬 Codex OAuth 로그인 및 실제 제품 호출. CLI 미로그인 상태.
+- [ ] cleaner/전체 회귀/독립 architecture+code review/OMX strict gate.
+- [ ] 실제 rotated JSONL 구간별 내보내기와 goal 입력/최종 결과 확인.
+
+검증: .venv/Scripts/python.exe -X utf8 -m pytest tests -q; npm --prefix server/ai test;
+node tests/ui/browser_flow.cjs; .venv/Scripts/python.exe -X utf8 tests/ui/browser_workbook.py;
+.venv/Scripts/python.exe -X utf8 ops/runtime/supabase_live_verify.py.
+브라우저 fixture는 TEST_STORAGE_INJECTED이며 실제 Supabase 성공 증거가 아니다.
+제품 서버 루프백8780, 격리 시험8782. 실제 배포·공개 푸시는 이번 goal에서 제외한다.
+
+## Review repair checkpoint 2026-09-21T21:44:54.317822+09:00
+- [x] Rotated actual logs independently preserved (aec81c3); final-session qualification remains pending.
+- [x] Five editable slides/literal Excel strings/auth cleanup (818ab03), targeted24PASS.
+- [x] Actual deployed usage retained, AI31PASS.
+- [ ] Independent architecture12 findings closure and UI zero-state/restart checks.
+- [ ] Template version registration/selection/approval protection final UI+retry checks.
+- [ ] Live Supabase and local OAuth; full cleaner/review/strict completion evidence.
+
+## Current implementation checkpoint 2026-09-21T22:32:41.554129+09:00
+- [x] CR01 source-snapshot race and CR02 project/mode/query leakage repaired and independently checked.
+- [x] Python108, AI31, frontend dynamic7 PASS; browser26/Office16 and mixed-upload10 PASS with TEST_STORAGE_INJECTED.
+- [x] User-bound immutable template versions, exact5slide editable flow, dirty approval guard, persisted draft reopen and real source graph verified in injected storage.
+- [x] Actual isolated Supabase Auth login/refresh/logout-revocation; test users cleaned.
+- [x] Actual deployed OpenAI product draft usage305/1263/1568 and output reopen; storage and reviewer explicitly synthetic.
+- [x] Three real active-session snapshots separately exported:1782/32/2751 events; no merged or synthesized records.
+- [ ] Presentation layout check at realistic input volume; structural content checks alone do not prove no overflow.
+- [ ] Actual Supabase DB/Storage/RLS/restart: prepared SQL requires authenticated management access. Latest verifier PENDING_SCHEMA.
+- [ ] Official local OAuth login/inference: latest official status NOT_LOGGED_IN.
+- [ ] Final architecture/OMX strict completion gates after all mandatory live checks. Product remains incomplete.
+
+Current commands: .\ops\python.ps1 -m pytest tests -q; npm --prefix server/ai test; node tests/ui/frontend_errors.cjs; node tests/ui/frontend_context.cjs.
+Browser and mixed-upload test setup: tests/ui/browser_README.md. Actual service setup and verification: supabase/README.md and docs/RUNBOOK.md.
+These current entries supersede stale preparation status above without erasing its history.
