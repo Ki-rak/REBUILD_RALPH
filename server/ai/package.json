@@ -1,0 +1,24 @@
+{
+  "name": "@rebuild-agent/ai-provider",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=1",
+    "status": "node scripts/status.js",
+    "login": "node scripts/login.js",
+    "serve": "node scripts/serve.js",
+    "smoke": "node scripts/smoke.js",
+    "bridge": "node scripts/bridge.js"
+  },
+  "dependencies": {
+    "@openai/codex": "0.155.1",
+    "@openai/codex-sdk": "0.155.1"
+  },
+  "optionalDependencies": {
+    "@openai/codex-win32-x64": "npm:@openai/codex@0.155.1-win32-x64"
+  }
+}

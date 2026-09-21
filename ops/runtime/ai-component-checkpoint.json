@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-21T11:43:26.463440+00:00",
+  "session_id": "01a0c294-1149-70e2-8a8a-c9634b1f450f",
+  "action": "ai_component_verified",
+  "changes": "isolated official OAuth/API adapters, bounded evidence contract, timeout/error control",
+  "verification": {
+    "node_tests": 25,
+    "deployed_actual_call": "PASS",
+    "local_oauth": "NOT_LOGGED_IN",
+    "secret_scan": "PASS"
+  },
+  "failures_recovery": [
+    "sandbox runner timeout: normal-permission execution via reviewed escalation",
+    "invalid configured model: verified API model selected"
+  ],
+  "human_intervention": false,
+  "product_complete": false
+}
