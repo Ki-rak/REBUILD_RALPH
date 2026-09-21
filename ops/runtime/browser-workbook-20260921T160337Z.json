@@ -1,0 +1,27 @@
+{
+  "boundary": "TEST_STORAGE_INJECTED",
+  "checks": {
+    "new_condition_retained": true,
+    "historical_condition_retained": true,
+    "reviewer_rationale_retained": true,
+    "new_source_retained": true,
+    "historical_source_retained": true,
+    "source_links_present": true,
+    "risk_reviewed_mitigation_retained": true,
+    "risk_new_condition_retained": true,
+    "risk_historical_condition_retained": true,
+    "committee_five_actual_slides": true,
+    "committee_edited_title_retained": true,
+    "committee_edited_body_retained": true,
+    "committee_reviewed_decision_retained": true,
+    "committee_new_condition_retained": true,
+    "committee_source_retained": true,
+    "uploaded_template_metadata_preserved": true
+  },
+  "sheets": [
+    "ITB",
+    "Review Detail",
+    "Sources",
+    "Key Facts"
+  ]
+}

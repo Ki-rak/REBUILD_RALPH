@@ -148,3 +148,11 @@ The browser runner now passes one loopback URL and unique run ID; all six scenar
 ## Mixed allowance/design classification — scoped closure
 
 2026-09-22 independent /root/acceptance_architecture reviewed analysis.py _value_kind/_labeled and compare review guard. Same-fact allowance plus design/unknown is now labeled mixed with REVIEW_REQUIRED, without changing source text/numbers/units/references. Pure allowance and pure design/unknown cases remain separate. Independent analysis+slide tests31PASS. The initial regression fixture was corrected from two sentences (correctly parsed separately) to the observed single fact before changing product logic. This is a narrow classification repair, not a semantic extraction completeness claim.
+## XLSX detail preservation — independent repair review
+
+/root/acceptance_architecture found a MEDIUM regression in the compact source display: two items with[A,B] and[A,C] shared the same visible A/count/link, while global Sources lacked item attribution. The worker added source role, Source ID, original locator and Sources-row mapping to Review Detail, with long mapping chunk preservation. The reviewer re-ran the exact A/B versus A/C counterexample and confirmed distinct complete associations. Scoped mapping finding CLOSED; independent3PASS covers role mapping, long content and formula injection.
+
+Independent checks also confirmed exact approved body preservation, continuous chunks beyond Excel's32,767-character limit, literal reviewer/source formula-like strings, generated Risk formulas, and unchanged template SHA. These checks do not certify the unfinished Risk visual review or overall live-service completion.
+## Final XLSX scoped independent review — 2026-09-22T01:09:54.763632+09:00
+
+/root/acceptance_architecture independently verified4 narrow regressions and a multi-item long-text/source-offset probe: PASS, original template hashes unchanged. After root's real-render finding, the condition→past→rationale reorder and new regression were re-reviewed with3PASS. Scoped CLEAR: full content/SourceRef roles, literal strings, generated formulas, zero and missing ratings preserved. No additional abstraction or fallback change justified. This does not approve live Supabase/OAuth or overall completion.

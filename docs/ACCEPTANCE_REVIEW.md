@@ -66,3 +66,6 @@ AC01/30/32 additional injected-storage tests now prove approved intake ordering/
 Fresh bounded product collection137PASS, owned8785 browser26 and Office16PASS. These do not resolve actual Supabase persistence/RLS or local OAuth. XLSX render review found fixed-height clipping; the detail-sheet repair has an open reviewer finding about per-item supplemental SourceRef association and a remaining CJK wrapping concern. Keep output-quality gate open until repairs and fresh renders are inspected.
 
 Supabase plugin recheck is DISABLED_BY_ADMIN/NOT_AVAILABLE, available dashboard unauthenticated; official dedicated Codex CLI says NOT_LOGGED_IN. Final strict gate stays pending. Product remains incomplete.
+## Output review follow-up — 2026-09-22T01:09:54.763632+09:00
+
+AC09/35–37 scoped readability and per-item source preservation findings closed after actual ITB/Risk renders, all actual deck pages across documented root inspections, CJK boundary slide, independent4/probe + final3PASS. Product140/browser26/Office16PASS, browser persistence injected. Original overall BLOCK remains: actual Supabase DB/Storage/RLS/restart, official local OAuth and final live-dependent strict review are not completed.

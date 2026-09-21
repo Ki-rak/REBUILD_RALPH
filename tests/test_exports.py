@@ -151,3 +151,119 @@ def test_user_edited_review_fields_survive_all_output_formats() -> None:
     assert "Browser reviewer verified the uploaded notice period." in text
     assert "Preserve the reviewer mitigation exactly." in text
     assert "Confirm the final permit owner." in text
+
+def test_itb_long_content_uses_readable_summary_and_lossless_detail_sheet() -> None:
+    current = "\n".join(f"Current condition line {index}: 450 m3/day must remain source-backed." for index in range(1, 15))
+    historical = "\n".join(f"Historical comparison line {index}: observed value." for index in range(1, 20))
+    differences = [f"Difference {index}: verify applicability and scope." for index in range(1, 18)]
+    reference_context = "\n".join(f"Risk register reference {index}: =C{index}*D{index}" for index in range(1, 12))
+    refs = [_source("contract.pdf", "page 2", "450 m3/day"),
+            {**_source("risk.xlsx", "Risk!E8", "=C8*D8"), "source_id": "doc-2:block-2", "document_id": "doc-2"}]
+    row = {
+        "id": "discharge", "title": "Discharge allowance", "current": current,
+        "past": historical, "differences": differences, "reference_context": reference_context,
+        "decision": "REVIEW_REQUIRED", "rationale": "Reviewer rationale " * 20,
+        "missing_information": ["Confirm permit owner " * 15], "source_refs": refs,
+    }
+    payload, _, _ = build_output({"kind": "itb", "rows": [row]}, TEMPLATES / "ITB_Analysis_Template.xlsx")
+    workbook = load_workbook(io.BytesIO(payload), data_only=False)
+    main = workbook["ITB"]
+    detail = workbook["Review Detail"]
+    facts = workbook["Key Facts"]
+
+    assert "전체 내용: Review Detail 시트" in main["C6"].value
+    assert len(main["C6"].value) < len(current)
+    assert main["C6"].hyperlink.target == "#'Review Detail'!A2"
+    assert "근거 2건" in main["G6"].value and "전체 SourceRef" in main["G6"].value
+    assert main["G6"].hyperlink.target == "#'Sources'!A2"
+    assert 36 < main.row_dimensions[6].height <= 120
+
+    assert detail["D2"].value == current
+    assert detail["E2"].value == historical
+    assert detail["F2"].value == "\n".join(differences)
+    assert detail["I2"].value == reference_context
+    assert detail["J2"].value == 2
+
+    assert "전체 내용: Review Detail 시트" in facts["B2"].value
+    assert facts["B2"].hyperlink.target == "#'Review Detail'!A2"
+    assert "근거 2건" in facts["D2"].value
+    assert facts.row_dimensions[2].height <= 120
+
+
+def test_itb_detail_and_source_quotes_preserve_values_beyond_excel_cell_limit() -> None:
+    current = "승인 원문 450 m3/day\n" * 2_400
+    quote = "근거 인용 450 m3/day\n" * 2_400
+    ref = {**_source("long-contract.pdf", "page 12", quote), "quote": quote}
+    payload, _, _ = build_output({
+        "kind": "itb",
+        "rows": [{"id": "long", "title": "Long approved clause", "current": current,
+                  "decision": "REVIEW_REQUIRED", "source_refs": [ref]}],
+    }, TEMPLATES / "ITB_Analysis_Template.xlsx")
+    workbook = load_workbook(io.BytesIO(payload), data_only=False)
+
+    detail = workbook["Review Detail"]
+    assert "".join(str(detail.cell(row, 4).value or "") for row in range(2, detail.max_row + 1)) == current
+    sources = workbook["Sources"]
+    assert "".join(str(sources.cell(row, 9).value or "") for row in range(2, sources.max_row + 1)) == quote
+    assert detail.max_row > 2 and sources.max_row > 2
+
+
+def test_itb_detail_maps_every_item_to_all_of_its_source_rows() -> None:
+    source_a = _source("A.pdf", "page A", "A")
+    source_b = {**_source("B.pdf", "page B", "B"), "source_id": "doc-b:block", "document_id": "doc-b"}
+    source_c = {**_source("C.pdf", "page C", "C"), "source_id": "doc-c:block", "document_id": "doc-c"}
+    rows = [
+        {"id": "one", "title": "One", "current": "value one", "decision": "REVIEW_REQUIRED",
+         "source_refs": [source_a, source_b], "current_refs": [source_a], "historical_refs": [source_b]},
+        {"id": "two", "title": "Two", "current": "value two", "decision": "REVIEW_REQUIRED",
+         "source_refs": [source_a, source_c], "current_refs": [source_a], "reference_refs": [source_c]},
+    ]
+    payload, _, _ = build_output({"kind": "itb", "rows": rows}, TEMPLATES / "ITB_Analysis_Template.xlsx")
+    workbook = load_workbook(io.BytesIO(payload), data_only=False)
+    detail = workbook["Review Detail"]
+
+    assert "current_refs: Sources!A2" in detail["L2"].value
+    assert "historical_refs: Sources!A3" in detail["L2"].value
+    assert "reference_refs: Sources!A4" in detail["L3"].value
+    assert "Sources!A4" not in detail["L2"].value
+    assert "Sources!A3" not in detail["L3"].value
+
+
+def test_risk_long_content_has_lossless_detail_links_and_preserves_ratings() -> None:
+    narrative = "승인 원문 450 m3/day\n" * 2_400
+    mitigation = '=REVIEW_THIS_LITERAL() ' + '대응 방안을 원문과 검토하세요. ' * 40
+    ref = _source()
+    past_ref = {**_source('past.xlsx', 'Risk!C9', 'historic'), 'source_id': 'past:block', 'document_id': 'past'}
+    row = {
+        'id': 'long-risk', 'risk': '방류 처리 검토', 'cause': narrative,
+        'mitigation': mitigation, 'probability': 2, 'intensity': 3,
+        'source_refs': [ref, past_ref], 'current_refs': [ref], 'historical_refs': [past_ref],
+        'reference_context': '승인 범위와 실제 설계량을 구분', 'rationale': '별도 판단 근거',
+    }
+    payload, _, _ = build_output({'kind': 'risk', 'rows': [row]}, TEMPLATES / 'Risk_Register_Template.xlsx')
+    workbook = load_workbook(io.BytesIO(payload), data_only=False)
+    main = workbook['RiskOutput']
+    detail = workbook['Review Detail']
+    assert '전체 내용: Review Detail 시트' in main['C6'].value
+    assert main['C6'].hyperlink.target == "#'Review Detail'!A2"
+    assert main['G6'].hyperlink.target == "#'Review Detail'!A2"
+    assert main['I6'].hyperlink.target == "#'Sources'!A2"
+    assert 36 < main.row_dimensions[6].height <= 120
+    assert main['D6'].value == 2 and main['E6'].value == 3
+    assert main['F6'].data_type == 'f' and 'D6*E6' in main['F6'].value
+    assert ''.join(str(detail.cell(i, 4).value or '') for i in range(2, detail.max_row + 1)) == narrative
+    assert detail['H2'].value == mitigation and detail['H2'].data_type == 's'
+    assert detail['K2'].value == row['reference_context']
+    assert 'current_refs: Sources!A2' in detail['L2'].value
+    assert 'historical_refs: Sources!A3' in detail['L2'].value
+    assert '별도 판단 근거' in detail['O2'].value
+
+
+def test_risk_summary_starts_with_actual_condition_before_generic_rationale() -> None:
+    row = _comparison_row()
+    row['rationale'] = 'Review applicability and evidence before making any decision. ' * 30
+    payload, _, _ = build_output({'kind': 'risk', 'rows': [row]}, TEMPLATES / 'Risk_Register_Template.xlsx')
+    workbook = load_workbook(io.BytesIO(payload))
+    assert workbook['RiskOutput']['C6'].value.startswith(row['current'])
+    assert row['rationale'] in workbook['Review Detail']['D2'].value
+    assert row['past'] in workbook['Review Detail']['D2'].value

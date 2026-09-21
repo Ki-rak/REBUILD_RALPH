@@ -1,0 +1,14 @@
+{
+  "launcher_pid": 6872,
+  "restarted_at": "2026-09-22T01:06:02.9653439+09:00",
+  "port": 8780,
+  "status": "RUNNING_CONFIGURATION_CHECK_ONLY",
+  "health": {
+    "product": "RE:Build Agent",
+    "status": "running",
+    "persistence": "supabase",
+    "environment": "local"
+  },
+  "verified_at": "2026-09-22T01:07:27.7048107+09:00",
+  "startup_note": "First readiness request was refused before delayed startup completed; latest request succeeded. No database persistence proof."
+}

@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import io
 import json
+import math
+import unicodedata
 from copy import copy
 from pathlib import Path
 from typing import Any, Iterable
@@ -11,7 +13,7 @@ from xml.etree import ElementTree as ET
 from zipfile import ZipFile
 
 from openpyxl import load_workbook
-from openpyxl.styles import Alignment, Font
+from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.workbook.properties import CalcProperties
 from pptx import Presentation
 from pptx.enum.text import MSO_AUTO_SIZE
@@ -24,6 +26,8 @@ _REVIEW = "REVIEW_REQUIRED"
 _PRODUCT = "RE:Build Agent"
 _SLIDE_WIDTH = 12192000
 _SLIDE_HEIGHT = 6858000
+_DETAIL_SHEET = "Review Detail"
+_DETAIL_SUFFIX = "[… 전체 내용: Review Detail 시트]"
 
 
 def _first(mapping: dict[str, Any], *keys: str, default: Any = None) -> Any:
@@ -77,6 +81,79 @@ def _render_refs(refs: Iterable[dict[str, Any]]) -> str:
     return "\n".join(rendered) if rendered else _REVIEW
 
 
+def _xlsx_display_units(value: Any) -> int:
+    units = 0
+    for character in str(value or ""):
+        if character == "\t":
+            units += 4
+        elif unicodedata.east_asian_width(character) in {"W", "F", "A"}:
+            units += 2
+        else:
+            units += 1
+    return units
+
+
+def _xlsx_line_count(value: Any, column_width: float) -> int:
+    text = _text(value) or ""
+    if not text:
+        return 0
+    # Excel column width is based on narrow glyphs. Treat one width unit as one
+    # Latin display unit (and CJK as two) so the visible bound is conservative.
+    line_units = max(8, int(column_width))
+    return sum(max(1, math.ceil(_xlsx_display_units(line) / line_units)) for line in text.split("\n"))
+
+
+def _xlsx_excerpt(value: Any, column_width: float, max_lines: int = 6) -> str | None:
+    """Return a visibly bounded excerpt; the full value is kept on Review Detail."""
+    text = _text(value)
+    if not text or _xlsx_line_count(text, column_width) <= max_lines:
+        return text
+    low, high = 0, len(text)
+    while low < high:
+        middle = (low + high + 1) // 2
+        candidate = text[:middle].rstrip() + "\n" + _DETAIL_SUFFIX
+        if _xlsx_line_count(candidate, column_width) <= max_lines:
+            low = middle
+        else:
+            high = middle - 1
+    return text[:low].rstrip() + "\n" + _DETAIL_SUFFIX
+
+
+def _compact_xlsx_refs(refs: list[dict[str, Any]]) -> str:
+    if not refs:
+        return _REVIEW
+    first = refs[0]
+    path = str(_first(first, "filename", "source_path", "path", "document_id", default="source"))
+    name = path.replace("\\", "/").rsplit("/", 1)[-1]
+    locator = str(_first(first, "locator", "location", default="locator unavailable"))
+    return f"근거 {len(refs)}건 · 전체 SourceRef: Sources 시트\n{name} · {locator}"
+
+
+def _source_ref_map(item: dict[str, Any], source_rows: dict[tuple[Any, ...], int]) -> str | None:
+    lines: list[str] = []
+    roles = ("current_refs", "historical_refs", "reference_refs", "mitigation_refs", "excluded_refs", "source_refs")
+    for role in roles:
+        value = item.get(role)
+        refs = [value] if isinstance(value, dict) else value if isinstance(value, list) else []
+        for ref in refs:
+            if not isinstance(ref, dict):
+                continue
+            source_row = source_rows.get(_ref_key(ref))
+            path = _first(ref, "source_path", "filename", "path", "document_id", default="source")
+            locator = _first(ref, "locator", "location", default="locator unavailable")
+            source_id = _first(ref, "source_id", "document_id", default="source unavailable")
+            target = f"Sources!A{source_row}" if source_row else "Sources row unavailable"
+            lines.append(f"{role}: {target} | {source_id} | {path} | {locator}")
+    return "\n".join(lines) or None
+
+
+def _xlsx_chunks(value: Any, limit: int = 32_000) -> list[Any]:
+    """Split strings before openpyxl's silent 32,767-character truncation."""
+    if not isinstance(value, str) or len(value) <= limit:
+        return [value]
+    return [value[start:start + limit] for start in range(0, len(value), limit)]
+
+
 def _safe_url(value: Any) -> str | None:
     if not isinstance(value, str):
         return None
@@ -126,19 +203,28 @@ def _add_sources_sheet(workbook: Any, draft: dict[str, Any]) -> dict[tuple[Any, 
         cell = sheet.cell(1, column, header)
         cell.font = Font(bold=True)
     rows = {}
-    for row, ref in enumerate(_collect_refs(draft), 2):
+    row = 2
+    for ref in _collect_refs(draft):
         values = [ref.get("source_id"), ref.get("document_id"), _first(ref, "source_path", "filename"), ref.get("sha256"),
                   ref.get("revision"), ref.get("approval_status"), ref.get("locator_type"), ref.get("locator"), ref.get("quote"), "원문 열기"]
-        for column, value in enumerate(values, 1):
-            _write_value(sheet.cell(row, column), value)
-            sheet.cell(row, column).alignment = Alignment(vertical="top", wrap_text=True)
+        chunks = [_xlsx_chunks(value) for value in values]
+        chunk_count = max(len(parts) for parts in chunks)
+        first_row = row
+        for offset in range(chunk_count):
+            for column, parts in enumerate(chunks, 1):
+                value = parts[offset] if offset < len(parts) else None
+                _write_value(sheet.cell(row + offset, column), value)
+                sheet.cell(row + offset, column).alignment = Alignment(vertical="top", wrap_text=True)
+            if offset:
+                sheet.cell(row + offset, 10).value = f"SourceRef continuation {offset + 1}/{chunk_count}"
         url = _safe_url(ref.get("url"))
         if url:
-            sheet.cell(row, 10).hyperlink = url
-            sheet.cell(row, 10).font = Font(color="0563C1", underline="single")
+            sheet.cell(first_row, 10).hyperlink = url
+            sheet.cell(first_row, 10).font = Font(color="0563C1", underline="single")
         else:
-            sheet.cell(row, 10).value = "앱 원문 링크 없음"
-        rows[_ref_key(ref)] = row
+            sheet.cell(first_row, 10).value = "앱 원문 링크 없음"
+        rows[_ref_key(ref)] = first_row
+        row += chunk_count
     for column, width in enumerate((28, 24, 45, 68, 14, 18, 18, 26, 80, 22), 1):
         sheet.column_dimensions[sheet.cell(1, column).column_letter].width = width
     return rows
@@ -235,12 +321,122 @@ def _save_workbook(workbook: Any) -> bytes:
     return output.getvalue()
 
 
+def _detail_link(cell: Any, row: int) -> None:
+    cell.hyperlink = f"#'{_DETAIL_SHEET}'!A{row}"
+    cell.font = copy(cell.font)
+    cell.font = Font(name=cell.font.name, size=cell.font.sz, bold=cell.font.bold, italic=cell.font.italic,
+                     color="0563C1", underline="single")
+
+
+def _compact_row_height(sheet: Any, row: int, values: list[Any], widths: list[float]) -> None:
+    lines = max((_xlsx_line_count(value, width) for value, width in zip(values, widths)), default=1)
+    sheet.row_dimensions[row].height = max(36, min(120, 6 + (15 * lines)))
+
+
+def _write_detail_record(sheet: Any, start_row: int, values: list[Any]) -> int:
+    chunks = [_xlsx_chunks(value) for value in values]
+    chunk_count = max(len(parts) for parts in chunks)
+    record_type = str(values[0] or "Record")
+    for offset in range(chunk_count):
+        for column, parts in enumerate(chunks, 1):
+            value = parts[offset] if offset < len(parts) else None
+            if offset and column == 1:
+                value = f"{record_type} continuation {offset + 1}/{chunk_count}"
+            _write_value(sheet.cell(start_row + offset, column), value)
+            sheet.cell(start_row + offset, column).alignment = Alignment(vertical="top", wrap_text=True)
+    return start_row + chunk_count
+
+
+def _add_review_detail_sheet(
+    workbook: Any,
+    rows: list[Any],
+    explicit_facts: list[Any],
+    source_rows: dict[tuple[Any, ...], int],
+) -> tuple[list[int], list[int]]:
+    if _DETAIL_SHEET in workbook.sheetnames:
+        del workbook[_DETAIL_SHEET]
+    sheet = workbook.create_sheet(_DETAIL_SHEET, 1)
+    headers = [
+        "Record type", "Item ID / Fact", "Title / Unit", "Current condition / Value",
+        "Historical", "Differences", "Decision & rationale", "Missing / review",
+        "Reference context", "Source count", "Mitigation", "SourceRef roles / Sources rows",
+    ]
+    fill = PatternFill("solid", fgColor="18334D")
+    for column, header in enumerate(headers, 1):
+        cell = sheet.cell(1, column, header)
+        cell.font = Font(bold=True, color="FFFFFF")
+        cell.fill = fill
+        cell.alignment = Alignment(vertical="top", wrap_text=True)
+
+    item_rows: list[int] = []
+    fact_rows: list[int] = []
+    detail_row = 2
+    for index, item_value in enumerate(rows, 1):
+        item = item_value if isinstance(item_value, dict) else {"current_condition": str(item_value)}
+        refs = _refs(item)
+        current = _first(item, "current_condition", "new_condition", "condition", "current")
+        decision = _first(item, "decision", "applicability", "judgement")
+        rationale = _text(item.get("rationale"))
+        judgement = "\n".join(part for part in (
+            f"적용 판단: {_text(decision)}" if decision not in (None, "") else None,
+            f"근거 설명: {rationale}" if rationale else None,
+        ) if part)
+        review_item = {**item, "current_condition": current, "decision": decision}
+        values = [
+            "ITB item", _first(item, "item_id", "id", default=f"ITEM-{index:02d}"),
+            _first(item, "itb_clause", "clause", "title"), _text(current),
+            _text(_first(item, "historical_case", "past_case", "history", "past")),
+            _text(_first(item, "differences", "difference")), judgement or None,
+            _review(review_item, bool(refs), ("current_condition", "decision")),
+            _text(item.get("reference_context")), len(refs), _text(item.get("mitigation")),
+            _source_ref_map(item, source_rows),
+        ]
+        item_rows.append(detail_row)
+        detail_row = _write_detail_record(sheet, detail_row, values)
+
+    for fact_value in explicit_facts:
+        fact = fact_value if isinstance(fact_value, dict) else {"fact": str(fact_value)}
+        refs = _refs(fact)
+        values = [
+            "Key fact", _first(fact, "fact", "name", "label"), fact.get("unit"),
+            fact.get("value"), None, None, _text(fact.get("rationale")),
+            _review(fact, bool(refs), ("value",)), _text(fact.get("reference_context")),
+            len(refs), _text(fact.get("mitigation")), _source_ref_map(fact, source_rows),
+        ]
+        fact_rows.append(detail_row)
+        detail_row = _write_detail_record(sheet, detail_row, values)
+
+    for column, width in enumerate((16, 24, 24, 70, 70, 70, 55, 55, 70, 14, 55, 70), 1):
+        sheet.column_dimensions[sheet.cell(1, column).column_letter].width = width
+    sheet.freeze_panes = "A2"
+    if detail_row > 2:
+        sheet.auto_filter.ref = f"A1:L{detail_row - 1}"
+    return item_rows, fact_rows
+
+
 def _build_itb(draft: dict[str, Any], template_path: Path) -> bytes:
     workbook = load_workbook(template_path)
     _set_workbook_metadata(workbook, draft, template_path)
     sheet = workbook["ITB"] if "ITB" in workbook.sheetnames else workbook.active
     source_rows = _add_sources_sheet(workbook, draft)
     rows = _items(draft, "items", "rows", "itb_items")
+    explicit_facts_value = draft.get("key_facts") or []
+    if isinstance(explicit_facts_value, dict):
+        explicit_facts = [{"fact": key, "value": value} for key, value in explicit_facts_value.items()]
+    elif isinstance(explicit_facts_value, list):
+        explicit_facts = explicit_facts_value
+    else:
+        explicit_facts = []
+    facts = explicit_facts
+    if not facts and rows:
+        facts = [{"fact": _first(item, "title", "itb_clause", "id"),
+                  "value": _first(item, "current", "current_condition", "new_condition"),
+                  "source_refs": item.get("current_refs") or item.get("source_refs") or [],
+                  "missing_information": item.get("missing_information") or []}
+                 for item in rows if isinstance(item, dict)]
+    detail_item_rows, detail_fact_rows = _add_review_detail_sheet(workbook, rows, explicit_facts, source_rows)
+    if not explicit_facts:
+        detail_fact_rows = detail_item_rows[:len(facts)]
     for index, item_value in enumerate(rows, 6):
         item = item_value if isinstance(item_value, dict) else {"current_condition": str(item_value)}
         _copy_row_style(sheet, 13, index, 8)
@@ -253,7 +449,7 @@ def _build_itb(draft: dict[str, Any], template_path: Path) -> bytes:
             f"근거 설명: {rationale}" if rationale else None,
         ) if part)
         review_item = {**item, "current_condition": current, "decision": decision}
-        values = [
+        full_values = [
             _first(item, "item_id", "id", default=f"ITEM-{index - 5:02d}"),
             _first(item, "itb_clause", "clause", "title"),
             _text(current),
@@ -263,11 +459,21 @@ def _build_itb(draft: dict[str, Any], template_path: Path) -> bytes:
             _render_refs(refs),
             _review(review_item, bool(refs), ("current_condition", "decision")),
         ]
+        widths = [12.22, 24.44, 24.44, 24.44, 24.44, 24.44, 24.44, 24.44]
+        values = [full_values[0], full_values[1]]
+        values.extend(_xlsx_excerpt(value, width) for value, width in zip(full_values[2:6], widths[2:6]))
+        values.append(_compact_xlsx_refs(refs))
+        values.append(_xlsx_excerpt(full_values[7], widths[7]))
         for column, value in enumerate(values, 1):
             _write_value(sheet.cell(index, column), value)
             sheet.cell(index, column).alignment = copy(sheet.cell(index, column).alignment)
             sheet.cell(index, column).alignment = Alignment(horizontal=sheet.cell(index, column).alignment.horizontal, vertical="top", wrap_text=True)
         _link_to_source(sheet.cell(index, 7), refs, source_rows)
+        detail_row = detail_item_rows[index - 6]
+        for column in (3, 4, 5, 6, 8):
+            if full_values[column - 1] not in (None, ""):
+                _detail_link(sheet.cell(index, column), detail_row)
+        _compact_row_height(sheet, index, values, widths)
     for row in range(6 + len(rows), 14):
         for column in range(1, 9):
             sheet.cell(row, column).value = None
@@ -279,26 +485,24 @@ def _build_itb(draft: dict[str, Any], template_path: Path) -> bytes:
     for column, header in enumerate(headers, 1):
         cell = facts_sheet.cell(1, column, header)
         cell.font = Font(bold=True)
-    facts = draft.get("key_facts") or []
-    if not facts and rows:
-        facts = [{"fact": _first(item, "title", "itb_clause", "id"),
-                  "value": _first(item, "current", "current_condition", "new_condition"),
-                  "source_refs": item.get("current_refs") or item.get("source_refs") or [],
-                  "missing_information": item.get("missing_information") or []}
-                 for item in rows if isinstance(item, dict)]
-    if isinstance(facts, dict):
-        facts = [{"fact": key, "value": value} for key, value in facts.items()]
     for row, fact_value in enumerate(facts, 2):
         fact = fact_value if isinstance(fact_value, dict) else {"fact": str(fact_value)}
         refs = _refs(fact)
-        values = [_first(fact, "fact", "name", "label"), fact.get("value"), fact.get("unit"), _render_refs(refs), _review(fact, bool(refs), ("value",))]
+        full_value = fact.get("value")
+        review = _review(fact, bool(refs), ("value",))
+        visible_value = full_value if _xlsx_line_count(full_value, 48) <= 6 else _xlsx_excerpt(full_value, 48)
+        values = [_first(fact, "fact", "name", "label"), visible_value, fact.get("unit"),
+                  _compact_xlsx_refs(refs), _xlsx_excerpt(review, 42)]
         for column, value in enumerate(values, 1):
             _write_value(facts_sheet.cell(row, column), value)
             facts_sheet.cell(row, column).alignment = Alignment(vertical="top", wrap_text=True)
         _link_to_source(facts_sheet.cell(row, 4), refs, source_rows)
+        if full_value not in (None, ""):
+            _detail_link(facts_sheet.cell(row, 2), detail_fact_rows[row - 2])
+        _compact_row_height(facts_sheet, row, values, [28, 48, 16, 42, 42])
     if not facts:
         facts_sheet.append([_REVIEW, None, None, _REVIEW, "No key facts supplied"])
-    for column, width in enumerate((28, 24, 16, 70, 42), 1):
+    for column, width in enumerate((28, 48, 16, 42, 42), 1):
         facts_sheet.column_dimensions[facts_sheet.cell(1, column).column_letter].width = width
     return _save_workbook(workbook)
 
@@ -309,6 +513,21 @@ def _build_risk(draft: dict[str, Any], template_path: Path) -> bytes:
     sheet = workbook["RiskOutput"] if "RiskOutput" in workbook.sheetnames else workbook.active
     source_rows = _add_sources_sheet(workbook, draft)
     rows = _items(draft, "items", "rows", "risks", "risk_items")
+    if _DETAIL_SHEET in workbook.sheetnames:
+        del workbook[_DETAIL_SHEET]
+    detail = workbook.create_sheet(_DETAIL_SHEET, 1)
+    headers = ["Record type", "Risk ID", "Title", "Narrative", "Probability", "Intensity", "Score",
+               "Mitigation", "Owner", "Review", "Reference context", "SourceRef roles / Sources rows",
+               "Current condition", "Historical", "Decision & rationale"]
+    for column, header in enumerate(headers, 1):
+        cell = detail.cell(1, column, header)
+        cell.font = Font(bold=True, color="FFFFFF")
+        cell.fill = PatternFill("solid", fgColor="18334D")
+        cell.alignment = Alignment(vertical="top", wrap_text=True)
+        detail.column_dimensions[cell.column_letter].width = 70 if column in (4, 8, 10, 11, 12, 13, 14, 15) else 24
+    detail.freeze_panes = "A2"
+    detail_row = 2
+    widths = [sheet.column_dimensions[sheet.cell(5, column).column_letter].width or 13 for column in range(1, 11)]
     for index, item_value in enumerate(rows, 6):
         item = item_value if isinstance(item_value, dict) else {"risk": str(item_value)}
         _copy_row_style(sheet, 13, index, 10)
@@ -316,7 +535,7 @@ def _build_risk(draft: dict[str, Any], template_path: Path) -> bytes:
         probability = _first(item, "probability", "likelihood")
         intensity = _first(item, "intensity", "severity", "impact_rating")
         score = item.get("score")
-        narrative = " / ".join(str(value) for value in (_first(item, "cause", "rationale"), _first(item, "impact", "consequence", "current"), _text(item.get("past"))) if value not in (None, "")) or None
+        narrative = " / ".join(str(value) for value in (_first(item, "impact", "consequence", "current"), _text(item.get("past")), _first(item, "cause", "rationale")) if value not in (None, "")) or None
         review = _review(item, bool(refs), ("risk", "mitigation"))
         if probability in (None, "") or intensity in (None, ""):
             score = None
@@ -324,20 +543,38 @@ def _build_risk(draft: dict[str, Any], template_path: Path) -> bytes:
                 review = f"{_REVIEW}; probability/intensity not established"
             elif "probability/intensity" not in review:
                 review += "; probability/intensity not established"
-        values = [
+        full_values = [
             _first(item, "risk_id", "item_id", "id", default=f"R-{index - 5:02d}"),
             _first(item, "risk", "title", "description"), narrative, probability, intensity, score,
             _first(item, "mitigation", "response", "action"), _first(item, "owner", "responsible"), _render_refs(refs), review or "REVIEWED",
         ]
+        item_detail_row = detail_row
+        detail_row = _write_detail_record(detail, detail_row, [
+            "Risk item", *full_values[:8], full_values[9], _text(item.get("reference_context")),
+            _source_ref_map(item, source_rows),
+            _text(_first(item, "current_condition", "new_condition", "current")),
+            _text(_first(item, "historical_case", "past_case", "history", "past")),
+            _text([value for value in (item.get("decision"), item.get("rationale")) if value not in (None, "")]),
+        ])
+        values = full_values.copy()
+        for column in (1, 2, 3, 7, 8, 10):
+            values[column - 1] = _xlsx_excerpt(full_values[column - 1], widths[column - 1])
+        values[8] = _compact_xlsx_refs(refs)
         for column, value in enumerate(values, 1):
             _write_value(sheet.cell(index, column), value)
             sheet.cell(index, column).alignment = Alignment(vertical="top", wrap_text=True)
+        for column in (1, 2, 3, 7, 8, 10):
+            if full_values[column - 1] not in (None, ""):
+                _detail_link(sheet.cell(index, column), item_detail_row)
+        _compact_row_height(sheet, index, values, widths)
         _link_to_source(sheet.cell(index, 9), refs, source_rows)
         if score is None and probability not in (None, "") and intensity not in (None, ""):
             sheet.cell(index, 6).value = f'=IF(D{index}="","",IF(E{index}="","",D{index}*E{index}))'
     for row in range(6 + len(rows), 14):
         for column in range(1, 11):
             sheet.cell(row, column).value = None
+    if detail_row > 2:
+        detail.auto_filter.ref = f"A1:O{detail_row - 1}"
     if workbook.calculation is None:
         workbook.calculation = CalcProperties()
     workbook.calculation.fullCalcOnLoad = True

@@ -242,3 +242,14 @@ These current entries supersede stale preparation status above without erasing i
 - [ ] Final independent review/cleaner/regression and OMX strict gate after all required evidence. Native goal remains active; OMX G001 in_progress,4pending,0complete.
 
 Current browser commands are maintained in tests/ui/browser_README.md. Default `python -m pytest -q` now collects only tests. Exported raw segments remain separate1782/32/4576events at the latest00:16 checkpoint; active snapshots, not final submission evidence. Original398hashes unchanged. Deployment/public push/event preparation remain excluded until requested.
+## Current output checkpoint — 2026-09-22T01:09:54.763632+09:00
+
+- [x] ITB/Risk long-content layout, full SourceRef association and literal/formula preservation; independent scoped CLEAR.
+- [x] Actual ITB/Risk renders and remaining actual deck/CJK boundary pages inspected.
+- [x] Fresh product140PASS, owned8786 browser26/Office16PASS (TEST_STORAGE_INJECTED).
+- [x] Latest local product server restarted; health/configuration only, not Supabase persistence proof.
+- [ ] Actual Supabase SQL/RLS/new-upload/restart flow; authenticated management access still unavailable.
+- [ ] Dedicated official Codex OAuth login/inference; NOT_LOGGED_IN at last actual check.
+- [ ] Final independent/OMX strict completion gate after required live evidence.
+
+No deployment/public push. Product remains incomplete; repeated local test success cannot replace missing external verification.

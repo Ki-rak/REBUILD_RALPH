@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-22T01:09:54.763632+09:00",
+  "scope": "OUTPUT_LAYOUT_AND_CONTENT_ONLY",
+  "product_complete": false,
+  "tests": {
+    "product_pass": 140,
+    "product_warnings": 2,
+    "targeted_exports_pass": 12,
+    "independent_initial_pass": 4,
+    "independent_final_pass": 3,
+    "independent_multiitem_probe": "PASS"
+  },
+  "browser": "ops/runtime/browser-report-2026-09-21T16-01-55-875Z.json",
+  "office": "ops/runtime/browser-workbook-20260921T160337Z.json",
+  "storage_boundary": "TEST_STORAGE_INJECTED",
+  "visual": {
+    "ITB": "Root inspected A1:H13; full suffixes and approved14 calendar days/450m3/day visible",
+    "Risk": "Root inspected A1:J13; conditions precede rationale; full suffixes visible; unrated cells blank",
+    "PPTX": "Root viewed actual slides1/3/5 in this continuation;2/4 viewed earlier. No observed body/source overlap. CJK slide1 has two25-character title lines and twelve40-character body lines; all fit."
+  },
+  "preservation": {
+    "full_text": "chunked Review Detail",
+    "source_association": "per-item role and Sources row map",
+    "literal_strings": true,
+    "generated_score_formula": true,
+    "zero_vs_unknown": true,
+    "original_template": "independent SHA unchanged"
+  },
+  "artifacts": [
+    {
+      "path": "ops/runtime/xlsx-real-ac35-itb-fixed.png",
+      "sha256": "f7fd20b8384197197983daddfee5d0bf7502574006e83af45f242e8d0c13cf11"
+    },
+    {
+      "path": "ops/runtime/xlsx-real-ac35-risk-before-fix.png",
+      "sha256": "65ed9b163c8d7db13a28b31ce0993b07af74af0d7f1099c5964c1219edba02fb"
+    },
+    {
+      "path": "ops/runtime/xlsx-real-ac35-risk-fixed.png",
+      "sha256": "c393b2653d292b62fa215f257eb8bba642b68393ec175128328945024590e17f"
+    },
+    {
+      "path": "ops/runtime/xlsx-real-ac35-risk-final.png",
+      "sha256": "ae034a3949e840295a63ebc7634b6249ae5b0e29c899a3326081ee811aa0a8d8"
+    },
+    {
+      "path": "ops/runtime/xlsx-real-ac35-itb-final.xlsx",
+      "sha256": "908cb740334064919ace40577598f4c7edbba9be54f1496744992d0affdc3b4f"
+    },
+    {
+      "path": "ops/runtime/xlsx-real-ac35-risk-final.xlsx",
+      "sha256": "dec701b2ef0fa653d98e0cd27e6ee0bad1c4ceb6598d565a6d23b8178dd64e3b"
+    }
+  ],
+  "evidence_limit": "First ITB failure PNG was overwritten in the earlier worker render; it remains in actual session history. Existing intermediate ITB image is not the original failure. Risk before/fixed/final copies preserved separately. No reconstructed original claimed.",
+  "remaining": [
+    "Actual Supabase DB/Storage RLS and restart/new-upload persistence",
+    "Official dedicated Codex OAuth authentication and product inference",
+    "Final live-dependent independent/OMX strict completion gate"
+  ]
+}

@@ -31,3 +31,13 @@ Python119 and independent targeted28 tests PASS. PL01/PL02/PL03 code defects clo
 ## Effective condition display 2026-09-22T00:10:18.759667+09:00
 
 Actual allowed P01/N01 ITB cells C6/C7 and rendered slide2 now show approved14 calendar days /450 m3/day before risk-reference records. Root directly viewed ops/runtime/deck-real-ac35-render/slide-2.png; no overlap in that slide. Full risk formulas and all classified sources remain in editable notes/detail. Independent architecture review found unrated/text rating rows promoted to primary conditions; two failing regressions reproduced it and the structure-based classification fixed both. Targeted28 and independent31PASS. XLSX visual overflow repair remains in progress; this is not a global output-quality or live-integration pass.
+
+## XLSX/PPTX visual and preservation closure — 2026-09-22T01:09:54.763632+09:00
+
+ITB and Risk Register main sheets now display bounded excerpts with explicit full-content links; Review Detail retains full approved text and per-item SourceRef role/row mappings. Strings above32,767 characters are split before Excel truncation. Supplied numeric values, missing ratings, zero scores and explicitly generated score formulas remain distinct; user strings stay literal. Risk shows current/past conditions before generic rationale.
+
+Root viewed actual P01/N01 ITB A1:H13 and final Risk A1:J13: suffixes fit and14calendar days/450m3/day remain visible. Original Risk36pt rows had clipped text. The first ITB failure PNG was overwritten during an earlier renderer run: its session image remains evidence, but the current intermediate PNG is not represented as the original. New final files use separate names. See ops/runtime/output-layout-verification.json for exact artifacts/hashes.
+
+Root additionally inspected actual deck slides1/3/5;2/4 were inspected earlier. No body/source overlap observed across these five pages. The CJK boundary slide1 (two25-character title lines, twelve40-character body lines) fits; slide2 is an empty-evidence state, not the boundary test. Full notes/SourceRefs remain independently tested.
+
+Fresh product140PASS (two existing deprecation warnings), owned8786 browser26PASS/0errors and Office16PASS. Independent initial4PASS plus multi-item/chunk/0/formula/source-offset probe and final3PASS: scoped CLEAR. Browser storage remains TEST_STORAGE_INJECTED. Mandatory live Supabase and OAuth checks and final strict product gate are still pending.
