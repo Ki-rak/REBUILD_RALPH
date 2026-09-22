@@ -16,6 +16,7 @@ from pathlib import Path
 import re
 import sys
 from urllib.parse import urlsplit
+from uuid import uuid4
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -194,8 +195,9 @@ def upload_new(api: ProductAPI, selected: dict) -> dict:
 def write_report(report: dict, label: str) -> Path:
     directory = ROOT / 'ops/runtime/demo'
     directory.mkdir(parents=True, exist_ok=True)
-    path = directory / (label + '-' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ') + '.json')
-    path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    path = directory / (label + '-' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ') + '-' + uuid4().hex + '.json')
+    with path.open('x', encoding='utf-8') as output:
+        output.write(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
     return path
 
 

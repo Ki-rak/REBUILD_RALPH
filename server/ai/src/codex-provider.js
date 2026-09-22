@@ -43,7 +43,7 @@ export function createCodexProvider({
   parentEnv = process.env,
   statusChecker,
   model,
-  timeoutMs = 30_000,
+  timeoutMs = 90_000,
 }) {
   const client = new CodexClass({
     env: buildCodexEnvironment(parentEnv, codexHome),

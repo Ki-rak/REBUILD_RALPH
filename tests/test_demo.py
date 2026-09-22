@@ -89,3 +89,18 @@ def test_windows_start_pins_local_and_restores_inherited_environment(tmp_path):
     result=subprocess.run([shell,'-NoProfile','-File',str(script)],capture_output=True,text=True,timeout=60)
     assert result.returncode==0
     assert 'CHILD_ENV=local' in result.stdout and 'PARENT_ENV=deployed' in result.stdout
+
+
+def test_reports_never_overwrite_when_clock_ticks_match(monkeypatch,tmp_path):
+    import ops.demo as module
+    from datetime import datetime,timezone
+    from types import SimpleNamespace
+    import json
+    monkeypatch.setattr(module,'ROOT',tmp_path)
+    fixed=datetime(2026,9,22,tzinfo=timezone.utc)
+    monkeypatch.setattr(module,'datetime',SimpleNamespace(now=lambda zone:fixed))
+    first=module.write_report({'case':'local'},'provider')
+    second=module.write_report({'case':'deployed'},'provider')
+    assert first!=second
+    assert json.loads(first.read_text())['case']=='local'
+    assert json.loads(second.read_text())['case']=='deployed'

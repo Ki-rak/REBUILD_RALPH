@@ -41,7 +41,7 @@ export function createDeployedProvider({
   model,
   baseUrl,
   fetchImpl = fetch,
-  timeoutMs = 30_000,
+  timeoutMs = 90_000,
 }) {
   if (baseUrl !== DEFAULT_OPENAI_BASE_URL) throw new ProviderError("OPENAI_BASE_URL_FORBIDDEN");
   return {

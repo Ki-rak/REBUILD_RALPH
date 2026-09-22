@@ -261,16 +261,24 @@ class SupabaseStore:
         }
         if headers:
             request_headers.update(headers)
-        try:
-            response = self._client.request(
-                method,
-                f"{self._url}{path}",
-                headers=request_headers,
-                timeout=self._timeout,
-                **kwargs,
-            )
-        except httpx.RequestError as exc:
-            raise StorageUnavailableError("Supabase service unavailable") from exc
+        # A remote peer may close a pooled connection before returning headers.
+        # Retry that exact read once; never replay writes or general timeouts.
+        for attempt in range(2):
+            try:
+                response = self._client.request(
+                    method,
+                    f"{self._url}{path}",
+                    headers=request_headers,
+                    timeout=self._timeout,
+                    **kwargs,
+                )
+                break
+            except httpx.RemoteProtocolError as exc:
+                if method == "GET" and attempt == 0:
+                    continue
+                raise StorageUnavailableError("Supabase service unavailable") from exc
+            except httpx.RequestError as exc:
+                raise StorageUnavailableError("Supabase service unavailable") from exc
         if response.status_code in (401, 403):
             raise PermissionDeniedError("Supabase access denied")
         # Supabase Storage may transport NoSuchKey as HTTP 400 with an enclosed

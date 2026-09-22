@@ -1,0 +1,91 @@
+{
+  "product": "RE:Build Agent",
+  "boundary": "REAL_SUPABASE_REAL_MODEL_IN_PROCESS_PRODUCT_API",
+  "environment": "deployed",
+  "run_id": "2cf69be42cbb4f65aa3f618217b59ea0",
+  "at": "2026-09-22T00:55:56.204443+00:00",
+  "checks": [
+    {
+      "name": "actual_product_provider_call_with_source_refs",
+      "passed": true,
+      "auth_mode": "OPENAI_API_KEY"
+    },
+    {
+      "name": "actual_db_usage_and_storage_approved_office",
+      "passed": true
+    },
+    {
+      "name": "new_app_and_login_preserve_actual_ai_usage_and_approval",
+      "passed": true,
+      "process_restart": false
+    }
+  ],
+  "product_complete": false,
+  "deployment": false,
+  "reviewer": "AUTOMATED_DISPOSABLE_TEST_ACCOUNT_ONLY",
+  "status": "PASSED",
+  "cleanup_complete": true,
+  "preflight": {
+    "status": "PASSED",
+    "stage": "complete",
+    "auth_login_verified": true,
+    "db_rls_verified": true,
+    "storage_rls_verified": true,
+    "logout_verified": true,
+    "cleanup_complete": true
+  },
+  "historical": [
+    {
+      "code": "P01",
+      "project_id": "cde90a7b-32b1-44c0-8254-4a0a89125fb3",
+      "documents": [
+        {
+          "id": "8a3b0339-d452-4ec7-ba17-8876a26280c9",
+          "filename": "01_Project_Brief_and_Lessons.docx",
+          "sha256": "0a71a19def1ea04eb8cd4cec6133a5c7b234d1e26f47fa77afea95332638c029",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "68c51f9f-42ca-48fc-abbe-74ef23cf8168",
+          "filename": "02_ITB_and_Contract_Rev00.pdf",
+          "sha256": "5c82f5f65c132efd9c2200f0c54dcbf7cec9a82a864a53a32f32ac68051c87c5",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        }
+      ]
+    }
+  ],
+  "execution": {
+    "model": "gpt-5-mini-2025-08-07",
+    "state": "SUCCEEDED",
+    "source": "MODEL_CALL",
+    "provider": "openai-responses",
+    "auth_mode": "OPENAI_API_KEY",
+    "cache_hit": false,
+    "requested_model": "gpt-5-mini"
+  },
+  "usage": {
+    "input_tokens": 3093,
+    "total_tokens": 5904,
+    "output_tokens": 2811,
+    "cached_input_tokens": 0
+  },
+  "cited_claims": 4,
+  "draft_id": "156f669c-f1bd-4cae-bcc9-9326bd2c20c2",
+  "stored_outputs": [
+    {
+      "path": "1a79b30f-560f-45c5-be85-4e3f9c33de98/129f838b-7439-49fb-8e50-40cebca29b20/156f669c-f1bd-4cae-bcc9-9326bd2c20c2/r1-c11217bd64b3.xlsx",
+      "sha256": "c11217bd64b397912a1d555221fe515510a5a7486ab53ce4a1dc42a712f36ce0"
+    }
+  ],
+  "office": {
+    "sheets": [
+      "ITB",
+      "Review Detail",
+      "Sources",
+      "Key Facts"
+    ],
+    "semantic_sha256": "b1ce910fa3cba25bb9ac48f0c443e10071e3a52b739e7cac038668dd03e7f09a"
+  }
+}

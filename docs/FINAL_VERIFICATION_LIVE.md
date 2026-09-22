@@ -27,3 +27,11 @@
 ```
 
 모든 실제 시험의 자동 승인은 격리 시험 계정의 QA 행위다. 기존 사용자 자료·INPUT 원본은 변경/삭제하지 않는다. 성공·실패·중단 보고서와 정리 결과를 보존한다. 배포·공개 푸시·행사 제출은 이 제품 완료 작업과 분리한다.
+
+
+## 2026-09-22T10:06:33.486998+09:00 갱신
+
+- 실제 local OAuth 및 deployed OpenAI 제품 경로 모두 PASS. 각 4/5개 실제 모델 인용, DB usage/승인/Storage XLSX와 새 앱 로그인 복원, 격리 사용자 정리 true. 근거: `ops/runtime/demo/provider-live-verification-20260922T005822318894Z-f80248e67deb49be88c9b660629c6deb.json`, `ops/runtime/demo/provider-live-verification-20260922T005733570501Z-79e2f06776bf48f2b342afb530a8e7ea.json`. 이 검증은 실제 서비스 TestClient이며 실제 OS 프로세스 재시작 증거는 아니다.
+- UI 근거 overflow 수정 `e35b1f1`; 120개/3종/모바일 표와 전체 원문링크 PASS. 전체 Python182/AI33, 원본398개 해시 일치.
+- 실제 전체 browser 이전 run은 Supabase GET RemoteProtocolError로 FAILED. 원본 보고서 보존, 엄격 소유 확인 정리 성공. GET 연결 단절만1회 재시도(쓰기/timeout/인증 오류 제외), Storage38 및 독립4 PASS. run17757d230a674533bcc782c231e83f21 재검증 중.
+- 사용자가 요청한10:00 전체 완료는 달성하지 못했다. 필수 browser/output/restart와 최종strict가 남았으며 완료 기준은 유지한다.

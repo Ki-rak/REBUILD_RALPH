@@ -1,0 +1,91 @@
+{
+  "product": "RE:Build Agent",
+  "boundary": "REAL_SUPABASE_REAL_MODEL_IN_PROCESS_PRODUCT_API",
+  "environment": "local",
+  "run_id": "1b8c1056723048bb86cebf8a94f0a82f",
+  "at": "2026-09-22T00:55:52.549832+00:00",
+  "checks": [
+    {
+      "name": "actual_product_provider_call_with_source_refs",
+      "passed": true,
+      "auth_mode": "CHATGPT_OAUTH"
+    },
+    {
+      "name": "actual_db_usage_and_storage_approved_office",
+      "passed": true
+    },
+    {
+      "name": "new_app_and_login_preserve_actual_ai_usage_and_approval",
+      "passed": true,
+      "process_restart": false
+    }
+  ],
+  "product_complete": false,
+  "deployment": false,
+  "reviewer": "AUTOMATED_DISPOSABLE_TEST_ACCOUNT_ONLY",
+  "status": "PASSED",
+  "cleanup_complete": true,
+  "preflight": {
+    "status": "PASSED",
+    "stage": "complete",
+    "auth_login_verified": true,
+    "db_rls_verified": true,
+    "storage_rls_verified": true,
+    "logout_verified": true,
+    "cleanup_complete": true
+  },
+  "historical": [
+    {
+      "code": "P01",
+      "project_id": "78d0c9bb-7e17-4245-ac4c-3d2d60d955f9",
+      "documents": [
+        {
+          "id": "932a2fa2-9e14-46f0-b9cd-a6522b27d30d",
+          "filename": "01_Project_Brief_and_Lessons.docx",
+          "sha256": "0a71a19def1ea04eb8cd4cec6133a5c7b234d1e26f47fa77afea95332638c029",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "02e74620-9b1d-4218-a4c3-c9ae5bc0e487",
+          "filename": "02_ITB_and_Contract_Rev00.pdf",
+          "sha256": "5c82f5f65c132efd9c2200f0c54dcbf7cec9a82a864a53a32f32ac68051c87c5",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        }
+      ]
+    }
+  ],
+  "execution": {
+    "model": null,
+    "state": "SUCCEEDED",
+    "source": "MODEL_CALL",
+    "provider": "codex-oauth",
+    "auth_mode": "CHATGPT_OAUTH",
+    "cache_hit": false,
+    "requested_model": null
+  },
+  "usage": {
+    "input_tokens": 15694,
+    "total_tokens": null,
+    "output_tokens": 1355,
+    "cached_input_tokens": 11520
+  },
+  "cited_claims": 5,
+  "draft_id": "5ad49a0f-78e2-4281-9b0b-b69570a9d63d",
+  "stored_outputs": [
+    {
+      "path": "e8bb21f2-5842-490a-8475-5e2e06eb0a74/281e254d-2ce9-4ae1-aae3-25f8ce577527/5ad49a0f-78e2-4281-9b0b-b69570a9d63d/r1-27d0bdde4142.xlsx",
+      "sha256": "27d0bdde4142c88234051a55a1cc8c57671a3ada4f517e0434063cb42f9ab22a"
+    }
+  ],
+  "office": {
+    "sheets": [
+      "ITB",
+      "Review Detail",
+      "Sources",
+      "Key Facts"
+    ],
+    "semantic_sha256": "867f411987e39c014f00176c7282ea02f017a4898bc4418f7871670f73b06fef"
+  }
+}

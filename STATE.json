@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T09:58:11.152265+09:00",
+  "updated_at_kst": "2026-09-22T10:06:33.486998+09:00",
   "phase": "FINAL_LIVE_VERIFICATION",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -61,18 +61,17 @@
     "Actual Supabase NoSuchKey transport mismatch repaired narrowly; observed HTTP400/body404 via userJWT. RED1FAIL5PASS then storage33PASS; independent code APPROVE/architecture CLEAR. Full actual UI rerun ongoing, not product completion.",
     "Live browser verifier and Windows command added with exact loopback/run identity, stdin credentials, real filename/hash coverage, owned-process cleanup and same-object persistence checks; full174Python/AI31/Node3PASS and scoped independent review APPROVE/CLEAR. Actual flow still pending.",
     "Actual Supabase negative cases PASSED and cleanup true: no-history review required, changed inputs, alias dedup, approval invalidation, corrupt originals/retry and cross-user API denial. Dedicated official Codex login now LOGGED_IN. Actual UI ITB/Risk2XLSX bytes/reopen verified; whole UI still pending.",
-    "2026-09-22 draft table evidence disclosure fix: 120 refs per row/3 output kinds/desktop and mobile/browser source links PASS; Supabase UI status reads actual provider verification; Python180 PASS. Full product live verification remains open."
+    "2026-09-22 draft table evidence disclosure fix: 120 refs per row/3 output kinds/desktop and mobile/browser source links PASS; Supabase UI status reads actual provider verification; Python180 PASS. Full product live verification remains open.",
+    "2026-09-22: explicitly approved four-document actual local OAuth and deployed OpenAI product calls PASS with real Supabase usage/approval/Office and cleanup; original398 hashes unchanged; latest whole Python182/AI33PASS."
   ],
   "in_progress": [
-    "Real supplied-data UI complete run/process restart session4449",
-    "Actual local OAuth+Supabase product call session23719",
-    "Actual deployed OpenAI-key+Supabase product call session4204",
-    "Final independent code/architecture and full invariant evidence review"
+    "Real supplied-data browser run17757d230a674533bcc782c231e83f21, terminal handle51708: six outputs plus actual process restart",
+    "Final independent architecture/full acceptance and OMX strict evidence"
   ],
   "next": [
-    "Inspect terminal actual UI/model reports and fix observed failures",
-    "Final immutable original/log preservation, acceptance evidence and verified local commits",
-    "OMX intermediate story checkpoints and final strict only after every mandatory requirement is proven"
+    "Inspect actual full UI output/restart evidence; fix only observed failures",
+    "Finalize raw session snapshots/reviews/commits",
+    "Only after mandatory proof checkpoint all OMX stories and strict final gate"
   ],
   "blocked_issues": [
     {
@@ -116,14 +115,14 @@
   "product_implementation": {
     "implemented": true,
     "existing": "FastAPI API, parsers, source comparison, signed intake/evidence/approval, Office outputs, Supabase adapter/SQL, UI06 frontend",
-    "tests": "Python179PASS/2existing warnings; AI31PASS; browser target3PASS; scoped interrupted-cleanup regressions5PASS.",
+    "tests": "Python182PASS; AI33PASS; frontend context10/errors3; Storage38PASS; layout120refs3types/mobilePASS",
     "actual_services": {
-      "openai_deployed": "ACTUAL_PRODUCT_DRAFT_USAGE_APPROVAL_EXPORT_WITH_TEST_STORAGE_PASS",
-      "codex_local": "OFFICIAL_DEDICATED_CLI_LOGGED_IN_ACTUAL_INFERENCE_RUNNING",
-      "supabase": "ACTUAL_AUTH_DB_RLS_STORAGE_RLS_LOGOUT_PASS_FULL_PRODUCT_E2E_PENDING"
+      "openai_deployed": "ACTUAL_SUPABASE_PRODUCT_AI_DRAFT_USAGE_APPROVAL_XLSX_PASS",
+      "codex_local": "ACTUAL_SUPABASE_PRODUCT_AI_DRAFT_USAGE_APPROVAL_XLSX_PASS",
+      "supabase": "AUTH_DB_STORAGE_RLS_NEGATIVES_PASS_FULL_UI_PROCESS_RESTART_PENDING"
     },
     "complete": false,
-    "latest_regression": "ops/runtime/demo/pytest-live-repair-20260922.xml; actual Supabase end-to-end not yet passed."
+    "latest_regression": "ops/runtime/demo/pytest-final-services-20260922.xml"
   },
   "raw_logs": {
     "index": "ops/sessions/index.jsonl",
@@ -192,11 +191,11 @@
     "supabase_project_ref": "wsziosnttnxefgfbgpeq",
     "supabase_project_reported_by_user": true,
     "supabase_connection_reported_by_user": true,
-    "supabase_project_access_verified": false
+    "supabase_project_access_verified": true
   },
   "llm": {
     "credential_source": "event_organizers",
-    "status": "DEPLOYED_REAL_CALL_PASS_LOCAL_OAUTH_PENDING",
+    "status": "BOTH_ACTUAL_PRODUCT_PROVIDER_PATHS_PASS",
     "provider": "OpenAI",
     "model": "gpt-5-mini",
     "endpoint": "https://api.openai.com/v1",
@@ -212,15 +211,18 @@
     "env_template": ".env.example",
     "local_auth": "Codex official ChatGPT OAuth",
     "deployed_auth": "OpenAI server API key",
-    "product_e2e_verified": false,
-    "actual_call_scope": "Actual deployed product draft call, stored official usage, synthetic approval and XLSX reopen; TEST_STORAGE_INJECTED, not Supabase/OAuth E2E.",
+    "product_e2e_verified": true,
+    "actual_call_scope": "Actual local and deployed product calls with four explicitly approved supplied files, real Supabase usage/approval/Storage XLSX and new app/login; full process restart remains separate",
     "actual_usage": {
       "input_tokens": 305,
       "output_tokens": 1263,
       "total_tokens": 1568,
       "cached_input_tokens": 0
     },
-    "actual_call_evidence": "ops/runtime/product-openai-usage-20260921T124924Z.json"
+    "actual_call_evidence": {
+      "local": "ops/runtime/demo/provider-live-verification-20260922T005822318894Z-f80248e67deb49be88c9b660629c6deb.json",
+      "deployed": "ops/runtime/demo/provider-live-verification-20260922T005733570501Z-79e2f06776bf48f2b342afb530a8e7ea.json"
+    }
   },
   "auth": {
     "implementation_default": "Supabase Auth",
@@ -561,8 +563,12 @@
     "identity_regression": "404_RED_THEN_200_GREEN",
     "transport_recovery": "ops/runtime/demo/live-transport-recovery.json",
     "product_complete": false,
-    "current_ui_execution_session_id": 25487,
-    "latest_read_timeout": "approved_past_only knowledge.json POST20sec;cleanup_complete=true"
+    "current_ui_execution_session_id": 51708,
+    "latest_read_timeout": "approved_past_only knowledge.json POST20sec;cleanup_complete=true",
+    "actual_model_calls_complete": true,
+    "latest_failed_browser": "5e6b977ba5e34c2bbbfe3c59ac5fa850",
+    "latest_failed_browser_recovery": "cleanup_complete true; GET RemoteProtocolError retry once regression38PASS",
+    "latest_ui_run": "17757d230a674533bcc782c231e83f21"
   },
   "codex_auth_diagnosis": {
     "checked_at": "2026-09-22T00:08:20.480Z",
@@ -587,7 +593,9 @@
     "scope": "Complete all remaining product work; do not shrink acceptance requirements",
     "authentication_user_statement": "Supabase and Codex login resolved",
     "verified_official_oauth": "LOGGED_IN",
-    "intervention_rule_exception": "NOT_INFERRED"
+    "intervention_rule_exception": "NOT_INFERRED",
+    "target_met": false,
+    "remaining_at_target": "Actual full UI/three-output process restart and final strict gate"
   },
   "latest_ui_fix": {
     "status": "VERIFIED",

@@ -1,0 +1,9 @@
+{
+  "product": "RE:Build Agent",
+  "run_id": "5e6b977ba5e34c2bbbfe3c59ac5fa850",
+  "owner_id": "34632900-664a-4718-94dd-46680e404efd",
+  "scope": "STRICT_METADATA_OWNED_TEST_ACCOUNT_RECOVERY",
+  "source_report": "browser-live-verification-20260922T004534191571Z.json",
+  "cleanup_complete": true,
+  "product_complete": false
+}

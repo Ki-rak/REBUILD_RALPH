@@ -151,3 +151,19 @@ test("Codex final text without official turn completion is not reported as a suc
   });
   await assert.rejects(() => provider.analyze(request), (error) => error.code === "CODEX_TURN_INCOMPLETE");
 });
+
+test("Codex provider keeps an explicit bounded timeout", async () => {
+  class WaitingCodex {
+    startThread() {
+      return { runStreamed: async (_prompt, { signal }) => ({ events: (async function* () {
+        await new Promise((resolve) => signal.addEventListener("abort", resolve, { once: true }));
+        throw new Error("aborted");
+      })() }) };
+    }
+  }
+  const provider = createCodexProvider({
+    CodexClass: WaitingCodex, codexHome: path.join(os.tmpdir(), "rebuild-codex-home-test"),
+    parentEnv: { PATH: "safe" }, statusChecker: async () => "LOGGED_IN", timeoutMs: 10,
+  });
+  await assert.rejects(() => provider.analyze(request), (error) => error.code === "CODEX_TIMEOUT");
+});

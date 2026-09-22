@@ -169,3 +169,13 @@ test("model generated metadata cannot replace trusted adapter metadata", async (
   });
   await assert.rejects(() => provider.analyze(request), (error) => error.code === "INVALID_PROVIDER_OUTPUT");
 });
+
+test("deployed provider keeps an explicit bounded timeout", async () => {
+  const provider = createDeployedProvider({
+    apiKey: "server-secret", model: "gpt-test", baseUrl: "https://api.openai.com/v1", timeoutMs: 10,
+    fetchImpl: async (_url, { signal }) => new Promise((resolve, reject) => {
+      signal.addEventListener("abort", () => reject(new Error("aborted")), { once: true });
+    }),
+  });
+  await assert.rejects(() => provider.analyze(request), (error) => error.code === "OPENAI_REQUEST_TIMEOUT");
+});

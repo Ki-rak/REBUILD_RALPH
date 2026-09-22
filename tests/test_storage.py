@@ -505,3 +505,31 @@ def test_storage_timeout_is_sanitized_without_replaying_mutation(error_type):
         store._request("POST","/storage/v1/object/rebuild-agent/new",content=b"bytes")
     assert str(error.value)=="Supabase service unavailable"
     assert len(calls)==1
+
+
+def test_disconnected_read_retries_once_but_never_replays_writes():
+    calls=[]
+    def handler(request):
+        calls.append(request)
+        if len(calls)==1:
+            raise httpx.RemoteProtocolError('private-disconnect',request=request)
+        return _json_response(200,[],request)
+    store=SupabaseStore(BASE_URL,PUBLISHABLE_KEY,ACCESS_TOKEN,client=_client(handler))
+    assert store.list('project')==[]
+    assert len(calls)==2
+    for method in ['POST','PATCH','DELETE']:
+        calls.clear()
+        with pytest.raises(StorageUnavailableError):
+            store._request(method,'/rest/v1/rb_entities')
+        assert len(calls)==1
+
+
+def test_repeated_disconnected_read_stops_after_two_attempts():
+    calls=[]
+    def handler(request):
+        calls.append(request)
+        raise httpx.RemoteProtocolError('private-disconnect',request=request)
+    store=SupabaseStore(BASE_URL,PUBLISHABLE_KEY,ACCESS_TOKEN,client=_client(handler))
+    with pytest.raises(StorageUnavailableError,match='^Supabase service unavailable$'):
+        store.list('project')
+    assert len(calls)==2

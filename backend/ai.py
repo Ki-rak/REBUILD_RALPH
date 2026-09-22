@@ -32,7 +32,7 @@ def call_bridge(operation, request=None):
     payload = json.dumps({"operation": operation, "request": request}, ensure_ascii=False)
     try:
         result = subprocess.run(["node", str(ROOT / "server/ai/scripts/bridge.js")], input=payload,
-            text=True, encoding="utf-8", capture_output=True, timeout=65, cwd=ROOT,
+            text=True, encoding="utf-8", capture_output=True, timeout=105, cwd=ROOT,
             creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
         answer = json.loads(result.stdout)
     except (subprocess.TimeoutExpired, OSError, ValueError):
