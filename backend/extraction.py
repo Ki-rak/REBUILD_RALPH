@@ -17,6 +17,7 @@ from typing import Any, Callable
 from docx import Document
 from openpyxl import load_workbook
 from pypdf import PdfReader
+import pdfplumber
 from pptx import Presentation
 
 
@@ -245,7 +246,36 @@ def _parse_pdf(data: bytes, document_id: str) -> tuple[list[dict[str, Any]], str
         if text:
             extracted_characters += len(text)
             markdown.extend((f"## Page {page_number}", text))
-    return blocks, "\n\n".join(markdown), {"parser": "pypdf", "page_count": len(reader.pages), "ocr_required": extracted_characters == 0}
+    # Append structured evidence after every legacy page block so existing page
+    # SourceRefs retain their block IDs. Coordinates use points from the top left.
+    table_count = 0
+    with pdfplumber.open(io.BytesIO(data)) as document:
+        for page_number, page in enumerate(document.pages, 1):
+            for table_number, table in enumerate(page.find_tables(), 1):
+                rows = table.extract()
+                if not rows:
+                    continue
+                table_count += 1
+                locator = f"page {page_number}, table {table_number}"
+                _block(blocks, document_id, "\n".join(" | ".join(value or "" for value in row) for row in rows),
+                       "pdf_table", locator, table=rows, original_value=None,
+                       page_number=page_number, table_number=table_number,
+                       bbox=list(table.bbox), coordinate_system="pdf_points_top_left")
+                for row_number, (values, geometry) in enumerate(zip(rows, table.rows), 1):
+                    for column_number, value in enumerate(values, 1):
+                        bbox = geometry.cells[column_number - 1]
+                        _block(blocks, document_id, value or "", "pdf_table_cell",
+                               f"{locator}, row {row_number}, column {column_number}",
+                               original_value=value, page_number=page_number, table_number=table_number,
+                               row_number=row_number, column_number=column_number,
+                               cell_address=f"R{row_number}C{column_number}",
+                               bbox=list(bbox) if bbox is not None else None,
+                               coordinate_system="pdf_points_top_left",
+                               merged_or_missing=bbox is None)
+                markdown.extend((f"### Page {page_number} · Table {table_number}", _markdown_table(rows)))
+    return blocks, "\n\n".join(markdown), {"parser": "pypdf", "table_parser": "pdfplumber",
+        "table_detection": "ruled_geometry", "table_count": table_count,
+        "page_count": len(reader.pages), "ocr_required": extracted_characters == 0}
 
 
 def _detect_metadata(text: str) -> tuple[str | None, str | None]:

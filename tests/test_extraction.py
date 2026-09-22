@@ -136,3 +136,49 @@ def test_office_archive_uncompressed_size_limit_blocks_compressed_bomb(monkeypat
     assert result["extraction_status"] == "ERROR"
     assert result["metadata"]["error_type"] == "ArchiveSafetyError"
     assert "uncompressed size" in result["metadata"]["error"]
+
+def _pdf_with_ruled_table() -> bytes:
+    from pypdf.generic import DecodedStreamObject, DictionaryObject, NameObject
+
+    writer = PdfWriter()
+    page = writer.add_blank_page(width=612, height=792)
+    font = DictionaryObject({NameObject("/Type"): NameObject("/Font"), NameObject("/Subtype"): NameObject("/Type1"), NameObject("/BaseFont"): NameObject("/Helvetica")})
+    page[NameObject("/Resources")] = DictionaryObject({NameObject("/Font"): DictionaryObject({NameObject("/F1"): writer._add_object(font)})})
+    commands = ["0.5 w"]
+    for x in (50, 200, 400):
+        commands.append(f"{x} 580 m {x} 700 l S")
+    for y in (580, 610, 640, 670, 700):
+        commands.append(f"50 {y} m 400 {y} l S")
+    for x, y, text in [(60, 680, "Condition"), (210, 680, "Value"), (60, 650, "Flow"), (210, 650, "450 m3/day"), (60, 620, "Zero"), (210, 620, "0"), (60, 590, "Unknown")]:
+        commands.append(f"BT /F1 12 Tf 1 0 0 1 {x} {y} Tm ({text}) Tj ET")
+    stream = DecodedStreamObject()
+    stream.set_data("\n".join(commands).encode("ascii"))
+    page[NameObject("/Contents")] = writer._add_object(stream)
+    writer.add_blank_page(width=612, height=792)
+    output = io.BytesIO()
+    writer.write(output)
+    return output.getvalue()
+
+
+def test_pdf_table_preserves_cells_units_blank_zero_and_page_block_ids() -> None:
+    result = extract_document(_pdf_with_ruled_table(), "uploaded-table.pdf", "doc", "project")
+    assert result["extraction_status"] == "EXTRACTED"
+    pages = [block for block in result["blocks"] if block["locator_type"] == "pdf_page"]
+    assert [block["id"] for block in pages] == ["doc:block:1", "doc:block:2"]
+    assert [block["locator"] for block in pages] == ["page 1", "page 2"]
+    assert pages[1]["extraction_status"] == "OCR_REQUIRED"
+    tables = [block for block in result["blocks"] if block["locator_type"] == "pdf_table"]
+    assert len(tables) == 1
+    assert tables[0]["table"] == [["Condition", "Value"], ["Flow", "450 m3/day"], ["Zero", "0"], ["Unknown", ""]]
+    cells = {block["locator"]: block for block in result["blocks"] if block["locator_type"] == "pdf_table_cell"}
+    flow = cells["page 1, table 1, row 2, column 2"]
+    assert flow["original_value"] == "450 m3/day"
+    assert flow["unit"] == "m3/day"
+    assert flow["cell_address"] == "R2C2"
+    assert flow["bbox"] == [200.0, 122.0, 400.0, 152.0]
+    assert flow["coordinate_system"] == "pdf_points_top_left"
+    assert cells["page 1, table 1, row 3, column 2"]["original_value"] == "0"
+    assert cells["page 1, table 1, row 4, column 2"]["original_value"] == ""
+    assert "| Flow | 450 m3/day |" in result["markdown"]
+    assert result["metadata"]["table_count"] == 1
+    assert result["metadata"]["table_parser"] == "pdfplumber"
