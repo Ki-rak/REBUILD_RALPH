@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T08:56:17.944459+09:00",
+  "updated_at_kst": "2026-09-22T09:08:20.483+09:00",
   "phase": "DEVELOPMENT_LIVE_INTEGRATION_VERIFICATION",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -551,5 +551,22 @@
     "transport_recovery": "ops/runtime/demo/live-transport-recovery.json",
     "product_complete": false,
     "current_ui_execution_session_id": 99224
+  },
+  "codex_auth_diagnosis": {
+    "checked_at": "2026-09-22T00:08:20.480Z",
+    "session_id": "01a0c665-a854-7871-beae-1b5ab6bdf13c",
+    "scope": "USER_REQUESTED_LOCAL_CODEX_AUTH_DIAGNOSIS",
+    "user_report": "Browser login completed after codex auth login in CMD; product still reports logged out",
+    "project_cli_version": "0.155.1",
+    "path_cli_version": "0.154.0",
+    "project_authentication": "NOT_LOGGED_IN",
+    "inference": "NOT_TESTED",
+    "project_auth_file_present": false,
+    "cause_assessment": "General CLI/browser authentication was not established in the product dedicated CODEX_HOME; exact user CMD credential location unverified",
+    "recovery_command": "npm --prefix server/ai run login",
+    "verification_command": "npm --prefix server/ai run status",
+    "report": "docs/CODEX_AUTH_TROUBLESHOOTING.md",
+    "credentials_read_or_copied": false,
+    "product_complete": false
   }
 }
