@@ -1,0 +1,10 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const context={console,document:{querySelector(){return{}},addEventListener(){}},location:{hash:''},sessionStorage:{getItem(){return null}},window:{addEventListener(){}},setTimeout(){},clearTimeout(){},Headers,FormData};
+vm.createContext(context);vm.runInContext(fs.readFileSync('frontend/app.js','utf8').replace(/initialize\(\);\s*$/,'')+'\nglobalThis.render={resultMarkup,graphRelationsMarkup,draftRow};',context);
+const ref={document_id:'d1',filename:'신규계약서.docx',locator:'paragraph 4',project_id:'p1',block_id:'b1'};
+const search=context.render.resultMarkup({items:[{text:'계약 공기 24개월',source_ref:ref,reason:'공기 일치'}]});assert(search.includes('신규계약서.docx'));assert(search.includes('원문 발췌'));assert(search.includes('공기 일치'));
+const ai=context.render.resultMarkup({mode:'ai',answer:'질문에 대한 답변\n\n원문 확인 필요',ai_insight:{answer:'질문에 대한 답변'},rows:[{title:'RULE_ONLY_SHOULD_NOT_APPEAR',rationale:'RULE_ONLY_SHOULD_NOT_APPEAR'},{method:'AI_INFERENCE',rationale:'계약 영향 검토',source_refs:[ref]}]});assert(ai.includes('질문에 대한 답변'));assert(ai.includes('계약 영향 검토'));assert(!ai.includes('RULE_ONLY_SHOULD_NOT_APPEAR'));assert(ai.includes('신규계약서.docx'));
+const graph=context.render.graphRelationsMarkup([{id:'row1',title:'공기',historical_refs:[ref],current_refs:[]}]);assert.equal((graph.match(/<line /g)||[]).length,1);assert(graph.includes('no-current'));
+const empty=context.render.graphRelationsMarkup([{id:'row2',title:'공기',historical_refs:[],current_refs:[]}]);assert(!empty.includes('<line '));
+const unsafe=context.render.resultMarkup({mode:'ai',answer:'<script>bad()</script>',rows:[]});assert(!unsafe.includes('<script>'));assert(unsafe.includes('&lt;script&gt;'));
+console.log('knowledge result and actual graph edges: 5 passed');

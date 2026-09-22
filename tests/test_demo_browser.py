@@ -56,3 +56,14 @@ def test_owned_server_stop_reaps_interpreter_descendant():
         if handle and kernel.WaitForSingleObject(handle,0)!=0:
             subprocess.run(['taskkill','/PID',str(descendant),'/T','/F'],capture_output=True,timeout=10,creationflags=subprocess.CREATE_NO_WINDOW)
         if handle:kernel.CloseHandle(handle)
+
+def test_owned_server_rejects_existing_listener_without_starting_process():
+    import socket
+    from ops.demo import DemoError
+    from ops.demo_live_verify import OwnedServer
+    with socket.socket() as listener:
+        listener.bind(('127.0.0.1',0));listener.listen(1)
+        server=OwnedServer('test-run',listener.getsockname()[1])
+        with pytest.raises(DemoError,match='OWNED_SERVER_PORT_IN_USE'):
+            server.start()
+        assert server.process is None

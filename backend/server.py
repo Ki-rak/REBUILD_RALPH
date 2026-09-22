@@ -1,5 +1,5 @@
 """RE:Build Agent product API. All durable data lives behind Supabase user RLS."""
-from dataclasses import dataclass, asdict, is_dataclass
+from dataclasses import dataclass, asdict, field, is_dataclass
 from copy import deepcopy
 from datetime import datetime, timezone
 from hashlib import sha256
@@ -20,7 +20,7 @@ from starlette.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field, ConfigDict
 
 from .config import Settings, ROOT, INPUT_ROOT, TEMPLATE_ROOT
-from .analysis import compare, fingerprint, knowledge_graph, search_documents, validate_refs
+from .analysis import compare, fingerprint, knowledge_graph, search_documents, insight_source_refs, validate_refs
 from .ai import AIError, call_bridge, provider_configuration, configuration_revision
 from .auth import SupabaseAuth
 from .storage import SupabaseStore, NotFoundError
@@ -79,6 +79,7 @@ class Context:
     store: object
     auth: object
     token: str
+    request_cache: dict = field(default_factory=dict)
 
 class StrictModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -187,24 +188,54 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
             if hasattr(auth, "close"):
                 auth.close()
 
-    def save(ctx, kind, payload, project_id=None, expected_version=None):
-        return unwrap(ctx.store.save(kind, payload["id"], project_id, entity_payload(payload), expected_version=expected_version))
+    def _cache_entity(ctx, entity):
+        ctx.request_cache[("entity", entity["id"])] = deepcopy(entity)
+        for key, cached in list(ctx.request_cache.items()):
+            if len(key) != 3 or key[:2] != ("list", entity["kind"]):
+                continue
+            listed_project = key[2]
+            matches = listed_project is None or listed_project == entity.get("project_id")
+            updated = [item for item in cached if item["id"] != entity["id"]]
+            if matches and not entity.get("deleted_at"):
+                updated.append(deepcopy(entity))
+            ctx.request_cache[key] = updated
+        if entity["kind"] == "project":
+            for key in list(ctx.request_cache):
+                if len(key) == 3 and key[0] == "list" and key[1] in {"document", "draft"}:
+                    del ctx.request_cache[key]
 
-    def get(ctx, eid, kind):
-        entity = unwrap(ctx.store.get(eid))
+    def save(ctx, kind, payload, project_id=None, expected_version=None):
+        result = unwrap(ctx.store.save(kind, payload["id"], project_id, entity_payload(payload), expected_version=expected_version))
+        _cache_entity(ctx, result)
+        return result
+
+    def get(ctx, eid, kind, fresh=False):
+        key = ("entity", eid)
+        entity = None if fresh else deepcopy(ctx.request_cache.get(key))
+        if entity is None:
+            entity = unwrap(ctx.store.get(eid))
         if not entity or entity.get("kind") != kind or entity.get("deleted_at"):
             fail("NOT_FOUND", "접근 가능한 항목이 없습니다.", 404)
         if kind != "project" and entity.get("project_id"):
-            get(ctx, entity["project_id"], "project")
+            get(ctx, entity["project_id"], "project", fresh=fresh)
+        ctx.request_cache[key] = deepcopy(entity)
         return entity
 
     def list_entities(ctx, kind, project_id=None):
+        key = ("list", kind, project_id)
+        if key in ctx.request_cache:
+            return deepcopy(ctx.request_cache[key])
         entities = [unwrap(e) for e in ctx.store.list(kind, project_id=project_id)]
         if kind == "project":
-            return [e for e in entities if not e.get("deleted_at")]
-        if kind in {"document", "draft"}:
-            active = {e["id"] for e in list_entities(ctx, "project")}
-            return [e for e in entities if e.get("project_id") in active]
+            entities = [e for e in entities if not e.get("deleted_at")]
+        elif kind in {"document", "draft"}:
+            if project_id is not None:
+                get(ctx, project_id, "project")
+                entities = [e for e in entities if e.get("project_id") == project_id]
+            else:
+                active = {e["id"] for e in list_entities(ctx, "project")}
+                entities = [e for e in entities if e.get("project_id") in active]
+        ctx.request_cache[key] = deepcopy(entities)
         return entities
 
     def project_versions(ctx, pid, documents):
@@ -228,10 +259,18 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
                 fail(str(e), "등록된 근거의 무결성을 확인할 수 없습니다. 원본 재처리가 필요합니다.", 409)
         return current, past, projects
 
-    def invalidate(ctx, project_id, reason, was_historical=False):
-        projects = list_entities(ctx, "project")
-        is_historical = was_historical or any(p["id"] == project_id and p.get("project_kind") == "historical" for p in projects)
-        for draft in [unwrap(e) for e in ctx.store.list("draft")]:
+    def invalidate(ctx, project_id, reason, was_historical=None):
+        is_historical = (get(ctx, project_id, "project").get("project_kind") == "historical"
+                         if was_historical is None else was_historical)
+        if was_historical is None:
+            drafts = list_entities(ctx, "draft", None if is_historical else project_id)
+        else:
+            # Project removal has already soft-deleted the parent. The storage
+            # query remains user-scoped by RLS, while parent visibility can no
+            # longer be used to filter approvals that must be invalidated.
+            drafts = [unwrap(item) for item in ctx.store.list(
+                "draft", project_id=None if is_historical else project_id)]
+        for draft in drafts:
             if draft.get("status") == "approved" and (is_historical or draft.get("project_id") == project_id):
                 history = draft.get("approval_history", [])
                 history.append({"approved_at": draft.get("approved_at"), "revision": draft["revision"],
@@ -513,10 +552,11 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         else:
             docs = list_entities(ctx, "document")
         return {"items": search_documents(docs, q[:4000]), "mode": "search", "ai_used": False,
-                "limitations": "키워드 원문 일치 검색입니다. 의미 유사도나 적용 확률을 표시하지 않습니다."}
+                "limitations": "원문 키워드와 등록된 한·영 업무 용어로 검색합니다. AI 답변·의미 유사도·적용 확률이 아닙니다."}
 
     def provider_selection(ctx, pid):
-        selected_project = get(ctx, pid, "project")
+        # Routing guards must observe configuration changes even within one request.
+        selected_project = get(ctx, pid, "project", fresh=True)
         return {"project_version": selected_project["version"], "profile_id": selected_project.get("provider_profile_id")}
 
     def verify_provider_selection(ctx, pid, snapshot):
@@ -536,21 +576,20 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         if body.mode == "ai":
             evidence, seen, ref_map = [], set(), {}
             question = body.question or "신규 프로젝트 조건과 과거 근거를 비교하고 적용 조건과 불확실성을 설명하세요."
-            for row in result["rows"]:
-                for ref in row["source_refs"]:
-                    sid = ref["source_id"]
-                    if sid in seen or len(evidence) >= 25:
-                        continue
-                    scope = "현재 프로젝트" if ref["project_id"] == pid else "과거 사례"
-                    candidate = {"id": sid, "text": ref["quote"][:1800],
-                        "location": (scope + " | " + str(ref.get("revision")) + " | " + str(ref.get("approval_status")) +
-                                     " | " + ref["filename"] + " / " + str(ref["locator"]))[:500]}
-                    candidate_request = {"operation": "analyze", "request": {"question": question, "evidence": evidence + [candidate]}}
-                    if len(json.dumps(candidate_request, ensure_ascii=False).encode("utf-8")) > 62000:
-                        continue
-                    seen.add(sid)
-                    ref_map[sid] = ref
-                    evidence.append(candidate)
+            for ref in insight_source_refs(result, cur + past, body.question, pid):
+                sid = ref["source_id"]
+                if sid in seen or len(evidence) >= 25:
+                    continue
+                scope = "현재 프로젝트" if ref["project_id"] == pid else "과거 사례"
+                candidate = {"id": sid, "text": ref["quote"][:1800],
+                    "location": (scope + " | " + str(ref.get("revision")) + " | " + str(ref.get("approval_status")) +
+                                 " | " + ref["filename"] + " / " + str(ref["locator"]))[:500]}
+                candidate_request = {"operation": "analyze", "request": {"question": question, "evidence": evidence + [candidate]}}
+                if len(json.dumps(candidate_request, ensure_ascii=False).encode("utf-8")) > 62000:
+                    continue
+                seen.add(sid)
+                ref_map[sid] = ref
+                evidence.append(candidate)
             if not evidence:
                 fail("EVIDENCE_REQUIRED", "AI 검토에 사용할 원문 근거가 없습니다.", 422)
             verify_provider_selection(ctx, pid, selection)
@@ -558,6 +597,8 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
                 answer = ai_bridge("analyze", {"question": question, "evidence": evidence})
             except AIError as error:
                 fail(error.code, "AI 연결 또는 호출에 실패했습니다. 규칙 비교로 자동 전환하지 않습니다.", 503)
+            # The provider call can overlap project configuration changes.
+            ctx.request_cache.clear()
             verify_provider_selection(ctx, pid, selection)
             result["provider_selection"] = selection
             for index, claim in enumerate(answer.get("claims", [])):
@@ -619,6 +660,9 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
     def create_draft(pid: str, body: DraftRequest, ctx=Depends(context)):
         info = template_for(ctx, body.kind, body.template_id, body.template_version)
         result = analysis_result(ctx, pid, body)
+        # Analysis may outlive a concurrent upload; re-read all snapshots before
+        # persisting a draft instead of trusting request-local reads.
+        ctx.request_cache.clear()
         cur, past, _ = inputs(ctx, pid)
         if result["input_fingerprint"] != fingerprint(cur + past) or result["project_versions"] != project_versions(ctx, pid, cur + past):
             fail("INPUT_CHANGED", "분석 중 입력 자료가 변경됐습니다. 최신 자료로 다시 생성하세요.", 409)
@@ -737,7 +781,10 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
             template_path.write_bytes(template_bytes)
             output, mime, extension = build_output(export_copy, template_path)
         # Recheck after generation to close edits that happen while an exporter runs.
-        current = get(ctx, did, "draft")
+        # Discard request-local reads so concurrent draft, project, or evidence edits
+        # are observed before any output is stored or returned.
+        ctx.request_cache.clear()
+        current = get(ctx, did, "draft", fresh=True)
         if current["version"] != draft["version"] or current["status"] != "approved":
             fail("VERSION_CONFLICT", "파일 생성 중 초안이 변경되었습니다.", 409)
         verify_draft(ctx, current)

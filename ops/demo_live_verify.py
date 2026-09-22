@@ -227,7 +227,12 @@ class OwnedServer:
         self.run_id,self.port,self.process,self.log=run_id,port,None,None
         self.url=f'http://127.0.0.1:{port}'
     def start(self):
-        with socket.socket() as probe:probe.bind(('127.0.0.1',self.port))
+        # Windows TIME_WAIT blocks a fresh bind probe after an owned restart.
+        # Reject an actual listener; uvicorn remains responsible for binding.
+        with socket.socket() as probe:
+            probe.settimeout(1)
+            if probe.connect_ex(('127.0.0.1',self.port)) == 0:
+                raise DemoError('OWNED_SERVER_PORT_IN_USE')
         logs=ROOT/'ops/private';logs.mkdir(parents=True,exist_ok=True)
         self.log=(logs/f'demo-live-{self.run_id}.log').open('ab')
         env={**os.environ,'REBUILD_LIVE_VERIFY_RUN_ID':self.run_id,'REBUILD_ENV':'local'}
@@ -249,7 +254,12 @@ class OwnedServer:
         raise DemoError('OWNED_SERVER_NOT_READY')
     def stop(self):
         if self.process and self.process.poll() is None:
-            self.process.terminate()
+            if os.name == 'nt':
+                subprocess.run(['taskkill','/PID',str(self.process.pid),'/T','/F'],
+                               capture_output=True,timeout=20,
+                               creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
+                if self.process.poll() is None:self.process.terminate()
+            else:self.process.terminate()
             try:self.process.wait(timeout=15)
             except subprocess.TimeoutExpired:self.process.kill();self.process.wait(timeout=5)
         if self.log:self.log.close()

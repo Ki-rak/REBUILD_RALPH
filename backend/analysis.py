@@ -641,14 +641,46 @@ def knowledge_graph(comparison, documents, projects):
 
 
 def search_documents(documents, query):
-    terms = [term.casefold() for term in re.findall(r"[\w가-힣]+", query) if len(term) > 1][:12]
+    stop_words = {"알려줘", "알려주세요", "설명해줘", "설명해주세요", "찾아줘", "찾아주세요", "대해서", "대한", "관련", "무엇", "어떤", "비교해줘", "비교해주세요"}
+    terms = []
+    for term in re.findall(r"[\w가-힣]+", query.casefold()):
+        if term in stop_words:
+            continue
+        if re.fullmatch(r"[가-힣]{3,}", term):
+            term = re.sub(r"(?:에서는|으로|에서|에게|에는|의|은|는|이|가|을|를|에|와|과)$", "", term)
+        if len(term) > 1 and term not in stop_words and term not in terms:
+            terms.append(term)
+    terms = terms[:12]
+    topics = [(title, pattern) for _, title, pattern in PATTERNS if pattern.search(query)]
     hits = []
     for doc in documents:
         for block in doc.get("blocks", []):
             text = block.get("text", "")
             matched = [term for term in terms if term in text.casefold()]
-            if matched:
+            expanded = [title for title, pattern in topics if pattern.search(text)]
+            if matched or expanded:
                 hits.append({"source_ref": source_ref(doc, block), "text": text, "matched_terms": matched,
-                             "reason": "검색어 원문 일치", "match_count": len(matched)})
-    hits.sort(key=lambda hit: -hit["match_count"])
+                             "expanded_topics": expanded,
+                             "reason": "검색어 원문 일치" if matched else "등록된 한·영 업무 용어 일치",
+                             "match_count": len(matched), "topic_match_count": len(expanded)})
+    hits.sort(key=lambda hit: -(hit["match_count"] * 2 + hit["topic_match_count"]))
     return hits[:100]
+
+
+def insight_source_refs(comparison, documents, question, project_id):
+    """Prioritize question-matched originals and retain both comparison scopes."""
+    preferred = [hit["source_ref"] for hit in search_documents(documents, question)] if question else []
+    fallback = [ref for row in comparison["rows"] for ref in row.get("source_refs", [])]
+    ordered, seen = [], set()
+    for group in (preferred, fallback):
+        current = [ref for ref in group if ref.get("project_id") == project_id]
+        historical = [ref for ref in group if ref.get("project_id") != project_id]
+        for index in range(max(len(current), len(historical))):
+            for scoped in (current, historical):
+                if index >= len(scoped):
+                    continue
+                ref = scoped[index]
+                if ref["source_id"] not in seen:
+                    seen.add(ref["source_id"])
+                    ordered.append(ref)
+    return ordered

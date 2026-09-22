@@ -20,7 +20,7 @@ async function requireProductResponse(response,action,diagnostics){
  assert(['LOGIN','AUTH_ME','CONFIG','CREATE','SAVE','APPROVE','EXPORT'].includes(action),'DIAGNOSTIC_ACTION_REQUIRED');
  const status=response.status();assert(Number.isInteger(status)&&status>=100&&status<=599,'INVALID_HTTP_STATUS');
  let code=null;if(status<200||status>=300){try{const candidate=(await response.json())?.detail?.code;code=SAFE_PRODUCT_CODES.has(candidate)?candidate:'UNRECOGNIZED_PRODUCT_ERROR'}catch{code='UNRECOGNIZED_PRODUCT_ERROR'}}
- diagnostics.push({action,http_status:status,detail_code:code});
+ diagnostics.push({action,http_status:status,detail_code:code});diagnostics.onRecord?.();
  if(status<200||status>=300)throw Object.assign(new Error('PRODUCT_REQUEST_FAILED'),{safeCode:`PRODUCT_${action}_HTTP_${status}`});
  return response;
 }
@@ -34,13 +34,15 @@ async function run(config){
  const report={product:'RE:Build Agent',boundary:'REAL_SUPABASE_BROWSER',run_id:config.run_id,phase:config.phase,checks:[],responses:[],projects:[],documents:[],historical_documents:[],drafts:[],status:'RUNNING',ai_verified:false,product_complete:false};
  let browser,page,stage='identity',deadlineExpired=false;
  const deadline=setTimeout(()=>{deadlineExpired=true;if(browser)browser.close().catch(()=>{})},2400000);
- const check=(name,details={})=>report.checks.push({name,passed:true,...details});
+ const progress=()=>fs.writeFileSync(path.join(out,'browser-progress-'+config.phase+'.json'),JSON.stringify({boundary:report.boundary,phase:report.phase,stage,checks:report.checks,responses:report.responses,download_count:report.drafts.length}));
+ Object.defineProperty(report.responses,'onRecord',{value:progress});
+ const check=(name,details={})=>{report.checks.push({name,passed:true,...details});progress()};
  const probe=await request.newContext({baseURL:base,timeout:20000});
  try{
   const identity=await probe.get('/__rebuild_live_verify_identity',{maxRedirects:0});assert.equal(identity.status(),200);assert.equal(new URL(identity.url()).origin,base);verifyIdentity(await identity.json(),config.run_id);
   // Separate, owned browser; no user's saved profile, cookies or OAuth access.
   browser=await chromium.launch({headless:false});page=await browser.newPage({viewport:{width:1440,height:1000}});page.setDefaultTimeout(180000);
-  let pageErrors=0;page.on('pageerror',()=>pageErrors++);
+  let pageErrors=0;report.bootstrap_http=[];report.page_error_types=[];page.on('pageerror',error=>{pageErrors++;report.page_error_types.push(['Error','TypeError','ReferenceError','SyntaxError'].includes(error.name)?error.name:'OtherError')});page.on('response',response=>{const route=new URL(response.url()).pathname;if(['/api/auth/login','/api/auth/me','/api/config','/api/projects'].includes(route))report.bootstrap_http.push({route,http_status:response.status()})});
   stage='ui_login';await page.goto(base);assert.equal(new URL(page.url()).origin,base,'LOGIN_ORIGIN_CHANGED');await page.getByLabel('이메일',{exact:true}).fill(config.email);await page.getByLabel('비밀번호',{exact:true}).fill(config.password);
   const loginResponse=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/auth/login'&&r.request().method()==='POST');const bootstrapResponses=Promise.all(['/api/auth/me','/api/config'].map(route=>page.waitForResponse(r=>new URL(r.url()).pathname===route).then(r=>requireProductResponse(r,route.endsWith('/me')?'AUTH_ME':'CONFIG',report.responses)))).then(()=>({ok:true}),()=>({ok:false}));await page.getByRole('button',{name:'로그인',exact:true}).click();await requireProductResponse(await loginResponse,'LOGIN',report.responses);assert((await bootstrapResponses).ok,'BOOTSTRAP_API_FAILED');await expect(page.getByRole('button',{name:'새 프로젝트',exact:true})).toBeVisible();check('real_ui_login');
   const api=route=>page.evaluate(async route=>{
