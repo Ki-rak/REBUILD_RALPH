@@ -1,0 +1,447 @@
+{
+  "product": "RE:Build Agent",
+  "at_kst": "2026-09-22T10:40:41.188+09:00",
+  "session_id": "01a0c6b3-6f23-7e73-a16d-2e7ca9719613",
+  "scope": "PROJECT_INTRODUCTION_PRESENTATION_ONLY",
+  "status": "PASS",
+  "artifacts": [
+    {
+      "path": "docs/presentation/index.html",
+      "bytes": 2794300,
+      "sha256": "a2b968663e988ca8f7cb96a1822520e126a2edc8c1aca603165dbe1ec97514cb"
+    },
+    {
+      "path": "docs/presentation/REBuild-Agent.pdf",
+      "bytes": 1485227,
+      "sha256": "893ebcc2224ec4092b247ede3539e0f925adf532f53e727d2567423435639c34"
+    }
+  ],
+  "html": {
+    "status": "PASS",
+    "checks": [
+      "Exactly five slides",
+      "Embedded Korean font loaded",
+      "Problem interaction 0",
+      "Problem interaction 1",
+      "Problem interaction 2",
+      "Problem interaction 3",
+      "Knowledge connection on",
+      "Knowledge connection reset",
+      "pdf md",
+      "pdf json",
+      "xlsx md",
+      "xlsx json",
+      "docx md",
+      "docx json",
+      "pptx md",
+      "pptx json",
+      "Evidence 0",
+      "Output 0",
+      "Evidence 1",
+      "Output 1",
+      "Evidence 2",
+      "Output 2",
+      "Future 0",
+      "Future 1",
+      "Future 2",
+      "Home key",
+      "Right key",
+      "End key",
+      "No horizontal overflow 1440 slide 1",
+      "Desktop no clipped content 1440 slide 1",
+      "No horizontal overflow 1440 slide 2",
+      "Desktop no clipped content 1440 slide 2",
+      "No horizontal overflow 1440 slide 3",
+      "Desktop no clipped content 1440 slide 3",
+      "No horizontal overflow 1440 slide 4",
+      "Desktop no clipped content 1440 slide 4",
+      "No horizontal overflow 1440 slide 5",
+      "Desktop no clipped content 1440 slide 5",
+      "No horizontal overflow 1280 slide 1",
+      "Desktop no clipped content 1280 slide 1",
+      "No horizontal overflow 1280 slide 2",
+      "Desktop no clipped content 1280 slide 2",
+      "No horizontal overflow 1280 slide 3",
+      "Desktop no clipped content 1280 slide 3",
+      "No horizontal overflow 1280 slide 4",
+      "Desktop no clipped content 1280 slide 4",
+      "No horizontal overflow 1280 slide 5",
+      "Desktop no clipped content 1280 slide 5",
+      "No horizontal overflow 1920 slide 1",
+      "Desktop no clipped content 1920 slide 1",
+      "No horizontal overflow 1920 slide 2",
+      "Desktop no clipped content 1920 slide 2",
+      "No horizontal overflow 1920 slide 3",
+      "Desktop no clipped content 1920 slide 3",
+      "No horizontal overflow 1920 slide 4",
+      "Desktop no clipped content 1920 slide 4",
+      "No horizontal overflow 1920 slide 5",
+      "Desktop no clipped content 1920 slide 5",
+      "No horizontal overflow 390 slide 1",
+      "Mobile content reachable 0",
+      "No horizontal overflow 390 slide 2",
+      "Mobile content reachable 1",
+      "No horizontal overflow 390 slide 3",
+      "Mobile content reachable 2",
+      "No horizontal overflow 390 slide 4",
+      "Mobile content reachable 3",
+      "No horizontal overflow 390 slide 5",
+      "Mobile content reachable 4",
+      "No horizontal overflow 768 slide 1",
+      "No horizontal overflow 768 slide 2",
+      "No horizontal overflow 768 slide 3",
+      "No horizontal overflow 768 slide 4",
+      "No horizontal overflow 768 slide 5",
+      "Direct slide link",
+      "Reduced motion",
+      "All slides printable",
+      "Exactly five PDF pages",
+      "No JavaScript errors",
+      "No external network requests"
+    ],
+    "geometry": [
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "slide": 1,
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 900,
+        "scrollHeight": 900,
+        "contentBottom": 812,
+        "controlsTop": 833
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "slide": 2,
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 900,
+        "scrollHeight": 900,
+        "contentBottom": 812,
+        "controlsTop": 833
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "slide": 3,
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 900,
+        "scrollHeight": 900,
+        "contentBottom": 812,
+        "controlsTop": 833
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "slide": 4,
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 900,
+        "scrollHeight": 900,
+        "contentBottom": 812,
+        "controlsTop": 833
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "slide": 5,
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 900,
+        "scrollHeight": 900,
+        "contentBottom": 812,
+        "controlsTop": 833
+      },
+      {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "slide": 1,
+        "width": 1280,
+        "scrollWidth": 1280,
+        "height": 720,
+        "scrollHeight": 720,
+        "contentBottom": 644,
+        "controlsTop": 653
+      },
+      {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "slide": 2,
+        "width": 1280,
+        "scrollWidth": 1280,
+        "height": 720,
+        "scrollHeight": 720,
+        "contentBottom": 644,
+        "controlsTop": 653
+      },
+      {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "slide": 3,
+        "width": 1280,
+        "scrollWidth": 1280,
+        "height": 720,
+        "scrollHeight": 720,
+        "contentBottom": 644,
+        "controlsTop": 653
+      },
+      {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "slide": 4,
+        "width": 1280,
+        "scrollWidth": 1280,
+        "height": 720,
+        "scrollHeight": 720,
+        "contentBottom": 644,
+        "controlsTop": 653
+      },
+      {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "slide": 5,
+        "width": 1280,
+        "scrollWidth": 1280,
+        "height": 720,
+        "scrollHeight": 720,
+        "contentBottom": 644,
+        "controlsTop": 653
+      },
+      {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "slide": 1,
+        "width": 1920,
+        "scrollWidth": 1920,
+        "height": 1080,
+        "scrollHeight": 1080,
+        "contentBottom": 992,
+        "controlsTop": 1013
+      },
+      {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "slide": 2,
+        "width": 1920,
+        "scrollWidth": 1920,
+        "height": 1080,
+        "scrollHeight": 1080,
+        "contentBottom": 992,
+        "controlsTop": 1013
+      },
+      {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "slide": 3,
+        "width": 1920,
+        "scrollWidth": 1920,
+        "height": 1080,
+        "scrollHeight": 1080,
+        "contentBottom": 992,
+        "controlsTop": 1013
+      },
+      {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "slide": 4,
+        "width": 1920,
+        "scrollWidth": 1920,
+        "height": 1080,
+        "scrollHeight": 1080,
+        "contentBottom": 992,
+        "controlsTop": 1013
+      },
+      {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "slide": 5,
+        "width": 1920,
+        "scrollWidth": 1920,
+        "height": 1080,
+        "scrollHeight": 1080,
+        "contentBottom": 992,
+        "controlsTop": 1013
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "slide": 1,
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844,
+        "scrollHeight": 1100,
+        "contentBottom": 1004.546875,
+        "controlsTop": 776
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "slide": 2,
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844,
+        "scrollHeight": 1110,
+        "contentBottom": 1015.46875,
+        "controlsTop": 776
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "slide": 3,
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844,
+        "scrollHeight": 1235,
+        "contentBottom": 1139.78125,
+        "controlsTop": 776
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "slide": 4,
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844,
+        "scrollHeight": 1358,
+        "contentBottom": 1262.546875,
+        "controlsTop": 776
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "slide": 5,
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844,
+        "scrollHeight": 912,
+        "contentBottom": 817.34375,
+        "controlsTop": 776
+      },
+      {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "slide": 1,
+        "width": 768,
+        "scrollWidth": 768,
+        "height": 1024,
+        "scrollHeight": 1076,
+        "contentBottom": 981.25,
+        "controlsTop": 956
+      },
+      {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "slide": 2,
+        "width": 768,
+        "scrollWidth": 768,
+        "height": 1024,
+        "scrollHeight": 1096,
+        "contentBottom": 1000.84375,
+        "controlsTop": 956
+      },
+      {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "slide": 3,
+        "width": 768,
+        "scrollWidth": 768,
+        "height": 1024,
+        "scrollHeight": 1197,
+        "contentBottom": 1102.484375,
+        "controlsTop": 956
+      },
+      {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "slide": 4,
+        "width": 768,
+        "scrollWidth": 768,
+        "height": 1024,
+        "scrollHeight": 1234,
+        "contentBottom": 1138.78125,
+        "controlsTop": 956
+      },
+      {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "slide": 5,
+        "width": 768,
+        "scrollWidth": 768,
+        "height": 1024,
+        "scrollHeight": 1024,
+        "contentBottom": 729.609375,
+        "controlsTop": 956
+      }
+    ],
+    "errors": [],
+    "externalRequests": []
+  },
+  "pdf": {
+    "pages": 5,
+    "page_text_lengths": [
+      375,
+      370,
+      524,
+      627,
+      339
+    ],
+    "titles": "PASS",
+    "rendered_pages": 5,
+    "visual_review": "All five rendered pages inspected; no clipping or overlap observed"
+  },
+  "product_completion_asserted": false,
+  "published": false
+}

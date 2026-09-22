@@ -1,0 +1,121 @@
+{
+  "product": "RE:Build Agent",
+  "updated_at_kst": "2026-09-22T10:40:41.188+09:00",
+  "requirements_confirmed_from_user_image": true,
+  "source": {
+    "path": "docs\\event_submission_requirements.png",
+    "sha256": "5e05cbc61ae57bcd90d5be881f6384fce7a32ee4d33eeda4072f2106e5c5efba"
+  },
+  "items": [
+    {
+      "id": "D1",
+      "required": true,
+      "label": "최종 결과와 확인 방법",
+      "status": "PENDING",
+      "artifact_or_url": null,
+      "check": "심사위원이 결과와 재현/확인 절차를 따라 실제 파일을 확인",
+      "fresh_upload_demo_required": true,
+      "acceptance_refs": [
+        "AC29",
+        "AC30"
+      ]
+    },
+    {
+      "id": "D2",
+      "required": true,
+      "label": "실제 작동하는 데모 링크",
+      "status": "AWAITING_ACTUAL_DEPLOYMENT",
+      "artifact_or_url": null,
+      "check": "Actual chosen-host demo input-to-output flow, persistent Supabase storage, honest API/Auth states and judge access",
+      "provider": "Vercel",
+      "fresh_upload_demo_required": true,
+      "acceptance_refs": [
+        "AC29",
+        "AC30"
+      ]
+    },
+    {
+      "id": "D3",
+      "required": true,
+      "label": "Google Drive 데모 영상 링크",
+      "status": "WAITING_FOR_USER_CONNECTION",
+      "artifact_or_url": null,
+      "check": "실제 동작 녹화 영상 업로드 및 심사위원 재생 권한 확인",
+      "fresh_upload_demo_required": true,
+      "acceptance_refs": [
+        "AC29",
+        "AC30"
+      ],
+      "connection_owner": "user",
+      "publication_owner": "user",
+      "agent_responsibility": "Prepare actual fresh-upload demonstration and video/required files; verify final link when provided"
+    },
+    {
+      "id": "D4",
+      "required": true,
+      "label": "Public GitHub 저장소",
+      "status": "PUBLIC_REPOSITORY_VERIFIED_CONTENT_PENDING",
+      "artifact_or_url": "https://github.com/Ki-rak/REBUILD_RALPH",
+      "check": "로그아웃 상태에서 공개 저장소 열람 및 README 실행 안내 확인",
+      "public_verified": true,
+      "code_publication_verified": false
+    },
+    {
+      "id": "D5",
+      "required": true,
+      "label": "발표자료 파일",
+      "status": "LOCAL_ARTIFACT_VERIFIED_NOT_SUBMITTED",
+      "artifact_or_url": "docs/presentation/REBuild-Agent.pdf",
+      "allowed_formats": [
+        "PDF",
+        "PPT",
+        "PPTX"
+      ],
+      "maximum_pages": 5,
+      "check": "파일 재개봉·렌더 확인, 최대 5페이지",
+      "interactive_html": "docs/presentation/index.html",
+      "verified_pages": 5,
+      "verification": "ops/verification/presentation-20260922.json"
+    },
+    {
+      "id": "E1",
+      "required": true,
+      "label": "실제로 입력한 /goal 원문",
+      "status": "NOT_STARTED",
+      "artifact_or_url": null,
+      "check": "계획 초안이 아닌 실제 입력 시각·문장·참조 문서 버전 보존"
+    },
+    {
+      "id": "E2",
+      "required": true,
+      "label": "주요 세션 로그 JSONL 1개",
+      "status": "NOT_STARTED",
+      "artifact_or_url": null,
+      "session_id": null,
+      "check": "동일 실제 세션에 /goal 입력과 에이전트 결과가 함께 포함; JSONL 파싱·SHA·이벤트 위치 확인"
+    },
+    {
+      "id": "E3",
+      "required": false,
+      "label": "추가 세션 로그 ZIP 1개",
+      "status": "PENDING",
+      "artifact_or_url": null,
+      "check": "나머지 JSONL 로그만 모아 보존. 원본들을 주요 세션인 것처럼 합치지 않음"
+    }
+  ],
+  "submission_form_details_confirmed": false,
+  "publication_access": {
+    "github": "PUBLIC_READ_VERIFIED; PUSH_ACCESS_UNVERIFIED",
+    "google_drive": "USER_WILL_CONNECT_AND_PROCEED",
+    "demo_host": "VERCEL_SELECTED; ACTUAL_DEPLOYMENT_PENDING"
+  },
+  "status": "REQUIREMENTS_CONFIRMED_ARTIFACTS_PENDING",
+  "product_services": {
+    "database": "Supabase",
+    "deployment": "Vercel",
+    "auth_default": "Supabase Auth",
+    "corporate_sso_llm": "CONNECTION_DEFERRED_SETTINGS_UI_IN_SCOPE",
+    "supabase_project_ref": "wsziosnttnxefgfbgpeq"
+  },
+  "scope": "EVENT_DELIVERY_ONLY_NOT_PRODUCT_COMPLETION"
+}

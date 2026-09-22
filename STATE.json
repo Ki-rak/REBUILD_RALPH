@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T10:06:33.486998+09:00",
+  "updated_at_kst": "2026-09-22T10:40:41.188+09:00",
   "phase": "FINAL_LIVE_VERIFICATION",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -602,5 +602,16 @@
     "report": "ops/runtime/demo/draft-layout-20260922/report.json",
     "source_refs_preserved": true,
     "product_complete": false
+  },
+  "presentation": {
+    "status": "LOCAL_HTML_AND_PDF_VERIFIED",
+    "pages": 5,
+    "html": "docs/presentation/index.html",
+    "pdf": "docs/presentation/REBuild-Agent.pdf",
+    "report": "ops/verification/presentation-20260922.json",
+    "browser_checks": 79,
+    "session_id": "01a0c6b3-6f23-7e73-a16d-2e7ca9719613",
+    "scope": "User-requested project introduction; independent of product completion",
+    "submitted": false
   }
 }
