@@ -1,0 +1,13 @@
+﻿Observation_ID,Date,Point,Groundwater_depth,Depth_unit,Chloride,Chloride_unit,Pumping,Flow_unit,Basis
+P09-OBS01,2019-04-06,GW-01,2.2,m below ground,1692,mg/L,13.0,m3/h,현장 관측값
+P09-OBS02,2019-04-07,GW-02,2.5,m below ground,1710,mg/L,13.5,m3/h,현장 관측값
+P09-OBS03,2019-04-08,GW-03,2.7,m below ground,1728,mg/L,14.0,m3/h,현장 관측값
+P09-OBS04,2019-04-09,GW-01,2.3,m below ground,1746,mg/L,14.5,m3/h,현장 관측값
+P09-OBS05,2019-04-10,GW-02,2.6,m below ground,1764,mg/L,15.0,m3/h,현장 관측값
+P09-OBS06,2019-04-11,GW-03,2.4,m below ground,1782,mg/L,15.5,m3/h,현장 관측값
+P09-OBS07,2019-04-12,GW-01,2.2,m below ground,1800,mg/L,16.0,m3/h,현장 관측값
+P09-OBS08,2019-04-13,GW-02,2.5,m below ground,1818,mg/L,16.5,m3/h,현장 관측값
+P09-OBS09,2019-04-14,GW-03,2.7,m below ground,1836,mg/L,17.0,m3/h,현장 관측값
+P09-OBS10,2019-04-15,GW-01,2.3,m below ground,1854,mg/L,17.5,m3/h,현장 관측값
+P09-OBS11,2019-04-16,GW-02,2.6,m below ground,1872,mg/L,18.0,m3/h,현장 관측값
+P09-OBS12,2019-04-17,GW-03,2.4,m below ground,1890,mg/L,20,m3/h,현장 관측값

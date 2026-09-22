@@ -219,7 +219,11 @@ def cleanup_created_users(http, url, secret_key, users, run_id='') -> bool:
 
 
 class OwnedServer:
-    def __init__(self, run_id, port):
+    def __init__(self, run_id, port, readiness_timeout=60):
+        if type(readiness_timeout) not in (int,float) or not 1 <= readiness_timeout <= 240:
+            raise ValueError("INVALID_SERVER_READINESS_BOUND")
+        self.readiness_timeout=readiness_timeout
+        self.last_start_seconds=None
         self.run_id,self.port,self.process,self.log=run_id,port,None,None
         self.url=f'http://127.0.0.1:{port}'
     def start(self):
@@ -227,17 +231,21 @@ class OwnedServer:
         logs=ROOT/'ops/private';logs.mkdir(parents=True,exist_ok=True)
         self.log=(logs/f'demo-live-{self.run_id}.log').open('ab')
         env={**os.environ,'REBUILD_LIVE_VERIFY_RUN_ID':self.run_id,'REBUILD_ENV':'local'}
+        started=time.monotonic()
         self.process=subprocess.Popen([sys.executable,'-m','uvicorn','ops.demo_live_server:app','--host','127.0.0.1','--port',str(self.port),'--no-access-log'],
             cwd=ROOT,env=env,stdout=self.log,stderr=self.log,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
-        deadline=time.monotonic()+60
+        deadline=started+self.readiness_timeout
         with httpx.Client(timeout=2,trust_env=False) as http:
             while time.monotonic()<deadline:
                 if self.process.poll() is not None:raise DemoError('OWNED_SERVER_EXITED')
                 try:
                     response=http.get(self.url+'/__rebuild_live_verify_identity')
-                    if response.status_code==200 and response.json()=={'run_id':self.run_id,'boundary':'REAL_SUPABASE_USER_JWT','product':'RE:Build Agent'}:return self.process.pid
+                    if response.status_code==200 and response.json()=={'run_id':self.run_id,'boundary':'REAL_SUPABASE_USER_JWT','product':'RE:Build Agent'}:
+                        self.last_start_seconds=round(time.monotonic()-started,2)
+                        return self.process.pid
                 except (httpx.RequestError,ValueError):pass
                 time.sleep(.2)
+        self.last_start_seconds=round(time.monotonic()-started,2)
         raise DemoError('OWNED_SERVER_NOT_READY')
     def stop(self):
         if self.process and self.process.poll() is None:

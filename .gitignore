@@ -37,3 +37,6 @@ server/ai/coverage/
 .pytest_cache/
 ops/runtime/*.pid
 ops/runtime/*.log
+
+# Isolated verification runtime (not product source)
+tools/python314-verify/

@@ -1,0 +1,11 @@
+﻿Activity_ID,Activity,Start,Finish_exclusive,Duration,Predecessor,Basis,Unit
+P10-A01,현장 인도,2018-03-01,2018-03-02,1,,계획 기준,calendar day
+P10-A02,조사 및 설계,2018-03-01,2018-05-30,90,,계획 기준,calendar day
+P10-A03,가시설 승인,2018-03-31,2018-05-30,60,P10-A02 SS+30d,계획 기준,calendar day
+P10-A04,주요 토공,2018-05-30,2018-11-26,180,P10-A03 FS,계획 기준,calendar day
+P10-A05,주요 구조물,2018-08-28,2019-04-25,240,P10-A04 SS+90d,계획 기준,calendar day
+P10-A06,설비 승인,2018-03-31,2018-06-29,90,P10-A02 SS+30d,계획 기준,calendar day
+P10-A07,설비 제작 및 운송,2018-06-29,2019-01-25,210,P10-A06 FS,계획 기준,calendar day
+P10-A08,설치 및 접속,2021-08-12,2021-12-10,120,P10-A07 FS,계획 기준,calendar day
+P10-A09,시험 및 시운전,2021-12-10,2022-01-19,40,P10-A08 FS,계획 기준,calendar day
+P10-A10,인도 및 복구,2022-01-19,2022-02-08,20,P10-A09 FS,계획 기준,calendar day

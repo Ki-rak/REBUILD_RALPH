@@ -1,0 +1,11 @@
+SYNTHETIC DATA | 모든 기관·사업·수치·조건은 해커톤용 가상 자료
+P14-GEO-001 | 현장 조건 기록 | 2017-12-26
+위치: 세온국 수도권
+지층: 풍화암 / 매설관로
+시공법: 공동구 및 전력 인입
+GEO-01 groundwater depth: 8.0 m below ground
+GEO-02 chloride: 180 mg/L
+GEO-03 observed pumping: 8 m3/h (과거 관측 최대값)
+ENV-01 discharge permit: 250 m3/day
+기록 조건: 지하수위는 지표면 아래 깊이이며 수두압이 아니다. 유입량과 실제 배수량、장비 정격을 구분한다.
+지점별 변동: 본 기록은 대표 지점의 발행본 요약이며 전체 현장의 균질성을 뜻하지 않는다.

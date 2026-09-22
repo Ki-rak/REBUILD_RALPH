@@ -20,7 +20,7 @@ def main():
     args = parser.parse_args()
     if not 1 <= args.port <= 65535:
         parser.error('Port must be between 1 and 65535')
-    allowed = {'browser_flow.cjs', 'browser_mixed_upload.cjs', 'browser_slide_limits.cjs',
+    allowed = {'browser_project_management.cjs', 'browser_flow.cjs', 'browser_mixed_upload.cjs', 'browser_slide_limits.cjs',
                'browser_search_scope.cjs', 'browser_provider_profiles.cjs', 'browser_mobile_core.cjs'}
     scripts = []
     for name in args.scripts:

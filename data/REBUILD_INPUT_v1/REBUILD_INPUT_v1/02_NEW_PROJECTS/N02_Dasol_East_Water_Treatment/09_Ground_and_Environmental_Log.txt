@@ -1,0 +1,11 @@
+SYNTHETIC DATA | 모든 기관·사업·수치·조건은 해커톤용 가상 자료
+N02-GEO-001 | 현장 조건 기록 | 2026-09-18
+위치: 다솔국 평야
+지층: 지반조사 부속서 미제공
+시공법: 정수처리 및 송수관 접속
+GEO-01 groundwater depth: 미제공
+GEO-02 chloride: 미제공
+GEO-03 observed pumping: 입찰자 산정 대상 / 확정값 없음
+ENV-01 discharge permit: 미확정
+기록 조건: 지하수위는 지표면 아래 깊이이며 수두압이 아니다. 유입량과 실제 배수량、장비 정격을 구분한다.
+미제공: Geotechnical Appendix G; 투수계수; 설계 유입량. 추정값으로 빈칸을 대체하지 않는다.

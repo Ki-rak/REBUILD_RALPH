@@ -300,3 +300,8 @@ Resume conditions: authorized authenticated Supabase SQL-management access for t
 - [ ] Actual P01/P06→N01/N02 UI upload/edit/approval/6outputs/restart. Current run898697175ee54b31bc3b49708e074ad1 is live; no PASS yet. All earlier failed disposable users cleaned.
 - [ ] Actual API negative/changed-input/restart evidence and local OAuth model inference. OAuth still NOT_LOGGED_IN/NOT_TESTED; no silent fallback.
 - [ ] Full independent/OMX strict completion gate after mandatory services/flows pass. Native goal active; prior turn progress77e4ca2. No deploy/public push.
+
+## 2026-09-22 10:40 KST 최신 실행 순서
+- UI v6 복원과 프로젝트 관리 검증 → 최신 GitHub main 푸시 → g-19 Vercel production 배포·실제 URL 점검.
+- 병행: Python 실행 환경 복구, 배포 Python OpenAI 어댑터 실제 검증, 실제 UI 3종 출력/재시작 검증.
+- 목표 11:10 KST. 미완료 항목은 이유·다음 작업을 남기며 제품 전체 완료/OMX strict를 허위로 통과 처리하지 않는다.

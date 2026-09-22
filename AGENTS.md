@@ -96,3 +96,6 @@ GOAL.md와 ops/GOAL_INPUT.txt의 자체 완결형 원문이 현재 실행 계약
 ## /goal v1.1 — AI 인증 분리 (최신)
 GOAL.md와 ops/GOAL_INPUT.txt v1.1은 작성된 실행 계약이며 실제 /goal 입력과 다르다. 사용자는 이번에 server/ai 인증 경로의 실제 구현을 별도로 지시했다. 전체 제품 goal은 명시적 입력 전 시작하지 않는다. AI는 로컬 개발·로컬 데모에서 공식 Codex SDK/CLI ChatGPT OAuth, 배포용 서버에서 OpenAI API key로 분리한다. 로컬 API key 또는 배포 OAuth의 묵시적 fallback은 금지한다. 전용 프로젝트 인증 디렉터리와 최소 권한 실행 환경을 사용하고 OAuth 토큰을 직접 추출하지 않는다. 개인 구독을 공개 프록시로 제공하지 않는다. 환경·로그인 상태·모델 호출 성공·전체 제품 완성을 구별한다. AC39–42와 docs/PROVIDER_AUTH.md를 따른다. 기존 모든 환경 API-key 규정은 이 문단으로 대체한다. 기존 UI 수정 06의 goal 개정 보류는 이번 개정 요청으로 해소되었다.
 필요 도구는 프로젝트 범위로 검토·설치·사용하고 검증된 작업 단위 및 세션 전환마다 로컬 Git 커밋한다. 독립 구현/리뷰는 설치된 개발 스킬과 OMX 최종 strict gate에 따라 필요한 경우 수행한다. 배포·공개 푸시·행사 제출은 여전히 별도 요청까지 제외한다.
+
+## 2026-09-22 배포 및 UI 복원 승인
+최신 사용자 지시로 남은 수정, GitHub main 공개 푸시, PLAI Developer League 2026 팀의 g-19 Vercel production 배포가 승인되었다. docs/ui-review/index.html의 v6 시각·기능 복원과 프로젝트 이름 변경·삭제 관리도 포함한다. 7개 서버 환경변수의 g-19 production/preview 등록은 별도 명시 승인했다. 기존 공개/배포 보류 문구보다 이 지시가 우선한다. 원본 보존·비밀 제외·미검증 미완료 원칙은 유지한다.

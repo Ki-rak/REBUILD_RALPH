@@ -51,7 +51,7 @@ function harness() {
   context.globalThis = context;
   const source = fs.readFileSync(path.join(__dirname,'../../frontend/app.js'),'utf8')
     .replace(/initialize\(\);\s*$/,'')
-    + '\nglobalThis.__test={state,renderSettings,projectAIConnection:typeof projectAIConnection==="function"?projectAIConnection:null,runKnowledgeQuery:typeof runKnowledgeQuery==="function"?runKnowledgeQuery:null,setKnowledgeScope:typeof setKnowledgeScope==="function"?setKnowledgeScope:null,setKnowledgeProject:typeof setKnowledgeProject==="function"?setKnowledgeProject:null,setKnowledgeMode:typeof setKnowledgeMode==="function"?setKnowledgeMode:null};';
+    + '\nglobalThis.__test={state,renderSettings,validateUploadFiles,projectAIConnection:typeof projectAIConnection==="function"?projectAIConnection:null,runKnowledgeQuery:typeof runKnowledgeQuery==="function"?runKnowledgeQuery:null,setKnowledgeScope:typeof setKnowledgeScope==="function"?setKnowledgeScope:null,setKnowledgeProject:typeof setKnowledgeProject==="function"?setKnowledgeProject:null,setKnowledgeMode:typeof setKnowledgeMode==="function"?setKnowledgeMode:null};';
   vm.createContext(context);
   vm.runInContext(source,context,{filename:'frontend/app.js'});
   return {context,listeners,resultRegion};
@@ -235,7 +235,34 @@ async function testSettingsUsesVerifiedAuthAndDbStatus(){
  assert.doesNotMatch(main.innerHTML,/로그인·DB 조회 확인/);
 }
 
+function testHostedUploadLimit(){
+ const {context}=harness(),test=context.__test;
+ test.state.config={provider:{environment:'deployed'},upload_limit_bytes:3800000};
+ assert.equal(test.validateUploadFiles([{size:100},{size:200}]).length,2);
+ assert.throws(()=>test.validateUploadFiles([{size:3800001}]),error=>error.code==='FILE_TOO_LARGE');
+ assert.throws(()=>test.validateUploadFiles([{size:2000000},{size:2000000}]),error=>error.code==='UPLOAD_BATCH_TOO_LARGE');
+ test.state.config={provider:{environment:'local'},upload_limit_bytes:20*1024*1024};
+ assert.equal(test.validateUploadFiles([{size:4000000}]).length,1);
+}
+
+async function testProjectUploadValidationPrecedesCreation(){
+ const {context,listeners}=harness(),test=context.__test,requests=[];
+ test.state.config={provider:{environment:'deployed'},upload_limit_bytes:3800000};
+ const files={files:[{name:'a.txt',size:2000000},{name:'b.txt',size:2000000}]},baseQuery=context.document.querySelector;
+ context.document.querySelector=selector=>({'#project-name':{value:'Validated project',focus(){}},'#project-kind':{value:'current'},'#modal-files':files}[selector]||baseQuery(selector));
+ context.fetch=async(url,options={})=>{requests.push({url,method:options.method||'GET'});if(url==='/api/projects'&&options.method==='POST')return jsonResponse({id:'created',name:'Validated project',kind:'current'});if(url==='/api/projects/created')return jsonResponse({id:'created',name:'Validated project',kind:'current'});return jsonResponse([])};
+ const button={dataset:{action:'create-project'},disabled:false,textContent:''},event={target:{closest(){return button}}};
+ await listeners.click(event);
+ assert.equal(requests.filter(r=>r.method==='POST'&&r.url==='/api/projects').length,0,'invalid upload must not leave an empty project');
+ assert.equal(button.disabled,false);
+ files.files=[];
+ await listeners.click(event);
+ assert.equal(requests.filter(r=>r.method==='POST'&&r.url==='/api/projects').length,1,'corrected retry creates exactly one project');
+}
+
 (async()=>{
+  await testProjectUploadValidationPrecedesCreation();
+  testHostedUploadLimit();
   await testProjectSwitchRejectsStaleResponse();
   await testModeSwitchPreservesQuestionAndRejectsStaleResponse();
   await testNewerQueryWinsWhenOlderPromiseResolvesLast();
@@ -246,5 +273,5 @@ async function testSettingsUsesVerifiedAuthAndDbStatus(){
   await testLateSettingsResponseCannotOverwriteNewTarget();
   await testProviderSaveInvalidatesSameProjectPendingQuery();
   await testSettingsUsesVerifiedAuthAndDbStatus();
-  console.log('frontend context isolation: 10 passed');
+  console.log('frontend context isolation: 12 passed');
 })().catch(error=>{console.error(error);process.exitCode=1});

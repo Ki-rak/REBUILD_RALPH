@@ -33,9 +33,9 @@ def stop_browser_process(process):
     process.wait(timeout=10)
 
 
-def browser_phase(server,run_id,credentials,projects,output_dir,phase,snapshot=None):
+def browser_phase(server,run_id,credentials,projects,output_dir,phase,snapshot=None,kinds=None):
     config={'base':server.url,'run_id':run_id,'email':credentials[0],'password':credentials[1],
-            'projects':projects,'output_dir':str(output_dir),'phase':phase,'snapshot':snapshot}
+            'projects':projects,'output_dir':str(output_dir),'phase':phase,'snapshot':snapshot,'kinds':kinds or ['itb','risk','slides']}
     process=subprocess.Popen(['node',str(ROOT/'ops/demo_browser.cjs')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,
         text=True,encoding='utf-8',cwd=ROOT,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0),start_new_session=os.name!='nt')
     try:process.communicate(json.dumps(config),timeout=2460)
@@ -52,7 +52,7 @@ def browser_phase(server,run_id,credentials,projects,output_dir,phase,snapshot=N
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--port',type=int,default=8793);args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--port',type=int,default=8793);parser.add_argument('--diagnostic-slides',action='store_true',help='N01 slides only; never the full acceptance gate');args=parser.parse_args()
     load_environment();settings=Settings.from_environment();secret_key=os.environ.get('SUPABASE_SECRET_KEY','')
     run_id=uuid4().hex;users=[];server=None;stage='configuration'
     report={'product':'RE:Build Agent','boundary':'REAL_SUPABASE_BROWSER','run_id':run_id,'at':datetime.now(timezone.utc).isoformat(),
@@ -62,14 +62,14 @@ def main():
             settings.validate();require(bool(secret_key),'SUPABASE_SECRET_KEY_REQUIRED')
             stage='preflight';report['preflight']=verify_live(settings.supabase_url,settings.publishable_key,secret_key)
             require(report['preflight']['status']=='PASSED','SUPABASE_PREFLIGHT_NOT_PASSED')
-            entries=catalog();past=select_projects(entries,['P01','P06'],'historical');current=select_projects(entries,['N01','N02'],'current')
+            entries=catalog();past=select_projects(entries,['P01','P06'],'historical');current=select_projects(entries,['N01'] if args.diagnostic_slides else ['N01','N02'],'current');kinds=['slides'] if args.diagnostic_slides else ['itb','risk','slides'];report['verification_scope']='N01_SLIDES_DIAGNOSTIC' if args.diagnostic_slides else 'P01_P06_N01_N02_ALL_OUTPUTS'
             stage='isolated_user';email=f'rebuild-browser-{run_id}@example.com';password=secrets.token_urlsafe(30)
             owner=_create_test_user(admin,settings.supabase_url,secret_key,email,password,run_id,20);users.append(owner);credentials=(email,password)
-            server=OwnedServer(run_id,args.port);stage='start_server';first_pid=server.start();output_dir=ROOT/'ops/runtime/demo'/run_id;output_dir.mkdir(parents=True,exist_ok=True)
+            server=OwnedServer(run_id,args.port,readiness_timeout=240);stage='start_server';first_pid=server.start();report['initial_server_start_seconds']=server.last_start_seconds;output_dir=ROOT/'ops/runtime/demo'/run_id;output_dir.mkdir(parents=True,exist_ok=True)
             stage='approved_past_only'
             with httpx.Client(base_url=server.url,timeout=180,trust_env=False) as client:
                 api=ProductAPI(client);api.login(*credentials);report['historical']=seed_past(api,past,approved=True);api.logout()
-            stage='initial_browser_ui';snapshot=browser_phase(server,run_id,credentials,current,output_dir,'initial')
+            stage='initial_browser_ui';snapshot=browser_phase(server,run_id,credentials,current,output_dir,'initial',kinds=kinds)
             report['initial_browser_report']=str(output_dir/'browser-initial.json');report['snapshot']=snapshot
             check(report,'actual_ui_upload_edit_approve_download',projects=len(snapshot['projects']),documents=len(snapshot['documents']),outputs=len(snapshot['drafts']))
             with httpx.Client(base_url=server.url,timeout=180,trust_env=False) as client:
@@ -77,13 +77,13 @@ def main():
                 try:capture_output_objects(store,snapshot)
                 finally:store.close()
                 verify_sidecars(api,settings,owner,snapshot,report);api.logout()
-            stage='actual_restart';server.stop();second_pid=server.start();require(second_pid!=first_pid,'PROCESS_NOT_RESTARTED')
+            stage='actual_restart';server.stop();second_pid=server.start();report['restart_server_start_seconds']=server.last_start_seconds;require(second_pid!=first_pid,'PROCESS_NOT_RESTARTED')
             with httpx.Client(base_url=server.url,timeout=180,trust_env=False) as client:
                 api=ProductAPI(client);api.login(*credentials);store=SupabaseStore(settings.supabase_url,settings.publishable_key,api.token)
                 try:recheck_persistence(api,snapshot,report,store)
                 finally:store.close()
                 api.logout()
-            stage='resume_browser_ui';resumed=browser_phase(server,run_id,credentials,current,output_dir,'resume',snapshot)
+            stage='resume_browser_ui';resumed=browser_phase(server,run_id,credentials,current,output_dir,'resume',snapshot,kinds=kinds)
             for draft in resumed['drafts']:
                 previous=next(item for item in snapshot['drafts'] if item['id']==draft['id'])
                 require(draft['signature']==previous['signature'],'RESTART_UI_OUTPUT_CONTENT_CHANGED')
@@ -92,17 +92,19 @@ def main():
             for project in past+current:
                 for item in project['files']:read_original(item)
             check(report,'original_input_hashes_unchanged')
-            report['status']='PASSED_REAL_UI_RULES_AI_NOT_TESTED'
+            report['status']='PASSED_REAL_UI_DIAGNOSTIC_ONLY' if args.diagnostic_slides else 'PASSED_REAL_UI_RULES_AI_NOT_TESTED'
         except (Exception,KeyboardInterrupt) as error:
             report.update(status='FAILED',stage=stage,error_code=str(error) if isinstance(error,DemoError) else 'SAFE_DIAGNOSTIC_WITHHELD')
         finally:
-            if server:server.stop()
+            if server:
+                report["last_server_start_seconds"]=server.last_start_seconds
+                server.stop()
             if users:
                 report['cleanup_complete']=cleanup_created_users(admin,settings.supabase_url,secret_key,users,run_id)
                 if not report['cleanup_complete']:report.update(status='CLEANUP_REQUIRED',cleanup_owner_ids=users)
     path=write_report(report,'browser-live-verification')
     print(json.dumps({'status':report['status'],'stage':report.get('stage'),'report':str(path.relative_to(ROOT)),'cleanup_complete':report['cleanup_complete']}))
-    return 0 if report['status']=='PASSED_REAL_UI_RULES_AI_NOT_TESTED' and report['cleanup_complete'] else 1
+    return 0 if report['status'] in {'PASSED_REAL_UI_RULES_AI_NOT_TESTED','PASSED_REAL_UI_DIAGNOSTIC_ONLY'} and report['cleanup_complete'] else 1
 
 
 if __name__=='__main__':raise SystemExit(main())

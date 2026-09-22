@@ -1,0 +1,11 @@
+﻿Activity_ID,Activity,Start,Finish_exclusive,Duration,Predecessor,Basis,Unit
+N01-A01,현장 인도,2027-02-01,2027-02-02,1,,계획 기준,calendar day
+N01-A02,조사 및 설계,2027-02-01,2027-05-02,90,,계획 기준,calendar day
+N01-A03,가시설 승인,2027-03-03,2027-05-02,60,N01-A02 SS+30d,계획 기준,calendar day
+N01-A04,주요 토공,2027-05-02,2027-10-29,180,N01-A03 FS,계획 기준,calendar day
+N01-A05,주요 구조물,2027-07-31,2028-03-27,240,N01-A04 SS+90d,계획 기준,calendar day
+N01-A06,설비 승인,2027-03-03,2027-06-01,90,N01-A02 SS+30d,계획 기준,calendar day
+N01-A07,설비 제작 및 운송,2027-06-01,2027-12-28,210,N01-A06 FS,계획 기준,calendar day
+N01-A08,설치 및 접속,2030-01-16,2030-05-16,120,N01-A07 FS,계획 기준,calendar day
+N01-A09,시험 및 시운전,2030-05-16,2030-06-25,40,N01-A08 FS,계획 기준,calendar day
+N01-A10,인도 및 복구,2030-06-25,2030-07-15,20,N01-A09 FS,계획 기준,calendar day

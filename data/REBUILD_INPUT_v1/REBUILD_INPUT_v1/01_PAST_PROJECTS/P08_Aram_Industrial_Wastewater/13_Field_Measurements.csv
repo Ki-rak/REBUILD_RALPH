@@ -1,0 +1,13 @@
+﻿Observation_ID,Date,Point,Groundwater_depth,Depth_unit,Chloride,Chloride_unit,Pumping,Flow_unit,Basis
+P08-OBS01,2018-06-10,GW-01,4.6,m below ground,169,mg/L,7.8,m3/h,현장 관측값
+P08-OBS02,2018-06-11,GW-02,4.9,m below ground,171,mg/L,8.1,m3/h,현장 관측값
+P08-OBS03,2018-06-12,GW-03,5.1,m below ground,173,mg/L,8.4,m3/h,현장 관측값
+P08-OBS04,2018-06-13,GW-01,4.7,m below ground,175,mg/L,8.7,m3/h,현장 관측값
+P08-OBS05,2018-06-14,GW-02,5.0,m below ground,176,mg/L,9.0,m3/h,현장 관측값
+P08-OBS06,2018-06-15,GW-03,4.8,m below ground,178,mg/L,9.3,m3/h,현장 관측값
+P08-OBS07,2018-06-16,GW-01,4.6,m below ground,180,mg/L,9.6,m3/h,현장 관측값
+P08-OBS08,2018-06-17,GW-02,4.9,m below ground,182,mg/L,9.9,m3/h,현장 관측값
+P08-OBS09,2018-06-18,GW-03,5.1,m below ground,184,mg/L,10.2,m3/h,현장 관측값
+P08-OBS10,2018-06-19,GW-01,4.7,m below ground,185,mg/L,10.5,m3/h,현장 관측값
+P08-OBS11,2018-06-20,GW-02,5.0,m below ground,187,mg/L,10.8,m3/h,현장 관측값
+P08-OBS12,2018-06-21,GW-03,4.8,m below ground,189,mg/L,12,m3/h,현장 관측값

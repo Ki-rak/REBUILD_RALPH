@@ -5,12 +5,14 @@ import hmac
 import os
 import subprocess
 from .config import ROOT, load_environment
+from .openai_provider import OpenAIProviderError, analyze as deployed_analyze, status as deployed_status
 
 SAFE_ERRORS = {
     "CODEX_LOGIN_REQUIRED", "CODEX_TIMEOUT", "CODEX_TURN_FAILED", "OPENAI_AUTH_FAILED",
     "OPENAI_RATE_LIMITED", "OPENAI_REQUEST_TIMEOUT", "OPENAI_REQUEST_FAILED", "OPENAI_INVALID_REQUEST",
     "OPENAI_UNAVAILABLE", "OPENAI_API_KEY_REQUIRED", "OPENAI_MODEL_REQUIRED", "HOSTED_OAUTH_FORBIDDEN",
     "OPENAI_BASE_URL_FORBIDDEN", "INVALID_PROVIDER_OUTPUT", "UNKNOWN_SOURCE_ID", "TOOL_EVENT_REJECTED",
+    "INVALID_OPENAI_RESPONSE", "INVALID_PROVIDER_JSON", "UNCITED_ANSWER", "UNCITED_CLAIM",
 }
 
 class AIError(Exception):
@@ -29,6 +31,16 @@ def provider_configuration():
             "corporate_llm": "NOT_CONFIGURED", "sso": "NOT_CONFIGURED"}
 
 def call_bridge(operation, request=None):
+    load_environment()
+    if os.environ.get("REBUILD_ENV", "local") == "deployed":
+        try:
+            if operation == "status":
+                return deployed_status(os.environ)
+            if operation == "analyze":
+                return deployed_analyze(request, environ=os.environ)
+            raise OpenAIProviderError("INVALID_REQUEST")
+        except OpenAIProviderError as error:
+            raise AIError(error.code) from None
     payload = json.dumps({"operation": operation, "request": request}, ensure_ascii=False)
     try:
         result = subprocess.run(["node", str(ROOT / "server/ai/scripts/bridge.js")], input=payload,

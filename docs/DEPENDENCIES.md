@@ -34,3 +34,5 @@ Supabase CLI 2.117.0은 버전만 확인했고 필수 설치에서 제외했다.
 ## 프로젝트 내부 브라우저 검증 의존성 (2026-09-21 21:55 KST)
 
 기존 사용자 스킬 설치에서 사용하던 Microsoft Playwright 1.62.1을 동일 버전으로 tools/web에 고정 설치했다. npm은 2개 패키지를 추가했고 audit 취약점 0개, playwright.chromium import를 확인했다. Apache-2.0 라이선스이며 package-lock.json에 정확한 버전을 보존한다. npm cache는 ops/cache/npm, 설치 시 ignore-scripts를 사용했고 사용자 공통 설정은 변경하지 않았다. 기존 브라우저 실행 바이너리 캐시는 재사용한다. 이후 브라우저 검증은 프로젝트 내부 require 경로를 사용한다.
+## 배포 CLI 및 검증 환경 복구 (2026-09-22)
+최신 배포 승인으로 tools/vercel에 Vercel 59.25.0(Apache-2.0)을 고정 설치하고 실제 로그인/팀·프로젝트 연결 및 서버 환경변수 등록을 확인했다. 사용자 공통 설정은 변경하지 않았다. Python3.12 실행 파일이 CPU0 상태에서 정체되어 tools/python314-verify에 동일 requirements-dev 핀을 사용하는 별도 Python3.14 검증 환경을 설치한다. 실제 배포 런타임은 .python-version의3.12이며 새 환경 시험과 Vercel 빌드 검증을 구별한다.

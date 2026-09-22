@@ -341,7 +341,7 @@
     "necessary_project_dependencies": "approved",
     "task_commits": "required",
     "supabase_actual_integration": "required",
-    "deployment": "deferred_until_separate_user_request"
+    "deployment": "AUTHORIZED_VERCEL_G19_PRODUCTION_AND_GITHUB_MAIN"
   },
   "preparation_config_drift": {
     "status": "DETECTED_NOT_MODIFIED_BY_THIS_UI_TASK",
@@ -613,5 +613,32 @@
     "session_id": "01a0c6b3-6f23-7e73-a16d-2e7ca9719613",
     "scope": "User-requested project introduction; independent of product completion",
     "submitted": false
+  },
+  "updated_at": "2026-09-22T10:53:21.721783+09:00",
+  "release_20260922": {
+    "at": "2026-09-22T10:53:21.721783+09:00",
+    "status": "VERIFIED_CODE_READY_TO_PUSH_DEPLOY",
+    "ui_reference": "docs/ui-review/index.html",
+    "ui_report": "ops/runtime/demo/ui-v6-management/report.json",
+    "management": "VERSIONED_RENAME_AND_SOURCE_PRESERVING_SOFT_DELETE",
+    "python_tests": 200,
+    "frontend_context_tests": 12,
+    "frontend_error_tests": 3,
+    "independent_review": "SCOPED_APPROVE",
+    "ai_deployed_python_actual": "PASSED",
+    "ai_report": "ops/runtime/demo/provider-live-verification-20260922T014304047171Z-36e7be0c3dbf4b2789467dc083b3eda2.json",
+    "public_url": "https://rebuild-ralph.vercel.app",
+    "deployment_status": "PENDING_CURRENT_RELEASE",
+    "product_complete": false,
+    "remaining": [
+      "Actual public deployment login/upload/AI/three-output verification",
+      "Full N01/N02 browser six-output process-restart verification",
+      "Final independent architecture/cleaner/OMX strict completion gate",
+      "Final session and submission evidence"
+    ]
+  },
+  "github_release": {
+    "last_verified_published_commit": "be9d391",
+    "published_scope": "Verified product commits through be9d391; next UI release pending"
   }
 }

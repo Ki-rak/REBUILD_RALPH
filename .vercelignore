@@ -1,0 +1,36 @@
+# RE:Build Agent — exclude preparation/evaluation/secrets from deployment.
+.git/
+.codex/
+.agents/
+.omx/
+.omx-state-locks/
+tools/
+ops/
+.venv/
+**/__pycache__/
+**/node_modules/
+.env*
+data/REBUILD_EVALUATOR_v1/
+REBUILD_Ralphthon_Codex_Handoff.md
+REBUILD_Ralphthon_Codex_Full_Context_Handoff_2026-09-20.md
+REBUILD_Hackathon_Step_by_Step_Checklist_KO.md
+REBUILD_Agent_Initial_Mockup.html
+
+# Runtime-only deployment: no logs, local OAuth/CLI, evaluation, or design archives.
+.vercel/
+.superpowers/
+.pytest_cache/
+docs/
+tests/
+server/
+supabase/
+/*.md
+STATE.json
+pytest.ini
+requirements-dev.txt
+requirements-installed.lock.txt
+.omx-state-locks.identity.json
+data/REBUILD_DATA_GUIDE_KO.md
+data/REBUILD_INPUT_v1/REBUILD_INPUT_v1/00_START_HERE/
+data/REBUILD_INPUT_v1/REBUILD_INPUT_v1/04_INCREMENTAL_UPDATES/
+data/REBUILD_INPUT_v1/REBUILD_INPUT_v1/05_OPTIONAL_OCR/

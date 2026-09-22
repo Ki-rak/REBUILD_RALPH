@@ -1,0 +1,11 @@
+﻿Activity_ID,Activity,Start,Finish_exclusive,Duration,Predecessor,Basis,Unit
+P05-A01,현장 인도,2019-02-01,2019-02-02,1,,계획 기준,calendar day
+P05-A02,조사 및 설계,2019-02-01,2019-05-02,90,,계획 기준,calendar day
+P05-A03,가시설 승인,2019-03-03,2019-05-02,60,P05-A02 SS+30d,계획 기준,calendar day
+P05-A04,주요 토공,2019-05-02,2019-10-29,180,P05-A03 FS,계획 기준,calendar day
+P05-A05,주요 구조물,2019-07-31,2020-03-27,240,P05-A04 SS+90d,계획 기준,calendar day
+P05-A06,설비 승인,2019-03-03,2019-06-01,90,P05-A02 SS+30d,계획 기준,calendar day
+P05-A07,설비 제작 및 운송,2019-06-01,2019-12-28,210,P05-A06 FS,계획 기준,calendar day
+P05-A08,설치 및 접속,2020-11-22,2021-03-22,120,P05-A07 FS,계획 기준,calendar day
+P05-A09,시험 및 시운전,2021-03-22,2021-05-01,40,P05-A08 FS,계획 기준,calendar day
+P05-A10,인도 및 복구,2021-05-01,2021-05-21,20,P05-A09 FS,계획 기준,calendar day

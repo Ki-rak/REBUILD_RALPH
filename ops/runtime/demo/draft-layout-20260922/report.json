@@ -6,19 +6,19 @@
     {
       "kind": "itb",
       "refs": 120,
-      "collapsed_row_height": 150,
+      "collapsed_row_height": 155.5,
       "source_links_preserved": true
     },
     {
       "kind": "risk",
       "refs": 120,
-      "collapsed_row_height": 150,
+      "collapsed_row_height": 155.5,
       "source_links_preserved": true
     },
     {
       "kind": "slides",
       "refs": 120,
-      "collapsed_row_height": 283.3333435058594,
+      "collapsed_row_height": 288.3333435058594,
       "source_links_preserved": true
     }
   ],
@@ -26,7 +26,7 @@
     "body": 375,
     "viewport": 390,
     "table": 1240,
-    "container": 339
+    "container": 304
   },
-  "at": "2026-09-22T00:54:13.655Z"
+  "at": "2026-09-22T01:44:33.577Z"
 }

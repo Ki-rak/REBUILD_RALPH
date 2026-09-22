@@ -34,7 +34,8 @@ class Settings:
         load_environment()
         return cls(os.environ.get("SUPABASE_URL", "").rstrip("/"),
                    os.environ.get("SUPABASE_PUBLISHABLE_KEY", ""),
-                   os.environ.get("REBUILD_ENV", "local"), os.environ.get("REBUILD_APPROVAL_SIGNING_KEY", ""))
+                   os.environ.get("REBUILD_ENV", "local"), os.environ.get("REBUILD_APPROVAL_SIGNING_KEY", ""),
+                   3_800_000 if os.environ.get("REBUILD_ENV") == "deployed" else 20 * 1024 * 1024)
 
     def validate(self):
         if self.supabase_url != "https://wsziosnttnxefgfbgpeq.supabase.co":

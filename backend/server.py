@@ -90,6 +90,12 @@ class Refresh(StrictModel):
 class NewProject(StrictModel):
     name: str = Field(min_length=1, max_length=150)
     kind: Literal["current", "historical"] = "current"
+class ProjectEdit(StrictModel):
+    name: str = Field(min_length=1, max_length=150)
+    version: int = Field(ge=1)
+class ProjectRemoval(StrictModel):
+    confirmed: bool
+    version: int = Field(ge=1)
 class ImportApproval(StrictModel):
     project_id: str
     paths: list[str] = Field(min_length=1, max_length=100)
@@ -186,12 +192,24 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
 
     def get(ctx, eid, kind):
         entity = unwrap(ctx.store.get(eid))
-        if not entity or entity.get("kind") != kind:
+        if not entity or entity.get("kind") != kind or entity.get("deleted_at"):
             fail("NOT_FOUND", "접근 가능한 항목이 없습니다.", 404)
+        if kind != "project" and entity.get("project_id"):
+            get(ctx, entity["project_id"], "project")
         return entity
 
     def list_entities(ctx, kind, project_id=None):
-        return [unwrap(e) for e in ctx.store.list(kind, project_id=project_id)]
+        entities = [unwrap(e) for e in ctx.store.list(kind, project_id=project_id)]
+        if kind == "project":
+            return [e for e in entities if not e.get("deleted_at")]
+        if kind in {"document", "draft"}:
+            active = {e["id"] for e in list_entities(ctx, "project")}
+            return [e for e in entities if e.get("project_id") in active]
+        return entities
+
+    def project_versions(ctx, pid, documents):
+        relevant = {pid, *(d["project_id"] for d in documents)}
+        return {p["id"]: p["version"] for p in list_entities(ctx, "project") if p["id"] in relevant}
 
     def event(ctx, action, project_id=None, **details):
         save(ctx, "event", {"id": str(uuid4()), "action": action, "at": now(), **details}, project_id)
@@ -210,10 +228,10 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
                 fail(str(e), "등록된 근거의 무결성을 확인할 수 없습니다. 원본 재처리가 필요합니다.", 409)
         return current, past, projects
 
-    def invalidate(ctx, project_id, reason):
+    def invalidate(ctx, project_id, reason, was_historical=False):
         projects = list_entities(ctx, "project")
-        is_historical = any(p["id"] == project_id and p.get("project_kind") == "historical" for p in projects)
-        for draft in list_entities(ctx, "draft"):
+        is_historical = was_historical or any(p["id"] == project_id and p.get("project_kind") == "historical" for p in projects)
+        for draft in [unwrap(e) for e in ctx.store.list("draft")]:
             if draft.get("status") == "approved" and (is_historical or draft.get("project_id") == project_id):
                 history = draft.get("approval_history", [])
                 history.append({"approved_at": draft.get("approved_at"), "revision": draft["revision"],
@@ -380,6 +398,36 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         p = get(ctx, pid, "project")
         return {**p, "kind": p.get("project_kind", "current")}
 
+    @app.patch("/api/projects/{pid}")
+    def rename_project(pid: str, body: ProjectEdit, ctx=Depends(context)):
+        selected = get(ctx, pid, "project")
+        if selected["version"] != body.version:
+            fail("VERSION_CONFLICT", "프로젝트가 변경되었습니다. 새로고침 후 다시 시도하세요.", 409)
+        name = body.name.strip()
+        if not name:
+            fail("PROJECT_NAME_REQUIRED", "프로젝트 이름을 입력하세요.")
+        if name == selected["name"]:
+            return {**selected, "kind": selected.get("project_kind", "current")}
+        previous_name = selected["name"]
+        selected["name"] = name
+        saved = save(ctx, "project", selected, expected_version=body.version)
+        invalidate(ctx, pid, "프로젝트 이름 변경")
+        event(ctx, "project_renamed", pid, previous_name=previous_name, name=name)
+        return {**saved, "kind": saved.get("project_kind", "current")}
+
+    @app.delete("/api/projects/{pid}")
+    def remove_project(pid: str, body: ProjectRemoval, ctx=Depends(context)):
+        selected = get(ctx, pid, "project")
+        if not body.confirmed:
+            fail("PROJECT_REMOVAL_CONFIRMATION_REQUIRED", "원본 보존과 업무 목록 제외를 확인하세요.")
+        if selected["version"] != body.version:
+            fail("VERSION_CONFLICT", "프로젝트가 변경되었습니다. 새로고침 후 다시 시도하세요.", 409)
+        selected["deleted_at"] = now()
+        save(ctx, "project", selected, expected_version=body.version)
+        invalidate(ctx, pid, "프로젝트 삭제 · 원본 보존", was_historical=selected.get("project_kind") == "historical")
+        event(ctx, "project_removed", pid, originals_preserved=True)
+        return {"id": pid, "deleted": True, "originals_preserved": True}
+
     @app.get("/api/projects/{pid}/documents")
     def documents(pid: str, ctx=Depends(context)):
         get(ctx, pid, "project")
@@ -484,6 +532,7 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         cur, past, _ = inputs(ctx, pid)
         result = compare(cur, past)
         result["input_fingerprint"] = fingerprint(cur + past)
+        result["project_versions"] = project_versions(ctx, pid, cur + past)
         if body.mode == "ai":
             evidence, seen, ref_map = [], set(), {}
             question = body.question or "신규 프로젝트 조건과 과거 근거를 비교하고 적용 조건과 불확실성을 설명하세요."
@@ -571,14 +620,14 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         info = template_for(ctx, body.kind, body.template_id, body.template_version)
         result = analysis_result(ctx, pid, body)
         cur, past, _ = inputs(ctx, pid)
-        if result["input_fingerprint"] != fingerprint(cur + past):
+        if result["input_fingerprint"] != fingerprint(cur + past) or result["project_versions"] != project_versions(ctx, pid, cur + past):
             fail("INPUT_CHANGED", "분석 중 입력 자료가 변경됐습니다. 최신 자료로 다시 생성하세요.", 409)
         draft_rows = build_slide_rows(result["rows"]) if body.kind == "slides" else result["rows"]
         if body.mode == "ai":
             verify_provider_selection(ctx, pid, result["provider_selection"])
         draft = save(ctx, "draft", {"id": str(uuid4()), "project_id": pid, "output_kind": body.kind, "type": body.kind,
             "title": info["name"], "revision": 1, "status": "draft", "created_at": now(), "rows": draft_rows,
-            "provider_selection": result.get("provider_selection"),
+            "provider_selection": result.get("provider_selection"), "project_versions": result["project_versions"],
             "mode": result["mode"], "ai_used": result["ai_used"], "ai_insight": result.get("ai_insight"),
             "template_id": info["id"], "template_version": info["sha256"], "template_sha256": info["sha256"],
             "input_fingerprint": fingerprint(cur + past, info["sha256"]), "approval_history": [],
@@ -610,7 +659,8 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
                 "revision": draft["revision"], "invalidated_at": now(), "reason": "초안 또는 양식 변경"})
         draft.update(rows=body.rows, revision=draft["revision"] + 1, status="draft", approved_at=None, reviewer=None,
                      template_id=info["id"], template_version=info["sha256"], template_sha256=info["sha256"],
-                     input_fingerprint=fingerprint(cur + past, info["sha256"]))
+                     input_fingerprint=fingerprint(cur + past, info["sha256"]),
+                     project_versions=project_versions(ctx, draft["project_id"], cur + past))
         saved = save(ctx, "draft", draft, draft["project_id"], draft["version"])
         event(ctx, "draft_edited", draft["project_id"], draft_id=did, revision=saved["revision"])
         return {**saved, "kind": saved["output_kind"]}
@@ -618,6 +668,10 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
     def verify_draft(ctx, draft, verify_originals=False):
         info, _ = resolve_template(ctx, draft["template_id"], draft.get("template_version") or draft["template_sha256"])
         cur, past, _ = inputs(ctx, draft["project_id"])
+        if draft.get("project_versions") is None:
+            fail("DRAFT_PROJECT_SNAPSHOT_REQUIRED", "이전 초안은 프로젝트 변경 이력이 없습니다. 새 초안을 만들어 검토·승인하세요.", 409)
+        if draft["project_versions"] != project_versions(ctx, draft["project_id"], cur + past):
+            fail("DRAFT_STALE", "프로젝트 정보가 변경됐습니다. 초안을 갱신하고 재승인하세요.", 409)
         if draft["template_sha256"] != info["sha256"] or draft["input_fingerprint"] != fingerprint(cur + past, info["sha256"]):
             fail("DRAFT_STALE", "입력 또는 양식이 변경됐습니다. 초안을 갱신하고 재승인하세요.", 409)
         try:
@@ -664,6 +718,8 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
         draft = get(ctx, did, "draft")
         if draft["status"] != "approved":
             fail("APPROVAL_REQUIRED", "승인된 초안만 최종 파일로 생성할 수 있습니다.", 409)
+        if draft.get("project_versions") is None:
+            fail("DRAFT_PROJECT_SNAPSHOT_REQUIRED", "이전 초안은 프로젝트 변경 이력이 없습니다. 새 초안을 만들어 검토·승인하세요.", 409)
         try:
             snapshot = unwrap(ctx.store.get(draft.get("approval_id", "")))
             verify_approval(draft, snapshot, ctx.user["id"], settings.approval_signing_key)

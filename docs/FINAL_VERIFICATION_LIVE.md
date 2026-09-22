@@ -35,3 +35,6 @@
 - UI 근거 overflow 수정 `e35b1f1`; 120개/3종/모바일 표와 전체 원문링크 PASS. 전체 Python182/AI33, 원본398개 해시 일치.
 - 실제 전체 browser 이전 run은 Supabase GET RemoteProtocolError로 FAILED. 원본 보고서 보존, 엄격 소유 확인 정리 성공. GET 연결 단절만1회 재시도(쓰기/timeout/인증 오류 제외), Storage38 및 독립4 PASS. run17757d230a674533bcc782c231e83f21 재검증 중.
 - 사용자가 요청한10:00 전체 완료는 달성하지 못했다. 필수 browser/output/restart와 최종strict가 남았으며 완료 기준은 유지한다.
+
+## Release UI/배포 준비 — 2026-09-22T10:53:21.721783+09:00
+UI v6 및 프로젝트 관리 검증: Python200 PASS, frontend context12/errors3 PASS, 데스크톱/모바일 시각·기능 PASS(TEST_STORAGE_INJECTED), 독립 scoped APPROVE. 배포 Python OpenAI는 승인4문서 실제 제품 호출·DB·Storage XLSX PASS, cleanup=true. Vercel g-19 서버7환경변수 등록, main be9d391 공개푸시 확인. 현재 UI release 배포/API 검증·전체6출력 UI/restart·최종strict는 남아 있다. 제품 전체 완료 아님.

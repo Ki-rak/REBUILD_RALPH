@@ -1,0 +1,11 @@
+﻿Activity_ID,Activity,Start,Finish_exclusive,Duration,Predecessor,Basis,Unit
+P15-A01,현장 인도,2017-04-01,2017-04-02,1,,계획 기준,calendar day
+P15-A02,조사 및 설계,2017-04-01,2017-06-30,90,,계획 기준,calendar day
+P15-A03,가시설 승인,2017-05-01,2017-06-30,60,P15-A02 SS+30d,계획 기준,calendar day
+P15-A04,주요 토공,2017-06-30,2017-12-27,180,P15-A03 FS,계획 기준,calendar day
+P15-A05,주요 구조물,2017-09-28,2018-05-26,240,P15-A04 SS+90d,계획 기준,calendar day
+P15-A06,설비 승인,2017-05-01,2017-07-30,90,P15-A02 SS+30d,계획 기준,calendar day
+P15-A07,설비 제작 및 운송,2017-07-30,2018-02-25,210,P15-A06 FS,계획 기준,calendar day
+P15-A08,설치 및 접속,2018-06-25,2018-10-23,120,P15-A07 FS,계획 기준,calendar day
+P15-A09,시험 및 시운전,2018-10-23,2018-12-02,40,P15-A08 FS,계획 기준,calendar day
+P15-A10,인도 및 복구,2018-12-02,2018-12-22,20,P15-A09 FS,계획 기준,calendar day

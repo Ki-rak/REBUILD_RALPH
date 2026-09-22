@@ -1,0 +1,4 @@
+SYNTHETIC / 가상 자료
+P04-COST-NOTE-002 | DRAFT | 미승인 검토 메모
+최종원가 추정 306.30 USD million. 이 메모는 승인 정산을 대체하지 않는다.
+최종값은 P04-COM-001 Summary 및 P04-BRF-001 승인 보고서를 확인한다.

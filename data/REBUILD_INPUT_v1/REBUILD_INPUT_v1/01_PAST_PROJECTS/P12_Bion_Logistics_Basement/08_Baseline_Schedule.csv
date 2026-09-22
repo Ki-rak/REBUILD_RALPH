@@ -1,0 +1,11 @@
+﻿Activity_ID,Activity,Start,Finish_exclusive,Duration,Predecessor,Basis,Unit
+P12-A01,현장 인도,2020-05-01,2020-05-02,1,,계획 기준,calendar day
+P12-A02,조사 및 설계,2020-05-01,2020-07-30,90,,계획 기준,calendar day
+P12-A03,가시설 승인,2020-05-31,2020-07-30,60,P12-A02 SS+30d,계획 기준,calendar day
+P12-A04,주요 토공,2020-07-30,2021-01-26,180,P12-A03 FS,계획 기준,calendar day
+P12-A05,주요 구조물,2020-10-28,2021-06-25,240,P12-A04 SS+90d,계획 기준,calendar day
+P12-A06,설비 승인,2020-05-31,2020-08-29,90,P12-A02 SS+30d,계획 기준,calendar day
+P12-A07,설비 제작 및 운송,2020-08-29,2021-03-27,210,P12-A06 FS,계획 기준,calendar day
+P12-A08,설치 및 접속,2021-08-24,2021-12-22,120,P12-A07 FS,계획 기준,calendar day
+P12-A09,시험 및 시운전,2021-12-22,2022-01-31,40,P12-A08 FS,계획 기준,calendar day
+P12-A10,인도 및 복구,2022-01-31,2022-02-20,20,P12-A09 FS,계획 기준,calendar day

@@ -1,0 +1,28 @@
+{
+  "boundary": "TEST_STORAGE_INJECTED",
+  "product": "RE:Build Agent",
+  "checks": [
+    "Rename through versioned project API",
+    "Source-backed graph rows and evidence dialog",
+    "Confirmation required before source-preserving project deletion"
+  ],
+  "screenshots": [
+    "project-desktop.png",
+    "knowledge-desktop.png",
+    "home-desktop.png",
+    "home-mobile.png",
+    "reference-home-desktop.png"
+  ],
+  "status": "PASSED",
+  "fixture": {
+    "url": "http://127.0.0.1:8826",
+    "run_id": "90913c227243498f9fa7a2f23caf23e7",
+    "boundary_verified": true
+  },
+  "at": "2026-09-22T01:51:10.293Z",
+  "metrics": {
+    "sidebar": "rgb(255, 255, 255)",
+    "width": 220,
+    "title": "30px"
+  }
+}

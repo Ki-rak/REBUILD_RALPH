@@ -1,0 +1,25 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "fastapi",
+  "functions": {
+    "backend/server.py": {
+      "maxDuration": 300,
+      "excludeFiles": "{.git/**,.codex/**,.agents/**,.omx/**,.superpowers/**,.pytest_cache/**,.venv*/**,tools/**,ops/**,tests/**,docs/**,server/**,supabase/**,data/REBUILD_EVALUATOR_v1/**,**/__pycache__/**,.env*}"
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}
