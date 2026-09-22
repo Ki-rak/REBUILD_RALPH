@@ -73,3 +73,15 @@ def test_call_bridge_local_keeps_official_node_bridge(monkeypatch):
 )
 def test_ai_error_preserves_safe_provider_contract_codes(code):
     assert ai.AIError(code).code == code
+
+
+def test_deployed_schema_allows_only_this_requests_citation_ids():
+    bodies=[]
+    def handler(request):
+        bodies.append(json.loads(request.content))
+        return httpx.Response(200,json=payload())
+    analyze(REQUEST,environ=ENV,transport=httpx.MockTransport(handler))
+    ids=bodies[0]["text"]["format"]["schema"]["properties"]["claims"]["items"]["properties"]["source_ids"]["items"]
+    assert ids == {"type":"string","enum":["SRC-1"]}
+    from backend.openai_provider import OUTPUT_SCHEMA
+    assert "enum" not in OUTPUT_SCHEMA["properties"]["claims"]["items"]["properties"]["source_ids"]["items"]

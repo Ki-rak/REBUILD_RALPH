@@ -581,14 +581,15 @@ def create_app(settings=None, context_factory=None, ai_bridge=call_bridge):
                 if sid in seen or len(evidence) >= 25:
                     continue
                 scope = "현재 프로젝트" if ref["project_id"] == pid else "과거 사례"
-                candidate = {"id": sid, "text": ref["quote"][:1800],
+                citation_id = f"E{len(evidence) + 1:03d}"
+                candidate = {"id": citation_id, "text": ref["quote"][:1800],
                     "location": (scope + " | " + str(ref.get("revision")) + " | " + str(ref.get("approval_status")) +
                                  " | " + ref["filename"] + " / " + str(ref["locator"]))[:500]}
                 candidate_request = {"operation": "analyze", "request": {"question": question, "evidence": evidence + [candidate]}}
                 if len(json.dumps(candidate_request, ensure_ascii=False).encode("utf-8")) > 62000:
                     continue
                 seen.add(sid)
-                ref_map[sid] = ref
+                ref_map[citation_id] = ref
                 evidence.append(candidate)
             if not evidence:
                 fail("EVIDENCE_REQUIRED", "AI 검토에 사용할 원문 근거가 없습니다.", 422)

@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import {
   ContractError,
   OUTPUT_SCHEMA,
+  evidenceOutputSchema,
   buildEvidencePrompt,
   parseAnalyzeRequest,
   validateProviderAnswer,
@@ -76,4 +77,10 @@ test("prompt treats source text as untrusted data and schema is strict", () => {
   assert.equal(OUTPUT_SCHEMA.properties.answer.maxLength, undefined);
   assert.equal(OUTPUT_SCHEMA.properties.claims.maxItems, undefined);
   assert.equal(OUTPUT_SCHEMA.properties.claims.items.properties.source_ids.uniqueItems, undefined);
+});
+
+test("citation schemas are request-local allowlists without mutating the shared schema", () => {
+  assert.deepEqual(evidenceOutputSchema(request).properties.claims.items.properties.source_ids.items.enum,["SRC-1","SRC-2"]);
+  assert.equal(OUTPUT_SCHEMA.properties.claims.items.properties.source_ids.items.enum,undefined);
+  assert.equal(evidenceOutputSchema({evidence:[]}).properties.claims.items.properties.source_ids.maxItems,0);
 });

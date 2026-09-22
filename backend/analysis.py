@@ -640,8 +640,17 @@ def knowledge_graph(comparison, documents, projects):
             "mode": comparison["mode"], "limitations": comparison.get("limitations", [])}
 
 
-def search_documents(documents, query):
-    stop_words = {"알려줘", "알려주세요", "설명해줘", "설명해주세요", "찾아줘", "찾아주세요", "대해서", "대한", "관련", "무엇", "어떤", "비교해줘", "비교해주세요"}
+def _query_tokens(query):
+    stop_words = {
+        "알려줘", "알려주세요", "설명해줘", "설명해주세요", "찾아줘", "찾아주세요",
+        "보여줘", "보여주세요", "정리해줘", "정리해주세요", "검색해줘", "검색해주세요",
+        "대해서", "대한", "관련", "무엇", "어떤", "비교해줘", "비교해주세요",
+        "자료", "문서", "정보", "내용", "프로젝트", "기존프로젝트", "신규프로젝트",
+        "기존", "과거", "현재", "신규", "전체", "모든", "좀", "대해",
+        "please", "show", "me", "the", "a", "an", "of", "for", "in", "and", "about",
+        "find", "search", "tell", "explain", "compare", "document", "documents",
+        "project", "projects", "data", "information", "related", "all", "what", "which",
+    }
     terms = []
     for term in re.findall(r"[\w가-힣]+", query.casefold()):
         if term in stop_words:
@@ -650,17 +659,59 @@ def search_documents(documents, query):
             term = re.sub(r"(?:에서는|으로|에서|에게|에는|의|은|는|이|가|을|를|에|와|과)$", "", term)
         if len(term) > 1 and term not in stop_words and term not in terms:
             terms.append(term)
-    terms = terms[:12]
+    return terms[:12]
+
+
+def _search_matches(text, terms, topics):
+    folded = text.casefold()
+    matched = [term for term in terms if term in folded]
+    expanded = [title for title, pattern in topics if pattern.search(text)]
+    return matched, expanded
+
+
+def _search_excerpt(text, terms, topics, limit=520):
+    """Return one contiguous excerpt without changing the stored source block."""
+    boundaries = [0] + [match.end() for match in re.finditer(r"[.!?](?=\s|$)|\n+", text)]
+    if boundaries[-1] != len(text):
+        boundaries.append(len(text))
+    candidates = []
+    for start, end in zip(boundaries, boundaries[1:]):
+        matched, expanded = _search_matches(text[start:end], terms, topics)
+        if matched or expanded:
+            candidates.append((len(matched) * 2 + len(expanded), start, end))
+    if not candidates:
+        return text[:limit], 0, min(len(text), limit)
+    _, start, end = max(candidates, key=lambda candidate: (candidate[0], -candidate[1]))
+    if end - start > limit:
+        segment = text[start:end]
+        positions = [segment.casefold().find(term) for term in terms if term in segment.casefold()]
+        positions += [match.start() for _, pattern in topics if (match := pattern.search(segment))]
+        anchor = min(positions) if positions else 0
+        start += max(0, anchor - 100)
+        end = min(end, start + limit)
+    while start < end and text[start].isspace():
+        start += 1
+    while end > start and text[end - 1].isspace():
+        end -= 1
+    return text[start:end], start, end
+
+
+def search_documents(documents, query):
+    terms = _query_tokens(query)
     topics = [(title, pattern) for _, title, pattern in PATTERNS if pattern.search(query)]
+    if not terms and not topics:
+        return []
     hits = []
     for doc in documents:
         for block in doc.get("blocks", []):
             text = block.get("text", "")
-            matched = [term for term in terms if term in text.casefold()]
-            expanded = [title for title, pattern in topics if pattern.search(text)]
+            matched, expanded = _search_matches(text, terms, topics)
             if matched or expanded:
-                hits.append({"source_ref": source_ref(doc, block), "text": text, "matched_terms": matched,
-                             "expanded_topics": expanded,
+                excerpt, start, end = _search_excerpt(text, terms, topics)
+                hits.append({"source_ref": source_ref(doc, block), "text": excerpt,
+                             "is_excerpt": start != 0 or end != len(text),
+                             "excerpt_start": start, "excerpt_end": end, "source_text_length": len(text),
+                             "matched_terms": matched, "expanded_topics": expanded,
                              "reason": "검색어 원문 일치" if matched else "등록된 한·영 업무 용어 일치",
                              "match_count": len(matched), "topic_match_count": len(expanded)})
     hits.sort(key=lambda hit: -(hit["match_count"] * 2 + hit["topic_match_count"]))

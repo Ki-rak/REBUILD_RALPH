@@ -8,7 +8,7 @@ import { buildCodexEnvironment } from "./runtime-config.js";
 import {
   ContractError,
   buildEvidencePrompt,
-  OUTPUT_SCHEMA,
+  evidenceOutputSchema,
   parseAnalyzeRequest,
   validateProviderAnswer,
 } from "./evidence-contract.js";
@@ -101,7 +101,7 @@ export function createCodexProvider({
           additionalDirectories: [],
         });
         const { events } = await thread.runStreamed(buildEvidencePrompt(request), {
-          outputSchema: OUTPUT_SCHEMA,
+          outputSchema: evidenceOutputSchema(request),
           signal: controller.signal,
         });
         for await (const event of events) {

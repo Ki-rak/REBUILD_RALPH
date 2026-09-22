@@ -222,6 +222,7 @@ def test_korean_evidence_is_bounded_in_utf8_and_ai_claims_remain_reviewable(monk
     r=c.post(f"/api/projects/{pid}/analyze",json={"mode":"ai","question":"질문"*2000},headers=auth())
     assert r.status_code==200,r.text
     assert len(json.dumps(captured[0],ensure_ascii=False).encode())<=62000
+    assert captured[0]["request"]["evidence"][0]["id"] == "E001"
     claims=[row for row in r.json()["rows"] if row.get("method")=="AI_INFERENCE"]
     assert claims and all(row["decision"]=="REVIEW_REQUIRED" and row["source_refs"] for row in claims)
 

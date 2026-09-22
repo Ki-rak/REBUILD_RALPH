@@ -1,7 +1,7 @@
 import { responseMetadata } from "./response-metadata.js";
 import {
   ContractError,
-  OUTPUT_SCHEMA,
+  evidenceOutputSchema,
   buildEvidencePrompt,
   parseAnalyzeRequest,
   validateProviderAnswer,
@@ -78,7 +78,7 @@ export function createDeployedProvider({
                 type: "json_schema",
                 name: "rebuild_evidence_answer",
                 strict: true,
-                schema: OUTPUT_SCHEMA,
+                schema: evidenceOutputSchema(request),
               },
             },
           }),
