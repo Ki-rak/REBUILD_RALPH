@@ -1,0 +1,23 @@
+{
+  "product": "RE:Build Agent",
+  "boundary": "REAL_SUPABASE_BROWSER",
+  "run_id": "cef7447fd6b34feba4f6e3448e446137",
+  "at": "2026-09-21T23:51:39.832328+00:00",
+  "status": "FAILED",
+  "checks": [],
+  "reviewer": "AUTOMATED_DISPOSABLE_TEST_ACCOUNT_ONLY",
+  "ai_verified": false,
+  "product_complete": false,
+  "cleanup_complete": true,
+  "preflight": {
+    "status": "PASSED",
+    "stage": "complete",
+    "auth_login_verified": true,
+    "db_rls_verified": true,
+    "storage_rls_verified": true,
+    "logout_verified": true,
+    "cleanup_complete": true
+  },
+  "stage": "approved_past_only",
+  "error_code": "SERVICE_UNAVAILABLE_HTTP_503"
+}

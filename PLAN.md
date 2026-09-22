@@ -290,3 +290,13 @@ Resume conditions: authorized authenticated Supabase SQL-management access for t
 - [ ] 실제 브라우저/복구/남은 제품 조건, final cleaner·회귀·독립 두 리뷰·OMX strict. native goal blocked/G001 in_progress/4pending/0complete.
 
 실행 안내 docs/LOCAL_DATA_DEMO.md, 검토 docs/DEMO_SETUP_REVIEW.md, 근거 ops/runtime/demo/setup-verification-20260922.json. 이전 preauth evidence 묶음은 당시 원본으로 유지했다. 공개 푸시·배포는 하지 않았다.
+
+
+## Actual supplied-data integration — 2026-09-22T09:11:54.819628+09:00
+
+- [x] Supabase Auth/DB RLS/Storage RLS/logout/cleanup actual preflight PASS; earlier PENDING_SCHEMA resolved externally (actor not observed). SQL need not be repeated for current project.
+- [x] First-export actual HTTP400/NoSuchKey boundary repaired and committed77e4ca2; startup identity route fixed2646ec8. Read/write budget60s, connection/pool20s, explicit overrides and no automatic writes retry.
+- [x] Fresh Python174/AI31/Node3PASS, independent scoped APPROVE/CLEAR, bounded cleaner pass. Browser command: `.\ops\demo.ps1 -Action Browser`.
+- [ ] Actual P01/P06→N01/N02 UI upload/edit/approval/6outputs/restart. Current run898697175ee54b31bc3b49708e074ad1 is live; no PASS yet. All earlier failed disposable users cleaned.
+- [ ] Actual API negative/changed-input/restart evidence and local OAuth model inference. OAuth still NOT_LOGGED_IN/NOT_TESTED; no silent fallback.
+- [ ] Full independent/OMX strict completion gate after mandatory services/flows pass. Native goal active; prior turn progress77e4ca2. No deploy/public push.

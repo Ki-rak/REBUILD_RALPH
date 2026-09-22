@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T09:08:20.483+09:00",
+  "updated_at_kst": "2026-09-22T09:14:48.105589+09:00",
   "phase": "DEVELOPMENT_LIVE_INTEGRATION_VERIFICATION",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -58,12 +58,13 @@
     "User-requested pre-auth evidence preparation only: 36 product AC mappings, 94 hashed evidence files, 95-entry ZIP byte/reopen validation, 11 checker probes, explicit incomplete gate refusal; product/native goal remain blocked.",
     "User-provided INPUT demo setup: inventory15past/2new, approved past-only seed, actual-input HTTP/Office/restart verifier and Windows launcher;163 Python tests PASS including23 new; scoped code/architecture APPROVE/CLEAR; original398hashes intact. Actual services still blocked.",
     "Fresh actual Supabase preflight now PASSED: Auth login, two-user DB RLS, Storage RLS, logout, cleanup. Live verification server identity route corrected after 404 regression; independent scoped review APPROVE. Full actual product E2E remains pending.",
-    "Actual Supabase NoSuchKey transport mismatch repaired narrowly; observed HTTP400/body404 via userJWT. RED1FAIL5PASS then storage33PASS; independent code APPROVE/architecture CLEAR. Full actual UI rerun ongoing, not product completion."
+    "Actual Supabase NoSuchKey transport mismatch repaired narrowly; observed HTTP400/body404 via userJWT. RED1FAIL5PASS then storage33PASS; independent code APPROVE/architecture CLEAR. Full actual UI rerun ongoing, not product completion.",
+    "Live browser verifier and Windows command added with exact loopback/run identity, stdin credentials, real filename/hash coverage, owned-process cleanup and same-object persistence checks; full174Python/AI31/Node3PASS and scoped independent review APPROVE/CLEAR. Actual flow still pending."
   ],
   "in_progress": [
-    "Actual Supabase browser upload/edit/approval/output/restart verification with supplied P01/P06/N01/N02",
-    "Actual API E2E: prior N01 intake/comparison passed, draft write timed out; isolated recovery succeeded and residual test owner cleaned",
-    "Official local OAuth remains NOT_LOGGED_IN; no model success claim"
+    "Actual supplied-data browser flow with real Supabase; owned run898697175ee54b31bc3b49708e074ad1/session25487",
+    "Actual API negative/restart proof after browser flow",
+    "Official local Codex OAuth is NOT_LOGGED_IN; no API-key fallback"
   ],
   "next": [
     "Finish actual provided-data UI/API workflow and failure recovery; preserve independent reviews and local commits",
@@ -74,8 +75,8 @@
     {
       "id": "LOCAL_OAUTH",
       "status": "NOT_LOGGED_IN",
-      "detail": "Fresh official project CLI status: NOT_LOGGED_IN, inference NOT_TESTED. Three consecutive goal turns documented in external-blocker-audit.json.",
-      "last_checked_at_kst": "2026-09-22T07:43:35.958995+09:00"
+      "detail": "Fresh official project status remains NOT_LOGGED_IN/NOT_TESTED. Resumed goal is making independent live-integration progress; previous blocked audit is historical.",
+      "last_checked_at_kst": "2026-09-22T09:11:54.819628+09:00"
     },
     {
       "id": "EVENT_DETAILS",
@@ -104,10 +105,10 @@
     "last_rechecked_kst": "2026-09-21T19:30:12.678356+09:00",
     "active_native_goal": "Read the Codex goal objective file at C:\\Users\\GS\\.codex\\attachments\\152fa17c-8642-4567-9611-5cf82ea37345\\goal-objective.md before continuing.",
     "latest_checkpoint": {
-      "at": "2026-09-22T01:23:31.7776229+09:00",
-      "directive": "ops/runtime/omx-blocked-checkpoint.json",
+      "at": "2026-09-22T09:14:48.105589+09:00",
+      "directive": "ops/runtime/omx-live-integration-checkpoint.json",
       "accepted": true,
-      "native_goal_status": "blocked",
+      "native_goal_status": "active",
       "in_progress": 1,
       "pending": 4,
       "complete": 0,
@@ -118,14 +119,14 @@
   "product_implementation": {
     "implemented": true,
     "existing": "FastAPI API, parsers, source comparison, signed intake/evidence/approval, Office outputs, Supabase adapter/SQL, UI06 frontend",
-    "tests": "Product140PASS/2existing warnings; AI31 prior unchanged; latest owned8786 browser26/Office16PASS; independent XLSX4/probe + final3PASS. Browser storage injected.",
+    "tests": "Python174PASS/2existing warnings; AI31PASS; live-browser target3PASS; actual Windows descendant cleanup included; previous browser fixture evidence separately retained.",
     "actual_services": {
       "openai_deployed": "ACTUAL_PRODUCT_DRAFT_USAGE_APPROVAL_EXPORT_WITH_TEST_STORAGE_PASS",
       "codex_local": "NOT_LOGGED_IN_LATEST_OFFICIAL_STATUS",
       "supabase": "ACTUAL_AUTH_DB_RLS_STORAGE_RLS_LOGOUT_PASS_FULL_PRODUCT_E2E_PENDING"
     },
     "complete": false,
-    "latest_regression": "Final Risk condition-first order verified by full140PASS and fresh browser26/Office16; actual output render inspected."
+    "latest_regression": "ops/runtime/demo/pytest-live-repair-20260922.xml; actual Supabase end-to-end not yet passed."
   },
   "raw_logs": {
     "index": "ops/sessions/index.jsonl",
@@ -150,7 +151,20 @@
       "final_result_assessed": false
     },
     "segment_discovery": "3 actual segments exported separately, exact complete-record copies and JSONL validation PASS",
-    "latest_export_scope": "Active separate snapshots through 2026-09-21T16:57:07.748Z; no final goal result qualification"
+    "latest_export_scope": "Active separate snapshots through 2026-09-21T16:57:07.748Z; no final goal result qualification",
+    "latest_live_export": {
+      "at_kst": "2026-09-22T09:12:31.262093+09:00",
+      "events": [
+        1782,
+        32,
+        7188
+      ],
+      "exact_copies": true,
+      "jsonl_parse": "PASS",
+      "segments_combined": false,
+      "scope": "ACTIVE_SESSION_SNAPSHOTS_NOT_FINAL",
+      "latest_sha256": "3398fd1f72e10edfd8a3200d127df613ecbdada28b98b51981bea51b8be63359"
+    }
   },
   "evaluator": {
     "holdout_read": false,
@@ -543,14 +557,15 @@
   },
   "live_integration_resume": {
     "at": "2026-09-22T08:40:23.912723+09:00",
-    "previous_goal_turn": "PROGRESS_COMMIT_4780069",
+    "previous_goal_turn": "PROGRESS_77e4ca2_STORAGE_ADAPTER_FIX",
     "resumed_goal_turns_with_oauth_blocker": 1,
     "supabase_preflight": "PASSED",
     "schema_failure_resolved_by": "EXTERNAL_STATE_CHANGE_OBSERVED_ACTOR_NOT_VERIFIED",
     "identity_regression": "404_RED_THEN_200_GREEN",
     "transport_recovery": "ops/runtime/demo/live-transport-recovery.json",
     "product_complete": false,
-    "current_ui_execution_session_id": 99224
+    "current_ui_execution_session_id": 25487,
+    "latest_read_timeout": "approved_past_only knowledge.json POST20sec;cleanup_complete=true"
   },
   "codex_auth_diagnosis": {
     "checked_at": "2026-09-22T00:08:20.480Z",

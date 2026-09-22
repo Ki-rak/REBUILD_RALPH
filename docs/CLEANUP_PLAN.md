@@ -24,3 +24,14 @@ Order: inspect fallbacks and fail-open behavior; check dead code/duplicates; cla
 ## XLSX bounded cleanup plan — 2026-09-22
 
 Scope: backend/exports.py and tests/test_exports.py only. Before further cleanup, lock full text, literal strings, generated formulas, missing ratings, zero values, item-to-source relationships and original templates. Preserve excerpt+detail as an explicit presentation contract, not a hidden truncation fallback. Reuse existing chunk/SourceRef/write helpers; separate ITB/Risk columns reflect different templates. Inspect masking defaults/dead code/duplication/naming, then targeted and full regression. No architecture or dependency change justified. Root authors this plan; acceptance_architecture independently reviews it. Product completion still requires live services and final strict gate.
+
+
+## 실제 서비스 검증 도구 bounded plan — 2026-09-22
+
+Scope: ops/demo_browser.cjs, ops/demo_browser_verify.py, ops/demo_live_server.py, ops/demo.ps1, backend/storage.py 및 해당 회귀. 이미 수정된 HTTP400/NoSuchKey와 단계별 유한 timeout 계약을 보존한다.
+
+Behavior lock: Python165PASS(읽기/쓰기 budget 추가 전), Storage36PASS, browser target Node3PASS 및 Windows 소유 자식 프로세스 종료1PASS. 실제 UI 통합 검증은 별도로 진행한다.
+
+Fallback inventory: HTTP400 exact NoSuchKey는 관측된 provider 프로토콜 정규화이며 masking fallback이 아니다. 명시 timeout 인수를 보존하고 timeout에 쓰기 자동 재실행을 금지한다. 스크린샷 실패 무시는 핵심 실패 상태/종료코드를 유지하는 부가 진단 경계다. process-tree 정리 실패는 명시 오류로 남기므로 성공으로 숨기지 않는다. 규칙과 OAuth/API-key 경로를 전환하지 않는다. Mock/injected와 actual서비스를 분리한다.
+
+순서: 1) 무용 코드 확인, 2) 이미 공유하는 서버/계정 정리/Office/영속성 helper 재사용 확인, 3) 오류·credential 경계 및 소유권 점검, 4) 회귀 재실행과 독립 리뷰. 스타일만을 위한 광범위 재구성·새 의존성 설치는 하지 않는다. writer/reviewer 분리, 전체 서비스/최종 gate 성공은 실제 증거 후에만 기록한다.

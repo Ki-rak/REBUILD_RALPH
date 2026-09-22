@@ -24,3 +24,14 @@
 ## XLSX bounded pass — 2026-09-22T01:09:54.763632+09:00
 
 Plan: latest CLEANUP_PLAN section; reviewer distinct from author. Behavior lock: exports12 plus product140PASS; independent4/probe and final3PASS. Explicit excerpts retain complete content in chunked detail sheets; no masking truncation fallback. Existing chunk/literal/source-map helpers reused. Separate ITB/Risk headers represent different contracts, so no speculative shared framework or deletion. Passes1–3 found no additional safe cleanup justified; pass4 adds long text, role mapping, ratings/formulas and condition-first regressions. Root visual renders and browser26/Office16PASS. Python suite validates imports/syntax; no configured separate linter/typechecker (N/A). Final stage credential/whitespace checks are recorded with the commit. Live integration and strict gate remain pending.
+
+
+## AI SLOP CLEANUP REPORT — live integration tools, 2026-09-22
+
+Scope/plan: latest CLEANUP_PLAN.md section. Behavior lock: storage36, browser target3 and Windows child-tree1; full174 Python and31 AI tests PASS. This is a bounded pass, not whole-product final approval.
+
+Fallback findings: provider NoSuchKey normalization is grounded exact-protocol handling; finite I/O timeout propagates sanitized failures without replay. Diagnostic screenshot failure does not change FAILED. Cleanup failures remain explicit and preserve recovery IDs. No auth or AI fallback exists. Strong origin/run identity precedes credentials.
+
+Pass1 dead code and Pass2 duplication: no additional safe deletion required; shared OwnedServer/Office/persistence/cleanup helpers already reused. Pass3 error handling/boundaries verified against actual failure evidence. Pass4 behavior and negative tests run. No speculative framework/style rewrite or dependency added. UI/design N/A to operational helper changes.
+
+Gates: Python174/AI31/Node3 PASS; JS/PowerShell syntax PASS; no separate configured linter/TypeScript compiler (N/A). Credential/whitespace scan is performed at staging. Independent reviewers: /root/demo_tools_review APPROVE, /root/demo_tools_architecture CLEAR; author and reviewer distinct. Actual browser/service integration, OAuth and final product gate remain pending.

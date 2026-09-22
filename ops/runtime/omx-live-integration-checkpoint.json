@@ -1,0 +1,7 @@
+{
+  "kind": "annotate_ledger",
+  "targetGoalId": "G001-source-intake",
+  "evidence": "Actual Supabase Auth/DB RLS/Storage RLS/logout/cleanup now PASS. Commits2646ec8 and77e4ca2 correct real integration boundaries. Fresh Python174/AI31/Node3PASS; scoped independent APPROVE/CLEAR. Actual supplied-data UI run in progress, no E2E pass yet. OAuth remains NOT_LOGGED_IN.",
+  "rationale": "Preserve active full goal and real boundary evidence; no completion/strict pass. Prior PENDING_SCHEMA resolved by external state; actor not observed.",
+  "idempotencyKey": "live-integration-resume-20260922-0911"
+}

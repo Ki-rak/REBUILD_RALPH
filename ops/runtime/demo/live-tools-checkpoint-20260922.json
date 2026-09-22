@@ -1,0 +1,26 @@
+{
+  "product": "RE:Build Agent",
+  "at": "2026-09-22T09:14:48.105589+09:00",
+  "python": 174,
+  "ai": 31,
+  "node_browser_boundary": 3,
+  "scoped_code_review": "APPROVE",
+  "scoped_architecture": "CLEAR",
+  "bounded_cleaner": "PASS",
+  "actual_e2e": "IN_PROGRESS",
+  "oauth": "NOT_LOGGED_IN",
+  "product_complete": false,
+  "raw_session_snapshots": {
+    "at_kst": "2026-09-22T09:12:31.262093+09:00",
+    "events": [
+      1782,
+      32,
+      7188
+    ],
+    "exact_copies": true,
+    "jsonl_parse": "PASS",
+    "segments_combined": false,
+    "scope": "ACTIVE_SESSION_SNAPSHOTS_NOT_FINAL",
+    "latest_sha256": "3398fd1f72e10edfd8a3200d127df613ecbdada28b98b51981bea51b8be63359"
+  }
+}

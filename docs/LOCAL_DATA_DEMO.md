@@ -25,7 +25,7 @@ Set-Location D:\REBUILD_RALPH
 
 ## 1. Supabase 준비
 
-프로젝트 `wsziosnttnxefgfbgpeq`의 인증된 SQL Editor에서 `supabase/migrations/20260921210000_rebuild_agent_storage.sql` 전체를 실행한다. 이 단계에는 사용자의 Supabase 관리 인증이 필요하다. secret/publishable key는 SQL 관리 인증을 대신하지 않는다.
+2026-09-22 실제 연결 재검증에서 프로젝트 `wsziosnttnxefgfbgpeq`의 Auth·DB RLS·Storage RLS·로그아웃·시험 계정 정리가 통과했다. 현재 프로젝트에는 SQL을 다시 실행할 필요가 없다. 적용 주체는 관측하지 않았다. 새 환경을 구성할 때만 준비된 `supabase/migrations/20260921210000_rebuild_agent_storage.sql`을 인증된 SQL Editor에서 적용한다. secret/publishable key는 SQL 관리 인증을 대신하지 않는다.
 
 현재 `.env`의 프로젝트 URL·publishable key·secret key·승인 서명 키를 보존한다. SQL 적용 후 다음을 실행한다.
 
@@ -111,3 +111,16 @@ npm --prefix server/ai run status
 로컬 전체 Python 시험163건 통과(실패/오류/건너뜀0, 기존 deprecation warning2). 이 중 이번 도구 회귀23건이며 기본 실제 입력39개·Office 결과6개를 포함한다. 제품 저장소를 주입한 시험이므로 실제 Supabase 성공으로 표시하지 않는다. 원본398개 해시가 유지됐고 독립 코드·설계 검토는 이번 도구 범위에서 통과했다.
 
 실제 연결 실행은 `schema_and_rls_preflight`에서 BLOCKED/PENDING_SCHEMA이며 시험용 사용자 생성 전 중단됐다. 공식 로컬 OAuth는 NOT_LOGGED_IN/NOT_TESTED다. SQL 적용→Check→Login→Verify -WithAI→실제 브라우저/남은 제품 검증→최종 독립/OMX strict 순서로 재개한다. 현재 제품은 미완료다. 증거: `ops/runtime/demo/setup-verification-20260922.json`.
+
+
+## 실제 브라우저 검증 명령
+
+```powershell
+.\ops\demo.ps1 -Action Browser
+```
+
+별도 임시 Auth 사용자와 전용8793 서버·새 Chromium 창을 사용한다. 과거 P01/P06만 먼저 승인 등록한 뒤 N01/N02 파일은 실제 새 프로젝트 화면에서 업로드한다. 초안 수정·승인·파일 다운로드, 실제 서버 재시작과 새 로그인·기존 승인/저장 객체 복원을 확인한다. UI 승인 행위는 격리 시험 계정의 자동 검증이다.
+
+N01의11개 입력 중 같은 bytes인 복사본이 있어10개 문서로 저장된다. 검증은 고유 SHA-256 일치와11개 원래 파일명 별칭 보존을 모두 요구한다. 데이터가 누락됐는데 중복이라고 처리하지 않는다. 결과는 `ops/runtime/demo/`에 기록한다. PASS가 나오기 전 실행 자체를 성공으로 간주하지 않는다. 실제 시연 계정에는 신규 자료를 미리 넣지 않는다.
+
+이 명령은 규칙 기반 제품 흐름 검증이다. 로컬 AI 인증/모델 추론, 제품 전체 최종 gate와 구별한다. OAuth는 최근 확인에서 NOT_LOGGED_IN/NOT_TESTED다.

@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Inventory','Check','Start','Seed','Verify','Login')]
+    [ValidateSet('Inventory','Check','Start','Seed','Verify','Browser','Login')]
     [string]$Action = 'Inventory',
     [string[]]$Past = @('P01','P06'),
     [switch]$AllPast,
@@ -7,7 +7,8 @@ param(
     [switch]$ApprovePast,
     [switch]$WithAI,
     [int]$Port = 8790,
-    [int]$VerifyPort = 8792
+    [int]$VerifyPort = 8792,
+    [int]$BrowserPort = 8793
 )
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
@@ -34,6 +35,7 @@ try {
             if ($ApprovePast) { $pythonArgs += '--approve-past' }
             & .\ops\python.ps1 @pythonArgs
         }
+        'Browser' { & .\ops\python.ps1 ops/demo_browser_verify.py --port $BrowserPort }
         'Verify' {
             $pythonArgs = @('ops/demo_live_verify.py','--port',"$VerifyPort",'--past') + $selectedPast
             if ($WithAI) { $pythonArgs += '--with-ai' }

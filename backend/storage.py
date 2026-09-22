@@ -44,7 +44,10 @@ class SupabaseStore:
         access_token: str,
         *,
         client: httpx.Client | None = None,
-        timeout: float = 20.0,
+        # Actual multi-MB knowledge/draft transfers can exceed 20 seconds.
+        # Bound I/O at 60 seconds, keep connection/pool budgets at 20, and do
+        # not replay writes whose outcome may already be committed remotely.
+        timeout: float | httpx.Timeout = httpx.Timeout(60.0, connect=20.0, pool=20.0),
     ) -> None:
         if not url or not publishable_key or not access_token:
             raise ValueError("Supabase URL, publishable key, and access token are required")

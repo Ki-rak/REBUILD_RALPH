@@ -479,3 +479,29 @@ def test_only_storage_get_no_such_key_maps_to_missing(status,code,method,path,ex
     with pytest.raises(expected) as error:
         store._request(method,path)
     assert type(error.value) is expected
+
+
+def test_document_storage_uses_bounded_io_budget_and_keeps_explicit_timeout():
+    observed=[]
+    def handler(request):
+        observed.append(request.extensions["timeout"])
+        return _json_response(200, [], request)
+    SupabaseStore(BASE_URL,PUBLISHABLE_KEY,ACCESS_TOKEN,client=_client(handler)).list("project")
+    SupabaseStore(BASE_URL,PUBLISHABLE_KEY,ACCESS_TOKEN,client=_client(handler),timeout=2.5).list("project")
+    assert observed == [
+        {"connect":20.0,"read":60.0,"write":60.0,"pool":20.0},
+        {"connect":2.5,"read":2.5,"write":2.5,"pool":2.5},
+    ]
+
+
+@pytest.mark.parametrize("error_type",[httpx.ReadTimeout,httpx.WriteTimeout])
+def test_storage_timeout_is_sanitized_without_replaying_mutation(error_type):
+    calls=[]
+    def handler(request):
+        calls.append(request)
+        raise error_type("private-provider-detail",request=request)
+    store=SupabaseStore(BASE_URL,PUBLISHABLE_KEY,ACCESS_TOKEN,client=_client(handler))
+    with pytest.raises(StorageUnavailableError) as error:
+        store._request("POST","/storage/v1/object/rebuild-agent/new",content=b"bytes")
+    assert str(error.value)=="Supabase service unavailable"
+    assert len(calls)==1

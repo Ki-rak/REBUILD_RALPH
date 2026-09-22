@@ -85,3 +85,13 @@ Windows tmux 팀 실행이나 자동 재시작을 새 완료 조건으로 추가
 ## 제공 INPUT 시연 도구 검증 — 2026-09-22T07:43:35.958995+09:00
 
 이번 사용자 지시의 bounded setup 작업을 검증·독립 검토했다. OMX CLI status를 실제 확인했으며 G001 in_progress/4pending/0complete, native goal blocked다. 목표·ledger·완료 상태를 변경하지 않았다. docs/LOCAL_DATA_DEMO.md의 Verify -WithAI가 실제 서비스까지 통과한 뒤 남은 제품 검증과 최종 strict 절차를 수행한다. 이번 scoped APPROVE/CLEAR와163개 로컬 시험은 최종 quality gate 대체물이 아니다.
+
+
+## Actual supplied-data integration — 2026-09-22T09:11:54.819628+09:00
+
+- [x] Supabase Auth/DB RLS/Storage RLS/logout/cleanup actual preflight PASS; earlier PENDING_SCHEMA resolved externally (actor not observed). SQL need not be repeated for current project.
+- [x] First-export actual HTTP400/NoSuchKey boundary repaired and committed77e4ca2; startup identity route fixed2646ec8. Read/write budget60s, connection/pool20s, explicit overrides and no automatic writes retry.
+- [x] Fresh Python174/AI31/Node3PASS, independent scoped APPROVE/CLEAR, bounded cleaner pass. Browser command: `.\ops\demo.ps1 -Action Browser`.
+- [ ] Actual P01/P06→N01/N02 UI upload/edit/approval/6outputs/restart. Current run898697175ee54b31bc3b49708e074ad1 is live; no PASS yet. All earlier failed disposable users cleaned.
+- [ ] Actual API negative/changed-input/restart evidence and local OAuth model inference. OAuth still NOT_LOGGED_IN/NOT_TESTED; no silent fallback.
+- [ ] Full independent/OMX strict completion gate after mandatory services/flows pass. Native goal active; prior turn progress77e4ca2. No deploy/public push.
