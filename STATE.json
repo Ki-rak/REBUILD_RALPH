@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T10:40:41.188+09:00",
+  "updated_at_kst": "2026-09-22T11:39:46.460169+09:00",
   "phase": "FINAL_LIVE_VERIFICATION",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -640,5 +640,30 @@
   "github_release": {
     "last_verified_published_commit": "be9d391",
     "published_scope": "Verified product commits through be9d391; next UI release pending"
+  },
+  "final_requested_repairs": {
+    "status": "COMPLETED",
+    "scope": [
+      "knowledge_search_and_ai_answer_rendering",
+      "evidence_graph_connections",
+      "readable_draft_tables",
+      "request_local_data_reads_and_stale_response_guard"
+    ],
+    "commit": "538994e",
+    "github_main_pushed": true,
+    "production_url": "https://rebuild-ralph.vercel.app",
+    "deployment_id": "dpl_5tSpnjQMfQGeXcJKKcXvfA5jBTMf",
+    "deployment_state": "READY",
+    "validation": {
+      "python_passed": 204,
+      "frontend_regressions_passed": 25,
+      "browser_flow_checks": 26,
+      "browser_boundary": "TEST_STORAGE_INJECTED",
+      "draft_layout": "3 output types / 120 refs per row / desktop and mobile PASS",
+      "public_health_http": 200,
+      "public_assets_exact_match": true,
+      "public_browser_errors": 0
+    },
+    "prior_full_product_gate": "Not superseded by scoped checks: full real N01/N02 browser sequence, previously observed slides approval 503, restart and final independent strict gate remain unverified."
   }
 }
