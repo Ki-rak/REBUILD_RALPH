@@ -1,7 +1,7 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T09:14:48.105589+09:00",
-  "phase": "DEVELOPMENT_LIVE_INTEGRATION_VERIFICATION",
+  "updated_at_kst": "2026-09-22T09:37:46.647128+09:00",
+  "phase": "FINAL_LIVE_VERIFICATION",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
   "session": {
@@ -59,25 +59,21 @@
     "User-provided INPUT demo setup: inventory15past/2new, approved past-only seed, actual-input HTTP/Office/restart verifier and Windows launcher;163 Python tests PASS including23 new; scoped code/architecture APPROVE/CLEAR; original398hashes intact. Actual services still blocked.",
     "Fresh actual Supabase preflight now PASSED: Auth login, two-user DB RLS, Storage RLS, logout, cleanup. Live verification server identity route corrected after 404 regression; independent scoped review APPROVE. Full actual product E2E remains pending.",
     "Actual Supabase NoSuchKey transport mismatch repaired narrowly; observed HTTP400/body404 via userJWT. RED1FAIL5PASS then storage33PASS; independent code APPROVE/architecture CLEAR. Full actual UI rerun ongoing, not product completion.",
-    "Live browser verifier and Windows command added with exact loopback/run identity, stdin credentials, real filename/hash coverage, owned-process cleanup and same-object persistence checks; full174Python/AI31/Node3PASS and scoped independent review APPROVE/CLEAR. Actual flow still pending."
+    "Live browser verifier and Windows command added with exact loopback/run identity, stdin credentials, real filename/hash coverage, owned-process cleanup and same-object persistence checks; full174Python/AI31/Node3PASS and scoped independent review APPROVE/CLEAR. Actual flow still pending.",
+    "Actual Supabase negative cases PASSED and cleanup true: no-history review required, changed inputs, alias dedup, approval invalidation, corrupt originals/retry and cross-user API denial. Dedicated official Codex login now LOGGED_IN. Actual UI ITB/Risk2XLSX bytes/reopen verified; whole UI still pending."
   ],
   "in_progress": [
-    "Actual supplied-data browser flow with real Supabase; owned run898697175ee54b31bc3b49708e074ad1/session25487",
-    "Actual API negative/restart proof after browser flow",
-    "Official local Codex OAuth is NOT_LOGGED_IN; no API-key fallback"
+    "Real supplied-data UI complete run/process restart session4449",
+    "Actual local OAuth+Supabase product call session23719",
+    "Actual deployed OpenAI-key+Supabase product call session4204",
+    "Final independent code/architecture and full invariant evidence review"
   ],
   "next": [
-    "Finish actual provided-data UI/API workflow and failure recovery; preserve independent reviews and local commits",
-    "Official dedicated Codex OAuth login, then real product model inference without key fallback",
-    "Remaining actual changed-input/negative/persistence checks, cleaner and final independent/OMX strict gates"
+    "Inspect terminal actual UI/model reports and fix observed failures",
+    "Final immutable original/log preservation, acceptance evidence and verified local commits",
+    "OMX intermediate story checkpoints and final strict only after every mandatory requirement is proven"
   ],
   "blocked_issues": [
-    {
-      "id": "LOCAL_OAUTH",
-      "status": "NOT_LOGGED_IN",
-      "detail": "Fresh official project status remains NOT_LOGGED_IN/NOT_TESTED. Resumed goal is making independent live-integration progress; previous blocked audit is historical.",
-      "last_checked_at_kst": "2026-09-22T09:11:54.819628+09:00"
-    },
     {
       "id": "EVENT_DETAILS",
       "status": "UNKNOWN",
@@ -119,10 +115,10 @@
   "product_implementation": {
     "implemented": true,
     "existing": "FastAPI API, parsers, source comparison, signed intake/evidence/approval, Office outputs, Supabase adapter/SQL, UI06 frontend",
-    "tests": "Python174PASS/2existing warnings; AI31PASS; live-browser target3PASS; actual Windows descendant cleanup included; previous browser fixture evidence separately retained.",
+    "tests": "Python179PASS/2existing warnings; AI31PASS; browser target3PASS; scoped interrupted-cleanup regressions5PASS.",
     "actual_services": {
       "openai_deployed": "ACTUAL_PRODUCT_DRAFT_USAGE_APPROVAL_EXPORT_WITH_TEST_STORAGE_PASS",
-      "codex_local": "NOT_LOGGED_IN_LATEST_OFFICIAL_STATUS",
+      "codex_local": "OFFICIAL_DEDICATED_CLI_LOGGED_IN_ACTUAL_INFERENCE_RUNNING",
       "supabase": "ACTUAL_AUTH_DB_RLS_STORAGE_RLS_LOGOUT_PASS_FULL_PRODUCT_E2E_PENDING"
     },
     "complete": false,
@@ -583,5 +579,13 @@
     "report": "docs/CODEX_AUTH_TROUBLESHOOTING.md",
     "credentials_read_or_copied": false,
     "product_complete": false
+  },
+  "user_timebox": {
+    "requested_at_kst": "2026-09-22T09:30:00+09:00",
+    "target_kst": "2026-09-22T10:00:00+09:00",
+    "scope": "Complete all remaining product work; do not shrink acceptance requirements",
+    "authentication_user_statement": "Supabase and Codex login resolved",
+    "verified_official_oauth": "LOGGED_IN",
+    "intervention_rule_exception": "NOT_INFERRED"
   }
 }

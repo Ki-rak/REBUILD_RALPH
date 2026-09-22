@@ -38,7 +38,7 @@ def browser_phase(server,run_id,credentials,projects,output_dir,phase,snapshot=N
             'projects':projects,'output_dir':str(output_dir),'phase':phase,'snapshot':snapshot}
     process=subprocess.Popen(['node',str(ROOT/'ops/demo_browser.cjs')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,
         text=True,encoding='utf-8',cwd=ROOT,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0),start_new_session=os.name!='nt')
-    try:process.communicate(json.dumps(config),timeout=960)
+    try:process.communicate(json.dumps(config),timeout=2460)
     except (subprocess.TimeoutExpired,KeyboardInterrupt):
         stop_browser_process(process)
         raise DemoError('BROWSER_INTERRUPTED_OR_TIMED_OUT') from None

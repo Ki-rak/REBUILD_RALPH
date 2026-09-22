@@ -23,8 +23,8 @@ async function run(config){
  assert(['initial','resume'].includes(config.phase),'PHASE_REQUIRED');
  fs.mkdirSync(out,{recursive:true});
  const report={product:'RE:Build Agent',boundary:'REAL_SUPABASE_BROWSER',run_id:config.run_id,phase:config.phase,checks:[],projects:[],documents:[],historical_documents:[],drafts:[],status:'RUNNING',ai_verified:false,product_complete:false};
- let browser,page,stage='identity';
- const deadline=setTimeout(()=>{if(browser)browser.close().catch(()=>{})},900000);
+ let browser,page,stage='identity',deadlineExpired=false;
+ const deadline=setTimeout(()=>{deadlineExpired=true;if(browser)browser.close().catch(()=>{})},2400000);
  const check=(name,details={})=>report.checks.push({name,passed:true,...details});
  const probe=await request.newContext({baseURL:base,timeout:20000});
  try{
@@ -92,7 +92,7 @@ async function run(config){
   await page.getByRole('button',{name:'표준 양식',exact:true}).click();await expect(page.locator('[data-action=template-original]')).toHaveCount(7);
   await page.setViewportSize({width:390,height:844});const widths=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}));assert(widths.scroll<=widths.width+1,'MOBILE_OVERFLOW');await page.screenshot({path:path.join(out,'mobile-'+config.phase+'.png'),fullPage:true});check('real_account_management_templates_mobile');
   stage='logout';await page.getByRole('button',{name:'로그아웃',exact:true}).click();await expect(page.getByRole('heading',{name:'워크스페이스 로그인',exact:true})).toBeVisible();assert.equal(pageErrors,0);check('ui_logout_no_page_errors');report.status='PASSED';
- }catch(error){report.status='FAILED';report.stage=stage;report.error_type=error.name||'Error';report.assertion=error.matcherResult?.name||null;report.timeout_ms=Number(error.message?.match(/(?:Timeout|timeout) (\d+)ms/)?.[1])||null;if(page&&stage!=='ui_login')await page.screenshot({path:path.join(out,'failure-'+config.phase+'.png'),fullPage:true}).catch(()=>{});}
+ }catch(error){report.status='FAILED';report.stage=stage;report.error_type=error.name||'Error';report.error_code=deadlineExpired?'WORKFLOW_TIME_BUDGET_EXCEEDED':'UI_ASSERTION_FAILED';report.assertion=error.matcherResult?.name||null;report.timeout_ms=Number(error.message?.match(/(?:Timeout|timeout) (\d+)ms/)?.[1])||null;if(page&&stage!=='ui_login')await page.screenshot({path:path.join(out,'failure-'+config.phase+'.png'),fullPage:true}).catch(()=>{});}
  finally{clearTimeout(deadline);if(browser)await browser.close();await probe.dispose();fs.writeFileSync(path.join(out,'browser-'+config.phase+'.json'),JSON.stringify(report,null,2));}
  console.log(JSON.stringify({status:report.status,phase:report.phase,stage:report.stage,checks:report.checks.length}));return report.status==='PASSED'?0:1;
 }

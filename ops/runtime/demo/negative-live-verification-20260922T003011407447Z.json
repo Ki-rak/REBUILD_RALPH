@@ -1,0 +1,37 @@
+{
+  "product": "RE:Build Agent",
+  "boundary": "REAL_SUPABASE_USER_JWT_QA_INPUTS",
+  "run_id": "cd0de43a3bc04ce8879dea50dc4e5ed3",
+  "at": "2026-09-22T00:26:35.733755+00:00",
+  "checks": [
+    {
+      "name": "no_history_review_required_original_bytes_and_dedup",
+      "passed": true
+    },
+    {
+      "name": "edit_stale_revision_and_new_input_invalidate_approval",
+      "passed": true
+    },
+    {
+      "name": "corrupt_original_preserved_retry_honest_valid_document_survives",
+      "passed": true
+    },
+    {
+      "name": "actual_product_cross_user_reads_and_exports_denied",
+      "passed": true
+    }
+  ],
+  "product_complete": false,
+  "reviewer": "AUTOMATED_DISPOSABLE_TEST_ACCOUNT_ONLY",
+  "status": "PASSED",
+  "cleanup_complete": true,
+  "preflight": {
+    "status": "PASSED",
+    "stage": "complete",
+    "auth_login_verified": true,
+    "db_rls_verified": true,
+    "storage_rls_verified": true,
+    "logout_verified": true,
+    "cleanup_complete": true
+  }
+}

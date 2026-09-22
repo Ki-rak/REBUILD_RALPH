@@ -1,0 +1,184 @@
+{
+  "product": "RE:Build Agent",
+  "boundary": "REAL_SUPABASE_BROWSER",
+  "run_id": "898697175ee54b31bc3b49708e074ad1",
+  "at": "2026-09-22T00:07:42.837476+00:00",
+  "status": "FAILED",
+  "checks": [],
+  "reviewer": "AUTOMATED_DISPOSABLE_TEST_ACCOUNT_ONLY",
+  "ai_verified": false,
+  "product_complete": false,
+  "cleanup_complete": true,
+  "preflight": {
+    "status": "PASSED",
+    "stage": "complete",
+    "auth_login_verified": true,
+    "db_rls_verified": true,
+    "storage_rls_verified": true,
+    "logout_verified": true,
+    "cleanup_complete": true
+  },
+  "historical": [
+    {
+      "code": "P01",
+      "project_id": "7bce3ea7-d613-4e03-859a-17497c4834a0",
+      "documents": [
+        {
+          "id": "17b113c9-8814-4812-95b2-97a503ea0df4",
+          "filename": "01_Project_Brief_and_Lessons.docx",
+          "sha256": "0a71a19def1ea04eb8cd4cec6133a5c7b234d1e26f47fa77afea95332638c029",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "941c6d94-6f2e-485b-b0cc-8f61863fd719",
+          "filename": "02_ITB_and_Contract_Rev00.pdf",
+          "sha256": "5c82f5f65c132efd9c2200f0c54dcbf7cec9a82a864a53a32f32ac68051c87c5",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "cd66658b-02cf-469a-bb47-39a57c95fa97",
+          "filename": "03_Commercial_Risk_Procurement.xlsx",
+          "sha256": "bf7963cbb6369fc41bbfd33a26609ff118e756d0a65f64aca88492210909cdf2",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "1d449ada-5813-4f1e-af4c-54d11b1581e5",
+          "filename": "04_Closeout_Review.pptx",
+          "sha256": "2e356cdbcb1d361e020241c6528108d4bad0dcaadfcd462cc86b7cd0fd16c4a5",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "f1a8cb15-d774-417d-b9ad-346d275d78f2",
+          "filename": "06_Interface_Meeting.md",
+          "sha256": "4709f9182769702c1fcbcf3037188fa149561872d7f26d7cf91ca9429cb07d5d",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "2fd1b94f-82eb-4467-895e-7d716b9a28c9",
+          "filename": "07_Contract_Correspondence.eml",
+          "sha256": "9123664f7f3a32a176b3c1404b7136ffedf8b2a2cd55f89ed63a4dfd56eeeb80",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "22ddb82c-437f-4f21-9273-c47f0a1175bb",
+          "filename": "08_Baseline_Schedule.csv",
+          "sha256": "44621cb85e5b0f4136fd363dd3652247681c903112f11cfd03d65575c8f38500",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "26825736-e03a-4723-97c8-a90a08f57d36",
+          "filename": "09_Ground_and_Environmental_Log.txt",
+          "sha256": "7c75514e69195fe390d7baece1c17399846d5b28afa2dcb4cb3472d0d857d92b",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "a174e8b8-c71e-4cf7-b319-441fd646e4b6",
+          "filename": "10_Archived_ITB_Analysis.csv",
+          "sha256": "afe93bde2451af4ed67b3fac7a9780672bc7b0a936e51e69532a72a3f34ea31b",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "238a2531-9488-4b8b-bd98-9b9ab001f9e9",
+          "filename": "13_Field_Measurements.csv",
+          "sha256": "d2e7ea5455b2da552281562c9a6669d4919ee08407d335647df437c2c7433df7",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "17b113c9-8814-4812-95b2-97a503ea0df4",
+          "filename": "01_Project_Brief_and_Lessons.docx",
+          "sha256": "0a71a19def1ea04eb8cd4cec6133a5c7b234d1e26f47fa77afea95332638c029",
+          "extraction_status": "EXTRACTED",
+          "duplicate": true
+        }
+      ]
+    },
+    {
+      "code": "P06",
+      "project_id": "db27f3f6-3b06-4df0-a8dc-8cad9b8fea62",
+      "documents": [
+        {
+          "id": "ea1068ca-0297-4870-af16-aad0a6afecf2",
+          "filename": "01_Project_Brief_and_Lessons.docx",
+          "sha256": "23f2bf1e03fd2aae4c96d84e1316b62033b19156920ee1fddb3d34c4e15b2aee",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "a137fb6e-e01a-4a3b-8aa8-d6fc05aceb24",
+          "filename": "02_ITB_and_Contract_Rev00.pdf",
+          "sha256": "e39e4ababea11c7ee9d6488a3c4cefc205879ec5a0511ac75a3f1e4fbe189fe9",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "91fff5ab-40cd-4e62-b45e-c82924257321",
+          "filename": "03_Commercial_Risk_Procurement.xlsx",
+          "sha256": "a4f3a1727f09d6d65ebcfaa6ee9c824dbe93e5f7a0faf6d2bf4fc40434f39635",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "6d9480e8-0b4b-4508-9640-558ea75c1e0a",
+          "filename": "04_Closeout_Review.pptx",
+          "sha256": "d55a71fc21d56b128031a5a581a4ee5eea409ea80de9f2d94482a6e501c340f5",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "e785661b-d8ec-4dd3-a5cd-ebe748117e86",
+          "filename": "06_Interface_Meeting.md",
+          "sha256": "8b6599184148219a904afdffe32eb6799f7466684cc08256720cbcd9da219bdd",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "390195b8-b24e-4a4c-83ab-651b50491f62",
+          "filename": "07_Contract_Correspondence.eml",
+          "sha256": "dbf4769a86792c0136292fdd2e7ef9145b5d057a46acfa49759b4d97775882a2",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "1b1c6d5b-9257-44a9-8015-f124b1e894bd",
+          "filename": "08_Baseline_Schedule.csv",
+          "sha256": "1a647bb745eeeb0e9ec406636ee714d7eeb1e11ed449c2e9246cb2e37b12cbb7",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "ae275eff-bf9e-428e-a1ad-44bf26ed4475",
+          "filename": "09_Ground_and_Environmental_Log.txt",
+          "sha256": "448aafdf3556aa236cc636d3c7a6e9941fee475dc8921786ad3ed1c871cd6f07",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "4490cc86-f7d3-42e3-b3d3-c6b3ceeaeed1",
+          "filename": "10_Archived_ITB_Analysis.csv",
+          "sha256": "d3072c9fcee6c31979b9551c517ba8a94294654f9235c2eb838105dc82831f37",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        },
+        {
+          "id": "0f4e5d64-225c-4db6-9fbc-bbd5e8796207",
+          "filename": "13_Field_Measurements.csv",
+          "sha256": "3cd6961fe525f1cec87977edd35ac82006748a64eaf2b34a99063085c7e059dc",
+          "extraction_status": "EXTRACTED",
+          "duplicate": false
+        }
+      ]
+    }
+  ],
+  "stage": "initial_browser_ui",
+  "error_code": "BROWSER_INITIAL_FAILED"
+}

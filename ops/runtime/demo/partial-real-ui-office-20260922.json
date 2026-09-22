@@ -1,0 +1,35 @@
+{
+  "product": "RE:Build Agent",
+  "boundary": "REAL_SUPABASE_BROWSER_DOWNLOADED_OFFICE",
+  "status": "PARTIAL_FULL_UI_RUN_FAILED",
+  "product_complete": false,
+  "run_id": "898697175ee54b31bc3b49708e074ad1",
+  "failure_stage": "N01_slides_initial",
+  "outputs": [
+    {
+      "kind": "itb",
+      "revision": 2,
+      "path": "ops\\runtime\\demo\\898697175ee54b31bc3b49708e074ad1\\N01-itb-initial.xlsx",
+      "sha256": "f9e481bbcc560fa15f69efd9ca4184fe31d55a810450aa49c4fa500d3528c2aa",
+      "sheets": [
+        "ITB",
+        "Review Detail",
+        "Sources",
+        "Key Facts"
+      ],
+      "semantic_sha256": "c854c0d188a3916221ce361d4c210efbbd3ebbfedf635ef30de88f865bf9383f"
+    },
+    {
+      "kind": "risk",
+      "revision": 2,
+      "path": "ops\\runtime\\demo\\898697175ee54b31bc3b49708e074ad1\\N01-risk-initial.xlsx",
+      "sha256": "84e72d8c3757b15ecebc210a5b7aa3d255bdaf39d19888ab4f1fd8cd23eb6666",
+      "sheets": [
+        "RiskOutput",
+        "Review Detail",
+        "Sources"
+      ],
+      "semantic_sha256": "7ed4d82000d05e9827613692a9547528585ef0c5fb8536a0a14c09609786b171"
+    }
+  ]
+}
