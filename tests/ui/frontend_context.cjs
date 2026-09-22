@@ -260,7 +260,37 @@ async function testProjectUploadValidationPrecedesCreation(){
  assert.equal(requests.filter(r=>r.method==='POST'&&r.url==='/api/projects').length,1,'corrected retry creates exactly one project');
 }
 
+async function testSourceMutationsInvalidateKnowledge(){
+ for(const action of ['confirm-upload','retry-document','approve-candidates','create-project'])for(const partialFailure of [false,true]){
+  const {context,listeners}=harness(),test=context.__test,wait=deferred();
+  test.state.project={id:'p1',name:'Current',kind:'current'};test.state.projects=[test.state.project];
+  test.state.result={answer:'stale answer'};test.state.resultContext={projectId:'p1'};test.state.query='공기';
+  const before=test.state.knowledgeRequestId,file=new Blob(['new source'],{type:'text/plain'});Object.defineProperty(file,'name',{value:'new.txt'});
+  const baseQuery=context.document.querySelector;
+  context.document.querySelector=selector=>({'#modal-files':{files:[file]},'#project-name':{value:'New project'},'#project-kind':{value:'historical'},'#import-project':{value:'past-project'},'#candidate-confirm':{checked:true}}[selector]||baseQuery(selector));
+  context.document.querySelectorAll=()=>[{value:'01_PAST_PROJECTS/source.txt'}];
+  let mutationStarted=false;
+  context.fetch=async(url,options={})=>{
+   if(url==='/api/projects'&&options.method==='POST')return jsonResponse({id:'created',name:'New project',kind:'historical'});
+   if(options.method==='POST'&&(/\/upload$|\/retry$/.test(url)||url==='/api/import/approve')){mutationStarted=true;return wait.promise;}
+   if(url==='/api/projects/p1')return jsonResponse(test.state.project);
+   return jsonResponse([]);
+  };
+  const button={dataset:{action,id:'doc1'},disabled:false,textContent:''};const pending=listeners.click({target:{closest(){return button}}});
+  for(let tick=0;tick<10&&!mutationStarted;tick++)await Promise.resolve();
+  assert.equal(mutationStarted,true,action+' sent source mutation');
+  assert.equal(test.state.result,null,action+' must clear prior answers while inputs are changing');
+  assert(test.state.knowledgeRequestId>before,action+' must cancel pending knowledge responses');
+  if(partialFailure)wait.resolve({ok:false,status:503,headers:{get(){return 'application/json'}},async json(){return {detail:{message:'partial source write failure'}}}});
+  else wait.resolve(jsonResponse({documents:[{filename:'new.txt',extraction_status:'ERROR'}],extraction_status:'READY'}));
+  await pending;
+  assert.equal(test.state.result,null,action+' must not retain answers after successful or partial mutation');
+  assert.equal(test.state.resultContext,null);
+ }
+}
+
 (async()=>{
+  await testSourceMutationsInvalidateKnowledge();
   await testProjectUploadValidationPrecedesCreation();
   testHostedUploadLimit();
   await testProjectSwitchRejectsStaleResponse();
@@ -273,5 +303,5 @@ async function testProjectUploadValidationPrecedesCreation(){
   await testLateSettingsResponseCannotOverwriteNewTarget();
   await testProviderSaveInvalidatesSameProjectPendingQuery();
   await testSettingsUsesVerifiedAuthAndDbStatus();
-  console.log('frontend context isolation: 12 passed');
+  console.log('frontend context isolation: 13 passed (8 source mutation cases)');
 })().catch(error=>{console.error(error);process.exitCode=1});

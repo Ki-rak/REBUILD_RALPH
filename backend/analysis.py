@@ -669,8 +669,11 @@ def search_documents(documents, query):
 
 def insight_source_refs(comparison, documents, question, project_id):
     """Prioritize question-matched originals and retain both comparison scopes."""
-    preferred = [hit["source_ref"] for hit in search_documents(documents, question)] if question else []
+    # Search relevance may rank only evidence already admitted by revision and
+    # approval rules. Raw matches include superseded/unapproved contract clauses.
     fallback = [ref for row in comparison["rows"] for ref in row.get("source_refs", [])]
+    matched = {hit["source_ref"]["source_id"] for hit in search_documents(documents, question)} if question else set()
+    preferred = [ref for ref in fallback if ref["source_id"] in matched]
     ordered, seen = [], set()
     for group in (preferred, fallback):
         current = [ref for ref in group if ref.get("project_id") == project_id]

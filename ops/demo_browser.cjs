@@ -20,7 +20,8 @@ async function requireProductResponse(response,action,diagnostics){
  assert(['LOGIN','AUTH_ME','CONFIG','CREATE','SAVE','APPROVE','EXPORT'].includes(action),'DIAGNOSTIC_ACTION_REQUIRED');
  const status=response.status();assert(Number.isInteger(status)&&status>=100&&status<=599,'INVALID_HTTP_STATUS');
  let code=null;if(status<200||status>=300){try{const candidate=(await response.json())?.detail?.code;code=SAFE_PRODUCT_CODES.has(candidate)?candidate:'UNRECOGNIZED_PRODUCT_ERROR'}catch{code='UNRECOGNIZED_PRODUCT_ERROR'}}
- diagnostics.push({action,http_status:status,detail_code:code});diagnostics.onRecord?.();
+ let diagnostic=null;try{const value=response.headers?.()['x-rebuild-test-error'];if(typeof value==='string'&&value.split('/').every(part=>['ReadTimeout','ConnectTimeout','WriteTimeout','PoolTimeout','RemoteProtocolError','ConnectError','ReadError','HTTPStatusError','StorageUnavailableError','ConflictError','NotFoundError','ValueError','TypeError','KeyError','OtherError'].includes(part)))diagnostic=value}catch{}
+ diagnostics.push({action,http_status:status,detail_code:code,...(diagnostic?{test_error:diagnostic}:{})});diagnostics.onRecord?.();
  if(status<200||status>=300)throw Object.assign(new Error('PRODUCT_REQUEST_FAILED'),{safeCode:`PRODUCT_${action}_HTTP_${status}`});
  return response;
 }
