@@ -1,6 +1,6 @@
 {
   "product": "RE:Build Agent",
-  "updated_at_kst": "2026-09-22T09:37:46.647128+09:00",
+  "updated_at_kst": "2026-09-22T09:58:11.152265+09:00",
   "phase": "FINAL_LIVE_VERIFICATION",
   "scope_status": "ACTIVE_GOAL_FULL_PRODUCT_IMPLEMENTATION",
   "active_native_goal_started_by_agent": false,
@@ -60,7 +60,8 @@
     "Fresh actual Supabase preflight now PASSED: Auth login, two-user DB RLS, Storage RLS, logout, cleanup. Live verification server identity route corrected after 404 regression; independent scoped review APPROVE. Full actual product E2E remains pending.",
     "Actual Supabase NoSuchKey transport mismatch repaired narrowly; observed HTTP400/body404 via userJWT. RED1FAIL5PASS then storage33PASS; independent code APPROVE/architecture CLEAR. Full actual UI rerun ongoing, not product completion.",
     "Live browser verifier and Windows command added with exact loopback/run identity, stdin credentials, real filename/hash coverage, owned-process cleanup and same-object persistence checks; full174Python/AI31/Node3PASS and scoped independent review APPROVE/CLEAR. Actual flow still pending.",
-    "Actual Supabase negative cases PASSED and cleanup true: no-history review required, changed inputs, alias dedup, approval invalidation, corrupt originals/retry and cross-user API denial. Dedicated official Codex login now LOGGED_IN. Actual UI ITB/Risk2XLSX bytes/reopen verified; whole UI still pending."
+    "Actual Supabase negative cases PASSED and cleanup true: no-history review required, changed inputs, alias dedup, approval invalidation, corrupt originals/retry and cross-user API denial. Dedicated official Codex login now LOGGED_IN. Actual UI ITB/Risk2XLSX bytes/reopen verified; whole UI still pending.",
+    "2026-09-22 draft table evidence disclosure fix: 120 refs per row/3 output kinds/desktop and mobile/browser source links PASS; Supabase UI status reads actual provider verification; Python180 PASS. Full product live verification remains open."
   ],
   "in_progress": [
     "Real supplied-data UI complete run/process restart session4449",
@@ -587,5 +588,11 @@
     "authentication_user_statement": "Supabase and Codex login resolved",
     "verified_official_oauth": "LOGGED_IN",
     "intervention_rule_exception": "NOT_INFERRED"
+  },
+  "latest_ui_fix": {
+    "status": "VERIFIED",
+    "report": "ops/runtime/demo/draft-layout-20260922/report.json",
+    "source_refs_preserved": true,
+    "product_complete": false
   }
 }

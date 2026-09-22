@@ -1,0 +1,32 @@
+{
+  "product": "RE:Build Agent",
+  "status": "PASSED",
+  "boundary": "SYNTHETIC_LAYOUT_ONLY",
+  "checks": [
+    {
+      "kind": "itb",
+      "refs": 120,
+      "collapsed_row_height": 150,
+      "source_links_preserved": true
+    },
+    {
+      "kind": "risk",
+      "refs": 120,
+      "collapsed_row_height": 150,
+      "source_links_preserved": true
+    },
+    {
+      "kind": "slides",
+      "refs": 120,
+      "collapsed_row_height": 283.3333435058594,
+      "source_links_preserved": true
+    }
+  ],
+  "mobile": {
+    "body": 375,
+    "viewport": 390,
+    "table": 1240,
+    "container": 339
+  },
+  "at": "2026-09-22T00:54:13.655Z"
+}

@@ -214,6 +214,27 @@ async function testProviderSaveInvalidatesSameProjectPendingQuery(){
  assert.doesNotMatch(resultRegion.innerHTML,/stale old provider answer/);
 }
 
+
+async function testSettingsUsesVerifiedAuthAndDbStatus(){
+ const {context}=harness(),test=context.__test;
+ test.state.page='settings';test.state.renderGeneration=1;
+ const main={innerHTML:''},original=context.document.querySelector;
+ context.document.querySelector=selector=>selector==='#main'?main:original(selector);
+ let verified=true;
+ context.fetch=async url=>{
+  if(url==='/api/provider/status')return jsonResponse({supabase_connected:verified,supabase_status:verified?'USER_AUTH_AND_DB_READ_VERIFIED':'NOT_VERIFIED'});
+  if(url==='/api/config')return jsonResponse({supabase_configured:true});
+  if(url==='/api/settings/profiles'||url==='/api/projects')return jsonResponse([]);
+  throw Error(url);
+ };
+ await test.renderSettings(1);
+ assert.match(main.innerHTML,/로그인·DB 조회 확인/);
+ assert.doesNotMatch(main.innerHTML,/Storage 전체 검증 완료/);
+ verified=false;await test.renderSettings(1);
+ assert.match(main.innerHTML,/연결 미확인/);
+ assert.doesNotMatch(main.innerHTML,/로그인·DB 조회 확인/);
+}
+
 (async()=>{
   await testProjectSwitchRejectsStaleResponse();
   await testModeSwitchPreservesQuestionAndRejectsStaleResponse();
@@ -224,5 +245,6 @@ async function testProviderSaveInvalidatesSameProjectPendingQuery(){
   await testScopePersistsAcrossModesAndBindsFreshResult();
   await testLateSettingsResponseCannotOverwriteNewTarget();
   await testProviderSaveInvalidatesSameProjectPendingQuery();
-  console.log('frontend context isolation: 9 passed');
+  await testSettingsUsesVerifiedAuthAndDbStatus();
+  console.log('frontend context isolation: 10 passed');
 })().catch(error=>{console.error(error);process.exitCode=1});

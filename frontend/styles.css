@@ -8,3 +8,20 @@
 .auth-shell{overflow:hidden}.auth-card{width:calc(100vw - 48px);max-width:460px;min-width:0;overflow:hidden}.auth-card p,.auth-card h1{overflow-wrap:anywhere}
 
 #draft-form > .small{overflow-wrap:anywhere}
+
+/* Draft rows stay compact; full evidence is available in the source dialog. */
+.draft-table{table-layout:fixed;min-width:1240px}
+.draft-table-risk{min-width:1020px}.draft-table-slides{min-width:900px}
+.draft-table th,.draft-table td{overflow-wrap:anywhere;padding:12px;line-height:1.5}
+.draft-table th:first-child{width:160px}.draft-table th:last-child{width:124px}
+.draft-table-risk th:nth-child(3){width:105px}
+.draft-table-slides th:nth-child(2){width:36%}
+.draft-table input,.draft-table textarea{min-width:0;width:100%;font-size:.85rem;padding:9px;line-height:1.6}
+.draft-table textarea{height:120px;min-height:100px}.draft-table input{height:auto}
+.draft-table td>textarea+textarea{margin-top:8px}
+.draft-table pre{max-height:260px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.draft-evidence-button{width:100%;display:flex;flex-direction:column;gap:2px;padding:9px 6px;font-size:.8rem;background:var(--green-soft);border-color:#bfd0bf}
+.draft-evidence-button span{font-weight:500;font-size:.75rem}
+.draft-evidence-list{display:grid;gap:24px}.draft-evidence-links{display:grid;gap:8px}
+.draft-evidence-links .link-button{width:100%;min-height:44px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--ground);overflow-wrap:anywhere}
+.draft-evidence-links .link-button:hover{background:var(--green-soft)}
